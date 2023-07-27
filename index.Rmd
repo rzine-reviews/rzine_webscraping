@@ -1,12 +1,12 @@
 ---
-title: "Titre fiche"
-subtitle: "Sous-titre fiche"
+title: "Premiers pas en WebScraping"
+subtitle: "Intropuduction à la pratique du WebScraping avec R"
 date: "`r Sys.Date()`"
 author: 
- - name: Premier Auteur.e
-   affiliation: Affiliation_1, Affiliation_2
+ - name: Hugues Pecout
+   affiliation: CNRS, Géographie-cités
  - name: Second Auteur.e
-   affiliation: Affiliation_1, Affiliation_2
+   affiliation: Uuniversité Paris 1 Panthéon-Sorbonne, Géographie-cités
 image: "featured.png"   
 logo: "figures/rzine.png"  
 output:
