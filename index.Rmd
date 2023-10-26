@@ -47,17 +47,20 @@ knitr::opts_chunk$set(echo=TRUE,
 
 # Introduction {-}
 
+Définition du web scraping + renvoi vers le support complet de formation
 
 
-
-
-Pour afficher une image dans le corps du document, utilisez un chunk  : 
 ```{r, echo=FALSE, out.width="50%",  fig.align = 'center'}
 knitr::include_graphics("figures/rzine.png")
 ```
 
 
 # Présentation du cas pratique
+
+Présentation du site web exemple utilisé
+
+http://books.toscrape.com/
+
 
 # Bases techniques
 
@@ -67,22 +70,33 @@ knitr::include_graphics("figures/rzine.png")
 
 ## Inspecteur de code
 
+
 # Mis en pratique
+
+Tout uniquement les vignettes
 
 ## Exporation manuelle
 
-## Collecte
+## Collecte vignette
 
-## Structuration des données
+## Données collectées
+
+## Collecte page ressource
+
+boucle dur URL pré collectées
+
+récupération de toutes les metadonnées + section thématique
+
+## Données collectées - explo
+
+explo par section thématique
+
 
 # Pour aller plus loin
 
-## Partie D.1
+## Rselenium
 
-## Partie D.2
-
-
-
+## Support complet
 
 
 # Bibliographie {-}
