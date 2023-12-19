@@ -3,10 +3,10 @@ title: "Premiers pas en WebScraping"
 subtitle: "Introduction à la collecte automatique de données du Web"
 date: "`r Sys.Date()`"
 author: 
- - name: Hugues Pecout
-   affiliation: CNRS, Géographie-cités
  - name: Léa Christophe
-   affiliation: Uuniversité Paris 1 Panthéon-Sorbonne, Géographie-cités
+   affiliation: Université Paris 1 Panthéon-Sorbonne, UMR Géographie-cités
+ - name: Hugues Pecout
+   affiliation: CNRS, UMR Géographie-cités
 image: "featured.png"   
 logo: "figures/rzine.png"  
 output:
@@ -43,16 +43,27 @@ knitr::opts_chunk$set(echo=TRUE,
 ```
 
 
-> Le résumé de votre fiche dans cet encart
+> Cet article peut être utilisé pour une initiation aux bases de la collecte automatique de données du Web avec R. Il s'agit d'un support associé à un site web plus complet et approfondie sur le webscraping avec R et Python : https://webscraping.gitpages.huma-num.fr/website/
 
 # Introduction {-}
 
-Définition du web scraping + renvoi vers le support complet de formation
+Le *web scraping*, ou extraction de données sur le web, est une technique qui consiste à extraire de manière automatisée des informations à partir de sites web. En d'autres termes, c'est comme si vous utilisiez un robot pour récupérer des données à partir de pages web, plutôt que de le faire manuellement.
+
+En sciences humaines et sociales, le *web scraping* peut être utilisé pour collecter des données pertinentes sur des sites web, forums, blogs, des réseaux sociaux, ou autres sources en ligne. Cette méthode peut être particulièrement utile pour analyser des tendances, des opinions, des dynamiques... ou tout simplement pour constituer une base de données à partir de plusieurs sources web. L'utilisation de R pour le web scraping permet d'automatiser ces processus et d'analyser les données extraites de manière efficace.
 
 
-```{r, echo=FALSE, out.width="50%",  fig.align = 'center'}
-knitr::include_graphics("figures/rzine.png")
+```{r, echo=FALSE, out.width="30%",  fig.align = "center"}
+knitr::include_graphics("figures/featured.png")
 ```
+
+Le *Web scraping* permet d'extraire des informations spécifiques d'une page web en analysant sa structure HTML et en extrayant uniquement les éléments pertinents. Cette pratique demande ainsi quelques connaissances techniques en matière de web, de langague de balisage HTML et de le CSS, qui permettent respectivement de structurer une page web et de définir l'apparence et la mise en forme des différents éléments du document.
+
+Avant de se pencher sur la technique de collecte avec R, cet article aborde dans un premier temps les connaisances indispensable à la mise en place d'une collecte de données automatisée.
+
+Le *Web scraping* regroupe différente technique plus ou moins complexe. Cet article, qui est une inititation à la pratique de la collecte automatique de données présente le cas d'utilisation le plus simple est abordable. Pour aller plus loin et se former à des techniques plus avancé, vous pouvez consulter ce support de formation plus détaillé : https://webscraping.gitpages.huma-num.fr/website/
+
+
+
 
 
 # Présentation du cas pratique
