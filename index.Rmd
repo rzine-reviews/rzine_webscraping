@@ -43,7 +43,7 @@ knitr::opts_chunk$set(echo=TRUE,
 ```
 
 
-> Cet article peut être utilisé pour une initiation aux bases de la collecte automatique de données du Web avec R. Il s'agit d'un support associé à un site web plus complet et approfondie sur le webscraping avec R et Python : https://webscraping.gitpages.huma-num.fr/website/
+> Cet article peut être utilisé pour une initiation aux bases de la collecte automatique de données du Web avec R. De nombreux aspects et méthodes de webscraping qui ne sont pas abordés dans ce document sont présenté sur ce [**site web associé**](https://webscraping.gitpages.huma-num.fr/website/) plus complet et approfondie sur le webscraping avec R et Python. 
 
 # Introduction {-}
 
@@ -51,19 +51,11 @@ Le *web scraping*, ou extraction de données sur le web, est une technique qui c
 
 En sciences humaines et sociales, le *web scraping* peut être utilisé pour collecter des données pertinentes sur des sites web, forums, blogs, des réseaux sociaux, ou autres sources en ligne. Cette méthode peut être particulièrement utile pour analyser des tendances, des opinions, des dynamiques... ou tout simplement pour constituer une base de données à partir de plusieurs sources web. L'utilisation de R pour le web scraping permet d'automatiser ces processus et d'analyser les données extraites de manière efficace.
 
-
-```{r, echo=FALSE, out.width="30%",  fig.align = "center"}
-knitr::include_graphics("figures/featured.png")
-```
-
 Le *Web scraping* permet d'extraire des informations spécifiques d'une page web en analysant sa structure HTML et en extrayant uniquement les éléments pertinents. Cette pratique demande ainsi quelques connaissances techniques en matière de web, de langague de balisage HTML et de le CSS, qui permettent respectivement de structurer une page web et de définir l'apparence et la mise en forme des différents éléments du document.
 
-Avant de se pencher sur la technique de collecte avec R, cet article aborde dans un premier temps les connaisances indispensable à la mise en place d'une collecte de données automatisée.
+Au delà de présenter le web scraping avec R, cet article aborde dans un premier temps les connaisances indispensables à la mise en place d'une collecte de données automatisée.
 
-Le *Web scraping* regroupe différente technique plus ou moins complexe. Cet article, qui est une inititation à la pratique de la collecte automatique de données présente le cas d'utilisation le plus simple est abordable. Pour aller plus loin et se former à des techniques plus avancé, vous pouvez consulter ce support de formation plus détaillé : https://webscraping.gitpages.huma-num.fr/website/
-
-
-
+Le *Web scraping* regroupe différentes techniques plus ou moins complexes. Cet article, qui est une inititation à la pratique de la collecte automatique de données présente le cas d'utilisation le plus simple. Pour aller plus loin et se former à des techniques plus avancées, vous pouvez consulter ce support de formation plus détaillé : https://webscraping.gitpages.huma-num.fr/website/
 
 
 # Présentation du cas pratique
@@ -75,11 +67,187 @@ http://books.toscrape.com/
 
 # Bases techniques
 
+L’extraction automatisé de données du web requiert des prérequis indispensables : certaines connaissances spécifiques liées à la structure d’une page web et une compréhension des principes techniques sous-jacents. Vous devez ainsi acquérir une connaissance du langage HTML (balises) et une familiarité avec le CSS (sélecteurs) pour identifier, cibler et extraire les éléments d’une page web.
+
 ## HTML
 
-## CSS
+Le HTML, acronyme de HyperText Markup Language (langage de balisage hypertexte en français), est un langage informatique utilisé pour structurer et organiser le contenu des pages web.Il utilise une syntaxe basée sur des balises (tags) pour délimiter les différents éléments d’une page. 
 
-## Inspecteur de code
+### Les balises
+
+Il n'y a pas de nombre fixe de balises HTML, car de nouvelles balises peuvent être introduites avec les versions futures du langage HTML. Cependant, il existe un ensemble de balises HTML standard définies dans les spécifications du W3C (*World Wide Web Consortium*^[Le World Wide Web Consortium, abrégé par le sigle W3C, est un organisme de standardisation à but non lucratif, fondé en octobre 1994 chargé de promouvoir la compatibilité des technologies du World Wide Web telles que HTML5, HTML, XHTML, XML, RDF, SPARQL, CSS, XSL, PNG, SVG, MathML et SOAP.]). Pour obtenir la liste la plus à jour des balises HTML, vous pouvez consulter la documentation officielle du W3C.
+
+Chaque balise est entourée des symboles `<` et `>` et peut contenir des attributs qui spécifient des propriétés supplémentaires pour l’élément. Si aucune balise n'est obligatoire dans une page HTML, il est de convention d'avoir la structure de base suivante :
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Titre de la page</title>
+</head>
+<body>
+
+    <!-- Contenu de la page -->
+    
+</body>
+</html>
+```
+
+- `<!DOCTYPE html>` : En début du document, indique au navigateur qu’il s’agit d’une page HTML5^[HTML5 (HyperText Markup Language 5) est la dernière révision majeure du HTML (format de données conçu pour représenter les pages web). Cette version a été finalisée le 28 octobre 2014. HTML5 spécifie deux syntaxes d'un modèle abstrait défini en termes de DOM : HTML5 et XHTML5.].
+- `<html>` : Englobe tout le contenu de la page HTML.
+- `<head>` : Contient les métadonnées de la page, des liens vers des fichiers annexes (CSS, javascript…), etc.
+- `<title>` : Pour définir le titre de la page qui apparaîtra dans la barre de titre du navigateur.
+- `<body>` : Contient tout le contenu visible de la page, tel que le texte, les images, les liens, les tableaux, etc.
+
+
+Dans la majorité des cas, on utilise une balise de fermeture pour indiquer la fin de l'élémént. Une balise de fermeture présente un `/` avant le nom de la balise :
+
+``` html
+<body>
+
+    <!-- Contenu de la page -->
+    
+</body>
+```
+
+
+Le body peut contenir toute une variété de balises prédéfinies pour structurer et ajouter différents types de contenu dans la page web. Voici quelques balises indispensables à connaitre :
+
+- `<html>` : Définit le début et la fin du document HTML.
+- `<head>` : Contient les métadonnées du document.
+- `<title>` : Définit le titre du document.
+- `<body>` : Contient le contenu principal du document.
+- `<h1>`, `<h2>`, …, `<h6>` : Définissent les titres de différents niveaux.
+- `<p>` : Définit un paragraphe.
+- `<a>` : Crée un lien hypertexte.
+- `<img>` : Insère une image.
+- `<ul>`, `<ol>`, `<li>` : Créent des listes non ordonnées et ordonnées.
+- `<table>`, `<tr>`, `<td>` : balises pour créer des tableaux avec des lignes et des cellules de données.
+- `<div>` : Divise le document en sections ou en groupes de contenu.
+- `<span>` : Applique des styles à des parties de texte.
+
+
+Exemple de balise `p` (paragraphe) :
+
+``` html
+<body>
+
+<p>Un paragraphe en langage HTML</p>
+
+</body>
+```
+
+Dans cet exemple, la balise `<p>` représente un paragraphe dont le contenu "Un paragraphe en langage HTML" est placé entre la balise d'ouverture `<p>` et la balise de fermeture `</p>`.
+
+
+### Les attributs
+
+Ces balises hiérarchisées et potentiellement regroupées, peuvent être accompagnées d'attributs qui permettent de spécifier des informations supplémentaires et jouer sur leur mise en forme, tels que des identifiants (`id`), des classes (`class`), des liens (`href`), etc. Ces attributs sont à spécifier dans la balise d'ouverture :
+
+``` html
+<body>
+
+<div id="debut_doc">
+    <h1 class="categorie">Tous les articles</h1>
+</div>
+
+<div id="Liste_ref">
+    <h2 class="article">Titre article</h2>
+    <p class="summary">Résumé de l'article...</p>
+    <a href="https://www.article.org">Intégralité de l'article</a>
+</div>
+
+</body>
+```
+
+L'organisation segmenté du contenu via les balises `div` ou `span` ainsi que les différents attributs spécifiés permettent la mise en forme et le paramétrage des éléments. Mais la structure de la page ainsi que **les attributs spécifiés sont également des éléments cruciaux pour la collecte automatisée de données sur le web**.
+
+Les attributs des balises peuvent être associée à une mise en forme (couleur, taille, position, etc.) à l'aide du langage CSS.
+
+\
+
+## La language CSS
+
+Le CSS, ou *Cascading Style Sheets* (feuilles de style en cascade), est un langage de programmation utilisé pour décrire l’apparence et la mise en forme des documents HTML et XML. Il permet de contrôler l’apparence visuelle des différents éléments de pages web (taille, position, couleur, police, marges, etc.) via les sélecteurs CSS.
+
+Le CSS peut être incorporé de différentes manières :
+
+**1. Dans les balises** à l'aide de l'attribut `style` :
+
+``` html
+<h1 style ="font-size:40px; color:#f03b35; text-align:center;">Titre principal</h1>
+```
+
+**2. Dans le document HTML**, via la balise `<style>` adaptée à cet effet :
+
+``` html
+<style>
+
+h1 {
+color: #f03b35;
+font-size: 40px;
+text-align: center;
+}
+    
+</style>
+
+<body>
+<h1>Titre principal</h1>
+</body>
+```
+
+
+**3. Dans une feuille de style externe** (fichier texte avec l'extension `.css`). Cette dernière méthode est à privilégier car la séparation du contenu et la mise en forme facilite la mise à jour des styles :
+
+:::: {style="display: flex;"}
+
+::: {.column width="59%"}
+<center><b>page.html</b></center>
+
+``` html
+<body>
+
+<h1>Titre principal</h1>
+
+</body>
+```
+:::
+
+::: {.column width="2%"}
+:::
+
+::: {.column width="39%"}
+<center><b>style.css</b></center>
+
+```{r, eval = FALSE, class.source='bg-warning'}
+
+h1 { 
+color: #f03b35;
+font-size: 40px;
+text-align:center;
+}
+
+```
+:::
+::::
+
+A chaque fois le résultat graphique sera le suivant :
+
+![](figures/h1.png){fig-align="center"}
+
+
+
+
+
+
+
+### CSS selector
+
+
+## Acceder au code source HTM
+
+
+### L'inspecteur de code
 
 
 # Mis en pratique
