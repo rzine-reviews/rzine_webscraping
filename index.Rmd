@@ -69,7 +69,7 @@ http://books.toscrape.com/
 
 L’extraction automatisé de données du web requiert des prérequis indispensables : certaines connaissances spécifiques liées à la structure d’une page web et une compréhension des principes techniques sous-jacents. Vous devez ainsi acquérir une connaissance du langage HTML (balises) et une familiarité avec le CSS (sélecteurs) pour identifier, cibler et extraire les éléments d’une page web.
 
-## HTML
+## Le langage HTML
 
 Le HTML, acronyme de HyperText Markup Language (langage de balisage hypertexte en français), est un langage informatique utilisé pour structurer et organiser le contenu des pages web.Il utilise une syntaxe basée sur des balises (tags) pour délimiter les différents éléments d’une page. 
 
@@ -79,7 +79,7 @@ Il n'y a pas de nombre fixe de balises HTML, car de nouvelles balises peuvent ê
 
 Chaque balise est entourée des symboles `<` et `>` et peut contenir des attributs qui spécifient des propriétés supplémentaires pour l’élément. Si aucune balise n'est obligatoire dans une page HTML, il est de convention d'avoir la structure de base suivante :
 
-``` html
+``` {html, eval = FALSE, class.source='bg-info'}
 <!DOCTYPE html>
 <html>
 <head>
@@ -102,7 +102,7 @@ Chaque balise est entourée des symboles `<` et `>` et peut contenir des attribu
 
 Dans la majorité des cas, on utilise une balise de fermeture pour indiquer la fin de l'élémént. Une balise de fermeture présente un `/` avant le nom de la balise :
 
-``` html
+``` {html, eval = FALSE, class.source='bg-info'}
 <body>
 
     <!-- Contenu de la page -->
@@ -129,7 +129,7 @@ Le body peut contenir toute une variété de balises prédéfinies pour structur
 
 Exemple de balise `p` (paragraphe) :
 
-``` html
+``` {html, eval = FALSE, class.source='bg-info'}
 <body>
 
 <p>Un paragraphe en langage HTML</p>
@@ -144,7 +144,7 @@ Dans cet exemple, la balise `<p>` représente un paragraphe dont le contenu "Un 
 
 Ces balises hiérarchisées et potentiellement regroupées, peuvent être accompagnées d'attributs qui permettent de spécifier des informations supplémentaires et jouer sur leur mise en forme, tels que des identifiants (`id`), des classes (`class`), des liens (`href`), etc. Ces attributs sont à spécifier dans la balise d'ouverture :
 
-``` html
+``` {html, eval = FALSE, class.source='bg-info'}
 <body>
 
 <div id="debut_doc">
@@ -166,7 +166,7 @@ Les attributs des balises peuvent être associée à une mise en forme (couleur,
 
 \
 
-## La language CSS
+## La langage CSS
 
 Le CSS, ou *Cascading Style Sheets* (feuilles de style en cascade), est un langage de programmation utilisé pour décrire l’apparence et la mise en forme des documents HTML et XML. Il permet de contrôler l’apparence visuelle des différents éléments de pages web (taille, position, couleur, police, marges, etc.) via les sélecteurs CSS.
 
@@ -174,13 +174,13 @@ Le CSS peut être incorporé de différentes manières :
 
 **1. Dans les balises** à l'aide de l'attribut `style` :
 
-``` html
-<h1 style ="font-size:40px; color:#f03b35; text-align:center;">Titre principal</h1>
+``` {html, eval = FALSE, class.source='bg-info'}
+<h1 style ="font-size:40px;color:#f03b35;text-align:center;">Titre principal</h1>
 ```
 
 **2. Dans le document HTML**, via la balise `<style>` adaptée à cet effet :
 
-``` html
+``` {html, eval = FALSE, class.source='bg-info'}
 <style>
 
 h1 {
@@ -204,7 +204,7 @@ text-align: center;
 ::: {.column width="59%"}
 <center><b>page.html</b></center>
 
-``` html
+``` {html, eval = FALSE, class.source='bg-info'}
 <body>
 
 <h1>Titre principal</h1>
@@ -231,24 +231,225 @@ text-align:center;
 :::
 ::::
 
-A chaque fois le résultat graphique sera le suivant :
+À chaque fois, le rendu graphique sera le suivant :
 
 ![](figures/h1.png){fig-align="center"}
 
 
 
+### Les sélecteurs CSS simples
+
+
+<div class="alert alert-danger">**Bien qu'une connaissance approfondie du CSS ne soit pas nécessaire le scraping, il est important de connaître les sélecteurs CSS.** **Leur utilisation est précieuse pour cibler des données de manière détaillée et ainsi optimiser la collecte.**</div>
+
+Plusieurs sélecteurs CSS permettent de cibler et styliser les différentes balises HTML :
+
+
+**1. Les sélecteurs d’éléments** : permet de cibler tous les éléments d’un même type.
+
+:::: {style="display: flex;"}
+::: {.column width="49%"}
+``` {html, eval = FALSE, class.source='bg-info'}
+<h2>Titre de niveau 2</h2>
+```
+:::
+
+::: {.column width="2%"}
+:::
+
+::: {.column width="49%"}
+```{css, eval = FALSE, class.source='bg-warning'}
+h2 { font-size: 20px; }
+```
+:::
+::::
+
+\
+
+**2. Les sélecteurs d'identifiants** : permet de cibler un élément spécifique par son identifiant (`**id**`).
+
+:::: {style="display: flex;"}
+::: {.column width="49%"}
+```{html, eval = FALSE, class.source='bg-info'}
+<div id="example">  </div>
+```
+:::
+
+::: {.column width="2%"}
+:::
+
+::: {.column width="49%"}
+```{css, eval = FALSE, class.source='bg-warning'}
+#example { background-color: #f2f2f2; }
+```
+:::
+::::
+
+\
+
+**3. Les sélecteurs de classes** : permet de cibler les éléments ayant une classe spécifique (`**class**`).
+
+:::: {style="display: flex;"}
+::: {.column width="49%"}
+``` {html, eval = FALSE, class.source='bg-info'}
+<p class="summary">Ceci est un résumé</p>
+```
+:::
+
+::: {.column width="2%"}
+:::
+
+::: {.column width="49%"}
+```{css, eval = FALSE, class.source='bg-warning'}
+.summary { font-family: Arial, sans-serif; }
+```
+:::
+::::
+
+\
+
+**4. Les sélecteurs d'attributs** : cible les éléments ayant un attribut spécifique. Exemple : l'attribut `href` (lien cliquable)\
+
+:::: {style="display: flex;"}
+::: {.column width="49%"}
+``` {html, eval = FALSE, class.source='bg-info'}
+<a href="https://www.example.org">Lien</a>
+```
+:::
+
+::: {.column width="2%"}
+:::
+
+::: {.column width="49%"}
+```{css, eval = FALSE, class.source='bg-warning'}
+a[href] { color: purple; }
+```
+:::
+::::
+
+Il est possible de préciser sa cible en indiquant une valeur pour l'attribut.
+
+::: {.column width="50%"}
+```{css, eval = FALSE, class.source='bg-warning'}
+a[href="https://example.org"] { color: purple;}
+```
+:::
+
+\
+
+### Les sélecteurs complexes et combinateurs
+
+Le CSS met également à disposition des sélecteurs complexes et combinateurs que l'on peut utiliser pour cibler des contenus de manière très précise. Quelques exemples :
+
+**A. Les sélecteurs descendants** : cible les éléments qui sont descendants d'un autre élément.
+
+:::: {style="display: flex;"}
+::: {.column width="49%"}
+``` {html, eval = FALSE, class.source='bg-info'}
+<div id="liste_ref">
+
+  
+    <p class="summary">Ceci est un résumé</p>
+    
+  
+</div>
+```
+:::
+
+::: {.column width="2%"}
+:::
+
+::: {.column width="49%"}
+```{css, eval = FALSE, class.source='bg-warning'}
+#liste_ref p .summary { font-size: 12px; }
+```
+<div class="alert alert-danger">Cible tous les paragraphes de la classe `summary`, positionnés dans l'élément ayant pour identifiant `liste_ref`.</div>
+:::
+::::
+
+
+\
+
+**B. Les sélecteurs de voisin direct** : cible les nœuds qui suivent immédiatement un élément
+
+:::: {style="display: flex;"}
+::: {.column width="49%"}
+``` {html, eval = FALSE, class.source='bg-info'}
+<div id="liste_ref">
+
+    <h2>Titre de l'article</h2>
+    <p class="summary">Ceci est un résumé</p>
+    
+    <h2>Titre de l'article</h2>
+    <p class="summary">Ceci est un résumé</p>
+        
+</div>
+```
+:::
+
+::: {.column width="2%"}
+:::
+
+::: {.column width="49%"}
+```{css, eval = FALSE, class.source='bg-warning'}
+#liste_ref + h2 { font-size: 14px; }
+```
+
+\
+
+<div class="alert alert-danger">Cible uniquement la première balise `h2` de l'élément ayant pour identifiant `liste_ref`.</div>
+:::
+::::
 
 
 
+\
 
-### CSS selector
+## Le code source d'une page web
+
+La connaissance du HTML et du CSS vous permettra de comprendre et de naviguer dans le code source du page web. L’ensemble des navigateurs web modernes proposent des outils d’inspection du code source des pages web. 
+
+**L’inspecteur de code source** permet d’explorer le code source d’une page web en direct. Il **permet l’identification des balises, des classes, des identifiants et des styles associés aux éléments, et ainsi de procéder à une extraction ciblée de données**. En utilisant l’inspecteur de code source, vous accédez à toutes les informations nécessaires pour concevoir un script de scraping. 
 
 
-## Acceder au code source HTM
+Pour y accéder, cliquez-droit n’importe où sur la page web ciblée, puis cliquez sur “Inspecter” :
+
+:::: {style="display: flex;"}
+::: {.column width="49%"}
+::: {style="text-align: center;"}
+Avec *Google Chrome* :
 
 
-### L'inspecteur de code
+![](figures/inspector_html_chrome.png){fig-align="center"}
+::: 
+::: 
+::: {.column width="2%"}
+:::
 
+::: {.column width="49%"}
+::: {style="text-align: center;"}
+Avec *Mozilla FireFox* :
+
+![](figures/inspector_html.png)
+:::
+::: 
+::::
+
+\
+
+L'inspecteur s'ouvre et en utilisant l'outil de sélection (entouré en <font style="color:#FF0000;">**rouge**</font>), il donne la possibilité de naviguer dans le code source en survolant les différents éléments de la page, et vice versa.
+
+![](figures/inspecteur_capture2.png)
+
+\
+
+Vous pouvez déplier le code source pour l'explorer en profondeur. Cet article est une page HTML dans laquelle l'ensemble de la partie "2. Bases techniques" semblent contenu dans une `div` ayant pour identifiant "bases-techniques" :
+
+![](figures/code_inspect.png)
+
+<div class="alert alert-danger">Pour cette page, le sélecteur `#bases-techniques h2` permet ainsi de cibler tous les titres de niveau 2 présents dans l'élément `div` ayant pour identifiant "bases-techniques"... Le scraping peut commencer !</div>
+
+\
 
 # Mis en pratique
 
