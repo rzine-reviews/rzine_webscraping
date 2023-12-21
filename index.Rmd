@@ -58,11 +58,6 @@ Au delà de présenter le web scraping avec R, cet article aborde dans un premie
 Le *Web scraping* regroupe différentes techniques plus ou moins complexes. Cet article, qui est une inititation à la pratique de la collecte automatique de données présente le cas d'utilisation le plus simple. Pour aller plus loin et se former à des techniques plus avancées, vous pouvez consulter ce support de formation plus détaillé : https://webscraping.gitpages.huma-num.fr/website/
 
 
-# Présentation du cas pratique
-
-Présentation du site web exemple utilisé
-
-http://books.toscrape.com/
 
 
 # Bases techniques
@@ -447,17 +442,97 @@ Vous pouvez déplier le code source pour l'explorer en profondeur. Cet article e
 
 ![](figures/code_inspect.png)
 
+
+
+
 <div class="alert alert-danger">Pour cette page, le sélecteur `#bases-techniques h2` permet ainsi de cibler tous les titres de niveau 2 présents dans l'élément `div` ayant pour identifiant "bases-techniques"... Le scraping peut commencer !</div>
+
+
+**Ajoutez une partie + image sur la copie du Xpath/selecteur CSS...**
 
 \
 
-# Mis en pratique
 
-Tout uniquement les vignettes
+# Présentation du cas pratique
 
-## Exporation manuelle
+Présentation du site web exemple utilisé sur des biens immobiliers (fictifs) à vendre à Paris. dans le style https://books.toscrape.com/, avec au moins les variables suivantes :
 
-## Collecte vignette
+- Une illustration
+- titre accrocheur façon agance (ex : bien d'exception, maison de maître...)
+- Le type : appart, maison ou local commercial
+- Le prix
+- La surface
+- Le nb de pièces
+- Une description du bien (caricaturale, comme ça on peut faire un nuage de mot rigolo)
+- Une adresse (non fictive, comme cela on peut gécoder et cartographier
+- Et plus si affintés !
+
+
+
+## Exporation manuelle -présentation du code 
+
+(captures écran)
+
+
+# Mise en pratique
+
+Définir ses objectifs ! = Présentation du système d'URL
+
+lecture de chaque page de chaque bien
+Objectifs de ce scraping ?
+
+## Récupération des URLs des biens de la première page
+
+## Boucler sur toutes les pages pour récuperer toutes les URL à scraper
+
+## exemple de scrap sur la première page (sans boucle)
+
+### 1 élément text
+
+### 1 image
+
+### Tous les élements ciblés
+
+## Pareil mais boucle sur toutes les pages
+
+
+## Présentation de la BD scrapée
+
+### Répartition par type
+
+### Distribution par type/prix
+
+### Surface moyenne
+
+### Nuage de mot sur les description des biens
+
+
+### Carte !
+
+Géocodage adresse + carto 
+
+### Export
+
+#### csv
+
+#### Géopackage
+
+# Conclusion
+
+Ouverture Le bon coin ?
+
+
+
+
+
+
+
+
+ 
+
+
+
+
 
 ## Données collectées
 

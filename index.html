@@ -6,7 +6,7 @@
     <meta name="generator" content="pandoc" />
 
     
-        <meta name="date" content="2023-12-20" />
+        <meta name="date" content="2023-12-21" />
     
     <title>Premiers pas en WebScraping</title>
 
@@ -1622,29 +1622,44 @@ WebScraping</a></h2>
     <div id="toc">
       <ul>
       <li><a href="#introduction" id="toc-introduction">Introduction</a></li>
-      <li><a href="#présentation-du-cas-pratique" id="toc-présentation-du-cas-pratique"><span class="toc-section-number">1</span> Présentation du cas
-      pratique</a></li>
-      <li><a href="#bases-techniques" id="toc-bases-techniques"><span class="toc-section-number">2</span> Bases techniques</a>
+      <li><a href="#bases-techniques" id="toc-bases-techniques"><span class="toc-section-number">1</span> Bases techniques</a>
       <ul>
-      <li><a href="#le-langage-html" id="toc-le-langage-html"><span class="toc-section-number">2.1</span> Le langage HTML</a></li>
-      <li><a href="#la-langage-css" id="toc-la-langage-css"><span class="toc-section-number">2.2</span> La langage CSS</a></li>
-      <li><a href="#le-code-source-dune-page-web" id="toc-le-code-source-dune-page-web"><span class="toc-section-number">2.3</span> Le code source d’une page
+      <li><a href="#le-langage-html" id="toc-le-langage-html"><span class="toc-section-number">1.1</span> Le langage HTML</a></li>
+      <li><a href="#la-langage-css" id="toc-la-langage-css"><span class="toc-section-number">1.2</span> La langage CSS</a></li>
+      <li><a href="#le-code-source-dune-page-web" id="toc-le-code-source-dune-page-web"><span class="toc-section-number">1.3</span> Le code source d’une page
       web</a></li>
       </ul></li>
-      <li><a href="#mis-en-pratique" id="toc-mis-en-pratique"><span class="toc-section-number">3</span> Mis en pratique</a>
+      <li><a href="#présentation-du-cas-pratique" id="toc-présentation-du-cas-pratique"><span class="toc-section-number">2</span> Présentation du cas
+      pratique</a>
       <ul>
-      <li><a href="#exporation-manuelle" id="toc-exporation-manuelle"><span class="toc-section-number">3.1</span> Exporation manuelle</a></li>
-      <li><a href="#collecte-vignette" id="toc-collecte-vignette"><span class="toc-section-number">3.2</span> Collecte vignette</a></li>
-      <li><a href="#données-collectées" id="toc-données-collectées"><span class="toc-section-number">3.3</span> Données collectées</a></li>
-      <li><a href="#collecte-page-ressource" id="toc-collecte-page-ressource"><span class="toc-section-number">3.4</span> Collecte page
+      <li><a href="#exporation-manuelle--présentation-du-code" id="toc-exporation-manuelle--présentation-du-code"><span class="toc-section-number">2.1</span> Exporation manuelle
+      -présentation du code</a></li>
+      </ul></li>
+      <li><a href="#mise-en-pratique" id="toc-mise-en-pratique"><span class="toc-section-number">3</span> Mise en pratique</a>
+      <ul>
+      <li><a href="#récupération-des-urls-des-biens-de-la-première-page" id="toc-récupération-des-urls-des-biens-de-la-première-page"><span class="toc-section-number">3.1</span> Récupération des URLs des
+      biens de la première page</a></li>
+      <li><a href="#boucler-sur-toutes-les-pages-pour-récuperer-toutes-les-url-à-scraper" id="toc-boucler-sur-toutes-les-pages-pour-récuperer-toutes-les-url-à-scraper"><span class="toc-section-number">3.2</span> Boucler sur toutes les pages
+      pour récuperer toutes les URL à scraper</a></li>
+      <li><a href="#exemple-de-scrap-sur-la-première-page-sans-boucle" id="toc-exemple-de-scrap-sur-la-première-page-sans-boucle"><span class="toc-section-number">3.3</span> exemple de scrap sur la
+      première page (sans boucle)</a></li>
+      <li><a href="#pareil-mais-boucle-sur-toutes-les-pages" id="toc-pareil-mais-boucle-sur-toutes-les-pages"><span class="toc-section-number">3.4</span> Pareil mais boucle sur
+      toutes les pages</a></li>
+      <li><a href="#présentation-de-la-bd-scrapée" id="toc-présentation-de-la-bd-scrapée"><span class="toc-section-number">3.5</span> Présentation de la BD
+      scrapée</a></li>
+      </ul></li>
+      <li><a href="#conclusion" id="toc-conclusion"><span class="toc-section-number">4</span> Conclusion</a>
+      <ul>
+      <li><a href="#données-collectées" id="toc-données-collectées"><span class="toc-section-number">4.1</span> Données collectées</a></li>
+      <li><a href="#collecte-page-ressource" id="toc-collecte-page-ressource"><span class="toc-section-number">4.2</span> Collecte page
       ressource</a></li>
-      <li><a href="#données-collectées---explo" id="toc-données-collectées---explo"><span class="toc-section-number">3.5</span> Données collectées -
+      <li><a href="#données-collectées---explo" id="toc-données-collectées---explo"><span class="toc-section-number">4.3</span> Données collectées -
       explo</a></li>
       </ul></li>
-      <li><a href="#pour-aller-plus-loin" id="toc-pour-aller-plus-loin"><span class="toc-section-number">4</span> Pour aller plus loin</a>
+      <li><a href="#pour-aller-plus-loin" id="toc-pour-aller-plus-loin"><span class="toc-section-number">5</span> Pour aller plus loin</a>
       <ul>
-      <li><a href="#rselenium" id="toc-rselenium"><span class="toc-section-number">4.1</span> Rselenium</a></li>
-      <li><a href="#support-complet" id="toc-support-complet"><span class="toc-section-number">4.2</span> Support complet</a></li>
+      <li><a href="#rselenium" id="toc-rselenium"><span class="toc-section-number">5.1</span> Rselenium</a></li>
+      <li><a href="#support-complet" id="toc-support-complet"><span class="toc-section-number">5.2</span> Support complet</a></li>
       </ul></li>
       <li><a href="#bibliographie" id="toc-bibliographie">Bibliographie</a></li>
       <li><a href="#annexes" id="toc-annexes">Annexes</a>
@@ -1664,7 +1679,7 @@ Christophe</p>
                         <p class="author"><span class="glyphicon glyphicon-user"></span> Hugues
 Pecout</p>
                   
-            <p class="author"><span class="glyphicon glyphicon-calendar"></span> 2023-12-20</p>
+            <p class="author"><span class="glyphicon glyphicon-calendar"></span> 2023-12-21</p>
             
         
       
@@ -1720,29 +1735,23 @@ simple. Pour aller plus loin et se former à des techniques plus
 avancées, vous pouvez consulter ce support de formation plus détaillé :
 <a href="https://webscraping.gitpages.huma-num.fr/website/" class="uri">https://webscraping.gitpages.huma-num.fr/website/</a></p>
 </div>
-<div id="présentation-du-cas-pratique" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Présentation du cas
-pratique</h1>
-<p>Présentation du site web exemple utilisé</p>
-<p><a href="http://books.toscrape.com/" class="uri">http://books.toscrape.com/</a></p>
-</div>
-<div id="bases-techniques" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Bases techniques</h1>
+<div id="bases-techniques" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Bases techniques</h1>
 <p>L’extraction automatisé de données du web requiert des prérequis
 indispensables : certaines connaissances spécifiques liées à la
 structure d’une page web et une compréhension des principes techniques
 sous-jacents. Vous devez ainsi acquérir une connaissance du langage HTML
 (balises) et une familiarité avec le CSS (sélecteurs) pour identifier,
 cibler et extraire les éléments d’une page web.</p>
-<div id="le-langage-html" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Le langage HTML</h2>
+<div id="le-langage-html" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Le langage HTML</h2>
 <p>Le HTML, acronyme de HyperText Markup Language (langage de balisage
 hypertexte en français), est un langage informatique utilisé pour
 structurer et organiser le contenu des pages web.Il utilise une syntaxe
 basée sur des balises (tags) pour délimiter les différents éléments
 d’une page.</p>
-<div id="les-balises" class="section level3" number="2.1.1">
-<h3><span class="header-section-number">2.1.1</span> Les balises</h3>
+<div id="les-balises" class="section level3" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> Les balises</h3>
 <p>Il n’y a pas de nombre fixe de balises HTML, car de nouvelles balises
 peuvent être introduites avec les versions futures du langage HTML.
 Cependant, il existe un ensemble de balises HTML standard définies dans
@@ -1824,8 +1833,8 @@ paragraphe dont le contenu “Un paragraphe en langage HTML” est placé
 entre la balise d’ouverture <code>&lt;p&gt;</code> et la balise de
 fermeture <code>&lt;/p&gt;</code>.</p>
 </div>
-<div id="les-attributs" class="section level3" number="2.1.2">
-<h3><span class="header-section-number">2.1.2</span> Les attributs</h3>
+<div id="les-attributs" class="section level3" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> Les attributs</h3>
 <p>Ces balises hiérarchisées et potentiellement regroupées, peuvent être
 accompagnées d’attributs qui permettent de spécifier des informations
 supplémentaires et jouer sur leur mise en forme, tels que des
@@ -1857,8 +1866,8 @@ sur le web</strong>.</p>
 </p>
 </div>
 </div>
-<div id="la-langage-css" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> La langage CSS</h2>
+<div id="la-langage-css" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> La langage CSS</h2>
 <p>Le CSS, ou <em>Cascading Style Sheets</em> (feuilles de style en
 cascade), est un langage de programmation utilisé pour décrire
 l’apparence et la mise en forme des documents HTML et XML. Il permet de
@@ -1915,8 +1924,8 @@ mise à jour des styles :</p>
 </div>
 <p>À chaque fois, le rendu graphique sera le suivant :</p>
 <p><img src="data:image/png;base64,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" fig-align="center" /></p>
-<div id="les-sélecteurs-css-simples" class="section level3" number="2.2.1">
-<h3><span class="header-section-number">2.2.1</span> Les sélecteurs CSS
+<div id="les-sélecteurs-css-simples" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Les sélecteurs CSS
 simples</h3>
 <div class="alert alert-danger">
 <strong>Bien qu’une connaissance approfondie du CSS ne soit pas
@@ -1994,8 +2003,8 @@ l’attribut.</p>
 <p><br />
 </p>
 </div>
-<div id="les-sélecteurs-complexes-et-combinateurs" class="section level3" number="2.2.2">
-<h3><span class="header-section-number">2.2.2</span> Les sélecteurs
+<div id="les-sélecteurs-complexes-et-combinateurs" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Les sélecteurs
 complexes et combinateurs</h3>
 <p>Le CSS met également à disposition des sélecteurs complexes et
 combinateurs que l’on peut utiliser pour cibler des contenus de manière
@@ -2057,8 +2066,8 @@ pour identifiant <code>liste_ref</code>.
 </p>
 </div>
 </div>
-<div id="le-code-source-dune-page-web" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Le code source d’une
+<div id="le-code-source-dune-page-web" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Le code source d’une
 page web</h2>
 <p>La connaissance du HTML et du CSS vous permettra de comprendre et de
 naviguer dans le code source du page web. L’ensemble des navigateurs web
@@ -2110,45 +2119,129 @@ ainsi de cibler tous les titres de niveau 2 présents dans l’élément
 <code>div</code> ayant pour identifiant “bases-techniques”… Le scraping
 peut commencer !
 </div>
+<p><strong>Ajoutez une partie + image sur la copie du Xpath/selecteur
+CSS…</strong></p>
 <p><br />
 </p>
 </div>
 </div>
-<div id="mis-en-pratique" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Mis en pratique</h1>
-<p>Tout uniquement les vignettes</p>
-<div id="exporation-manuelle" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Exporation
-manuelle</h2>
+<div id="présentation-du-cas-pratique" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Présentation du cas
+pratique</h1>
+<p>Présentation du site web exemple utilisé sur des biens immobiliers
+(fictifs) à vendre à Paris. dans le style <a href="https://books.toscrape.com/" class="uri">https://books.toscrape.com/</a>, avec au moins les variables
+suivantes :</p>
+<ul>
+<li>Une illustration</li>
+<li>titre accrocheur façon agance (ex : bien d’exception, maison de
+maître…)</li>
+<li>Le type : appart, maison ou local commercial</li>
+<li>Le prix</li>
+<li>La surface</li>
+<li>Le nb de pièces</li>
+<li>Une description du bien (caricaturale, comme ça on peut faire un
+nuage de mot rigolo)</li>
+<li>Une adresse (non fictive, comme cela on peut gécoder et
+cartographier</li>
+<li>Et plus si affintés !</li>
+</ul>
+<div id="exporation-manuelle--présentation-du-code" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Exporation manuelle
+-présentation du code</h2>
+<p>(captures écran)</p>
 </div>
-<div id="collecte-vignette" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Collecte
-vignette</h2>
 </div>
-<div id="données-collectées" class="section level2" number="3.3">
-<h2><span class="header-section-number">3.3</span> Données
+<div id="mise-en-pratique" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Mise en pratique</h1>
+<p>Définir ses objectifs ! = Présentation du système d’URL</p>
+<p>lecture de chaque page de chaque bien Objectifs de ce scraping ?</p>
+<div id="récupération-des-urls-des-biens-de-la-première-page" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Récupération des URLs
+des biens de la première page</h2>
+</div>
+<div id="boucler-sur-toutes-les-pages-pour-récuperer-toutes-les-url-à-scraper" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Boucler sur toutes
+les pages pour récuperer toutes les URL à scraper</h2>
+</div>
+<div id="exemple-de-scrap-sur-la-première-page-sans-boucle" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> exemple de scrap sur
+la première page (sans boucle)</h2>
+<div id="élément-text" class="section level3" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> 1 élément text</h3>
+</div>
+<div id="image" class="section level3" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> 1 image</h3>
+</div>
+<div id="tous-les-élements-ciblés" class="section level3" number="3.3.3">
+<h3><span class="header-section-number">3.3.3</span> Tous les élements
+ciblés</h3>
+</div>
+</div>
+<div id="pareil-mais-boucle-sur-toutes-les-pages" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Pareil mais boucle
+sur toutes les pages</h2>
+</div>
+<div id="présentation-de-la-bd-scrapée" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Présentation de la BD
+scrapée</h2>
+<div id="répartition-par-type" class="section level3" number="3.5.1">
+<h3><span class="header-section-number">3.5.1</span> Répartition par
+type</h3>
+</div>
+<div id="distribution-par-typeprix" class="section level3" number="3.5.2">
+<h3><span class="header-section-number">3.5.2</span> Distribution par
+type/prix</h3>
+</div>
+<div id="surface-moyenne" class="section level3" number="3.5.3">
+<h3><span class="header-section-number">3.5.3</span> Surface
+moyenne</h3>
+</div>
+<div id="nuage-de-mot-sur-les-description-des-biens" class="section level3" number="3.5.4">
+<h3><span class="header-section-number">3.5.4</span> Nuage de mot sur
+les description des biens</h3>
+</div>
+<div id="carte" class="section level3" number="3.5.5">
+<h3><span class="header-section-number">3.5.5</span> Carte !</h3>
+<p>Géocodage adresse + carto</p>
+</div>
+<div id="export" class="section level3" number="3.5.6">
+<h3><span class="header-section-number">3.5.6</span> Export</h3>
+<div id="csv" class="section level4" number="3.5.6.1">
+<h4><span class="header-section-number">3.5.6.1</span> csv</h4>
+</div>
+<div id="géopackage" class="section level4" number="3.5.6.2">
+<h4><span class="header-section-number">3.5.6.2</span> Géopackage</h4>
+</div>
+</div>
+</div>
+</div>
+<div id="conclusion" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Conclusion</h1>
+<p>Ouverture Le bon coin ?</p>
+<div id="données-collectées" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Données
 collectées</h2>
 </div>
-<div id="collecte-page-ressource" class="section level2" number="3.4">
-<h2><span class="header-section-number">3.4</span> Collecte page
+<div id="collecte-page-ressource" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Collecte page
 ressource</h2>
 <p>boucle dur URL pré collectées</p>
 <p>récupération de toutes les metadonnées + section thématique</p>
 </div>
-<div id="données-collectées---explo" class="section level2" number="3.5">
-<h2><span class="header-section-number">3.5</span> Données collectées -
+<div id="données-collectées---explo" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Données collectées -
 explo</h2>
 <p>explo par section thématique</p>
 </div>
 </div>
-<div id="pour-aller-plus-loin" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Pour aller plus
+<div id="pour-aller-plus-loin" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Pour aller plus
 loin</h1>
-<div id="rselenium" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Rselenium</h2>
+<div id="rselenium" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Rselenium</h2>
 </div>
-<div id="support-complet" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Support complet</h2>
+<div id="support-complet" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Support complet</h2>
 </div>
 </div>
 <div id="bibliographie" class="section level1 unnumbered">
@@ -2256,7 +2349,7 @@ Europe/Paris
 date
 </td>
 <td style="text-align:left;">
-2023-12-20
+2023-12-21
 </td>
 </tr>
 <tr>
