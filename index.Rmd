@@ -517,41 +517,18 @@ Géocodage adresse + carto
 
 #### Géopackage
 
-# Conclusion
-
-Ouverture Le bon coin ?
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-## Données collectées
-
-## Collecte page ressource
-
-boucle dur URL pré collectées
-
-récupération de toutes les metadonnées + section thématique
-
-## Données collectées - explo
-
-explo par section thématique
-
 
 # Pour aller plus loin
 
 ## Rselenium
 
 ## Support complet
+
+
+# Conclusion
+
+Ouverture Le bon coin ?
+
 
 
 # Bibliographie {-}
