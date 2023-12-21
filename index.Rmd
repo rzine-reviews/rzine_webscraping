@@ -261,7 +261,7 @@ h2 { font-size: 20px; }
 
 \
 
-**2. Les sélecteurs d'identifiants** : permet de cibler un élément spécifique par son identifiant (`**id**`).
+**2. Les sélecteurs d'identifiants** : permet de cibler un élément spécifique par son identifiant (**`id`**).
 
 :::: {style="display: flex;"}
 ::: {.column width="49%"}
@@ -282,7 +282,7 @@ h2 { font-size: 20px; }
 
 \
 
-**3. Les sélecteurs de classes** : permet de cibler les éléments ayant une classe spécifique (`**class**`).
+**3. Les sélecteurs de classes** : permet de cibler les éléments ayant une classe spécifique (**`class`**).
 
 :::: {style="display: flex;"}
 ::: {.column width="49%"}
@@ -441,14 +441,28 @@ L'inspecteur s'ouvre et en utilisant l'outil de sélection (entouré en <font st
 Vous pouvez déplier le code source pour l'explorer en profondeur. Cet article est une page HTML dans laquelle l'ensemble de la partie "2. Bases techniques" semblent contenu dans une `div` ayant pour identifiant "bases-techniques" :
 
 ![](figures/code_inspect.png)
+\
+
+En réalisant un clic-droit sur un élément, vous pouvez récupérer plusieurs choses. Cliquez sur copier :
+
+![](figures/copier_select.png)
+
+\
+
+Ainsi, vous pouvez récupérer aisément : 
+
+- l'intérieur du HTML (?)
+- l'exterieur du HTML (?)
+- **Le sélecteur CSS** (ex : `#bases-techniques`)
+- **Le chemin CSS** (ex : `html body.preload div#content div#main div#bases-techniques.section.level1`
+- **Le Xpath** (ex : `//*[@id="bases-techniques"]`)
+
+Ces trois derniers éléments pourront vous être précieux pour automatiser votre collecte.
+
+<div class="alert alert-danger">Pour cette page, le sélecteur CSS `#bases-techniques h2` permet ainsi de cibler tous les titres de niveau 2 présents dans l'élément `div` ayant pour identifiant "bases-techniques"... Le scraping peut commencer !</div>
 
 
-
-
-<div class="alert alert-danger">Pour cette page, le sélecteur `#bases-techniques h2` permet ainsi de cibler tous les titres de niveau 2 présents dans l'élément `div` ayant pour identifiant "bases-techniques"... Le scraping peut commencer !</div>
-
-
-**Ajoutez une partie + image sur la copie du Xpath/selecteur CSS...**
+**Fin de partie à développer !!!**
 
 \
 
