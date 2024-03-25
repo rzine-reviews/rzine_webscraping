@@ -400,7 +400,7 @@ Le CSS met également à disposition des sélecteurs complexes et combinateurs q
 
 \
 
-## Le code source d'une page web
+## Le code source d'une page web {#codesource}
 
 La connaissance du HTML et du CSS vous permettra de comprendre et de naviguer dans le code source du page web. L’ensemble des navigateurs web modernes proposent des outils d’inspection du code source des pages web. 
 
@@ -467,50 +467,292 @@ Ces trois derniers éléments pourront vous être précieux pour automatiser vot
 \
 
 
-# Présentation du cas pratique
+# Présentation du cas pratique et objectifs
 
-Présentation du site web exemple utilisé sur des biens immobiliers (fictifs) à vendre à Paris. dans le style https://books.toscrape.com/, avec au moins les variables suivantes :
+## Site web utilisé pour le scrapping
 
-- Une illustration
-- titre accrocheur façon agance (ex : bien d'exception, maison de maître...)
-- Le type : appart, maison ou local commercial
-- Le prix
-- La surface
-- Le nb de pièces
-- Une description du bien (caricaturale, comme ça on peut faire un nuage de mot rigolo)
-- Une adresse (non fictive, comme cela on peut gécoder et cartographier
-- Et plus si affintés !
+:::: {style="display: flex;"}
+::: {.column width="49%"}
+::: {style="text-align: left;"}
+Nous allons passer à la mise en application à partir du site [ScrapImmob](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html). Il compile un ensemble d'annonces immobilières fictives sur plusieurs départements.  
+
+<div class="alert alert-danger"> Les biens ainsi que leurs images ont été générés par différents modèles d'intelligence artificielle. Toutes les informations que contiennent ce site sont donc fausses. </div>
+:::
+::: 
+::: {.column width="2%"}
+:::
+::: {.column width="49%"}
+::: {style="text-align: center;"}
+![](figures/scapImmob_visuel.png)
+::: 
+::: 
+::::
+
+Dans un premier temps, nous pouvons naviguer sur le site afin de voir les informations qu'il contient. ScapImmob recense des annonces immobilières de maisons ou d'appartements dans dix départements français : l'Essonne, l'Eure, les Hauts-de-Seine, Paris, la Seine-Maritime, la Seine-Saint-Denis, la Seine-et-Marne, le Val d'Oise,  le Val de Marne et les Yvelines. 
+Chacune des annonces contient les informations suivantes : 
+
+- des photographies
+- un titre d'annonces 
+- une description détaillée 
+- les caractéristiques du biens (surfaces, prix, nombre de chambres, etc.)
+- la location avec l'information sur la commune, le département et une zone plus précise. 
 
 
+## Exploration du site web
 
-## Exporation manuelle -présentation du code 
+Pour scrapper, il est important de comprendre comment le site web est construit pour être capacité de cibler les bons élements lors du scrapping. Après avoir navigué sur ScrapImmob dans la partie précédente, nous pouvons donc commencer à explorer son code source. Pour cela, nous allons utiliser l'inspecteur de code expliqué dans la partie sur [le code source d'une page web](#codesource) de cette fiche. Pour rappel, c'est à l'aide de l'inspecteur que nous pourrons donc trouver les balises, les classes, les identifiants et les styles associés aux éléments, et ainsi de procéder à une extraction ciblée des informations. 
 
-(captures écran)
+![](figures/code_inspect_scapimmob.png)
 
-
-# Mise en pratique
+## Objectifs
+Avant de commencer à scrapper, il est important de définir nos objectifs et de clarifier les informations que l'on souhaite récupérer. Cela permet de construire un code optimisé récupérant uniquement les élements qui seront utiles à notre analyse. Nous souhaitons obtenir une base de 
 
 Définir ses objectifs ! = Présentation du système d'URL
 
 lecture de chaque page de chaque bien
 Objectifs de ce scraping ?
 
-## Récupération des URLs des biens de la première page
-
-## Boucler sur toutes les pages pour récuperer toutes les URL à scraper
-
-## exemple de scrap sur la première page (sans boucle)
-
-### 1 élément text
-
-### 1 image
-
-### Tous les élements ciblés
-
-## Pareil mais boucle sur toutes les pages
 
 
-## Présentation de la BD scrapée
+# Mise en pratique
+
+## Le package <code>rvest</code> 
+Pour ce cas pratique, nous allons utilisé le package [<code>rvest</code>](https://rvest.tidyverse.org/), développé par Hadley Wickham, qui facilite le scraping en utilisant les sélecteurs CSS et XPath pour extraire les données des pages web.Il existe plusieurs packages permettant de faire du webScraping avec R comme [<code>RSelenium</code>](https://cran.r-project.org/web/packages/RSelenium/index.html). Selon le site que vous souhaitez scraper et les fonctionnalités dont vous avez besoin, il faut choisir le package le plus adapté. Dans notre cas, ScrapImmob est un site statistique et bien structurées donc le package <code>rvest</code> correspond bien à ce type de site web. A l'inverse pour du scraping de pages web dynamiques ou nécessitant une interaction utilisateur, <code>RSelenium</code> aurait été plus adapté. 
+
+
+```{r message=FALSE, warning=FALSE}
+library(rvest)
+```
+
+
+
+
+## Découvrir les fonctions principales de <code>rvest</code>
+
+### Scraping d'un extrait de code html
+Commençons à explorer les principales fonctions du package <code>rvest</code> à partir d'un extrait de code html du site ScrapImmob : 
+
+``` {r message=FALSE, warning=FALSE}
+#Exemple HTML simple
+basic_html <- minimal_html( '<div class="card-body">
+                                <a href="annonces/IDF_0078.html" class="stretched-link"></a>
+                                <p class="card-text">Maison charmante de 96 m² avec grand jardin à Châtenay-Malabry</p>
+                            </div>')
+```
+
+- Les fonctions <code>read_element</code> ou <code>read_elements</code> permettent la récupération du 1er ou de tous les élements selon leur sélécteur CSS ou Xpath.
+
+``` {r echo = TRUE, message=FALSE, warning=FALSE}
+#Récupérer les éléments de la balise <p>
+basic_html %>% html_elements("p")
+```
+
+
+- La fonction <code>html_attr</code> permet l'extraction des données des attributs. 
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+#Récupérer l'url indiqué dans l'attribut href
+basic_html %>% html_elements("a") %>% html_attr("href")
+```
+
+
+- Les fonctions <code>html_text</code> ou <code>html_text2</code> permettent l'extraction du texte d'un élément
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+#Récupérer le texte entre les balises
+basic_html %>% html_elements("p") %>% html_text2()
+```
+
+
+### Scraping de la première page du site ScrapImmob
+
+Maintenant, nous allons nous exercer sur la [première page du site ScrapImmob](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html). Nous récupérons le code de la page à l'aide de la fonction <code>read_html</code> : 
+
+``` {r message=FALSE, warning=FALSE}
+#Stockage de l'URL 
+urlannonce <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/"
+
+#Lecture de l'URL
+page <- read_html(urlannonce)
+```
+
+Notre 1ère objectif est de récupérer les URLs des biens immobiliers de cette première page de ScrapImmob. 
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+#Récupérer les url des biens immobiliers de la 1ère page
+page %>% html_elements("div:nth-child(1) > div:nth-child(3) > a:nth-child(1)") %>% html_attr("href")
+```
+
+
+### Scraping des URLs de tous les biens immobiliers
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+#Récupérer les url des biens immobiliers de la 1ère page
+
+extraire_liens <- function(url) {
+  page <- read_html(url)
+  liens <- page %>% html_elements("div:nth-child(1) > div:nth-child(3) > a:nth-child(1)") %>% html_attr("href")
+  return(liens)
+} 
+
+#Récupérer le nombre de pages
+nombre_de_pages <- 5
+
+# Liste pour stocker tous les liens
+liste_de_liens <- list()
+
+#Boucle
+for (i in 1:nombre_de_pages) {
+  url_page <- paste0(urlannonce, "?page=", i)
+  liens_page <- extraire_liens(url_page)
+  
+  # Faire quelque chose avec les liens extraits (imprimer, stocker, etc.)
+  liste_de_liens <- c(liste_de_liens, liens_page)
+}
+
+liste_de_liens
+```
+
+### Scraping d'éléments d'une page d'annonce immobilière
+Travaillons maintenant sur la 1ère annonce immobilière de cette liste 
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+
+#Récupérer l'URL de la 1ère annonce
+urlannonce1 <- paste0("https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/",liste_de_liens[1])
+
+#Lire la page 
+pageannonce1 <- read_html(urlannonce1)
+
+#Récupérer l'élément titre 
+pageannonce1 %>% html_element(".display-6") %>% html_text2()
+
+
+```
+
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+
+#Récupérer de l'URL de la 1ère image
+image_url <- pageannonce1  %>% 
+           html_element("img") %>%  # Sélectionner tous les éléments 'img'
+  html_attr("src")
+
+
+```
+
+
+## Scraping de la base de données sur Paris 
+
+### Création de la liste des annonces à scrapper 
+Nous souhaitons maintenant obtenir une base de données complète des biens immobiliers qui contient un ensemble d'informations sur Paris.Pour ça, il nous faut la liste des urls des biens. 
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+
+#METTRE ICI LE CODE QUI PERMET DE RECUPERER LA LISTE DES BIENS SUR PARIS 
+
+
+```
+
+### Fonctions nécessaires au scraping 
+Nous allons créer un ensemble de fonction qui nous permettent de scrapper ces éléments.
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+
+#Fonction d'extraction du titre court 
+extraire_titrec <- function(url) {
+  titre <- page %>% html_elements(".display-6)") %>% html_text2()
+  return(titre)
+} 
+
+#Fonction d'extraction du titre long 
+extraire_titrel <- function(url) {
+  element <- page %>% html_elements("h5.card-title:nth-child(1)") %>% html_text2()
+  return(element)
+} 
+
+#Fonction d'extraction de la description 
+extraire_description <- function(url) {
+  element <- page %>% html_elements(".card-text") %>% html_text2()
+  return(element)
+} 
+
+#Fonction d'extraction du type 
+extraire_type <- function(url) {
+  element <- page %>% html_elements("ul.list-group > li:nth-child(1) > strong:nth-child(2)") %>% html_text2()
+  return(element)
+} 
+
+
+#Fonction d'extraction du nombre de chambres 
+extraire_chambres <- function(url) {
+  element <- page %>% html_elements("ul.list-group > li:nth-child(2) > strong:nth-child(2)") %>% html_text2()
+  return(element)
+} 
+
+#Fonction d'extraction du nombre de salle de bains
+extraire_chambres <- function(url) {
+  element <- page %>% html_elements("li.list-group-item:nth-child(3) > strong:nth-child(2)") %>% html_text2()
+  return(element)
+} 
+
+#Fonction d'extraction du nombre de la surface habitable
+extraire_surf <- function(url) {
+  element <- page %>% html_elements("li.list-group-item:nth-child(4) > strong:nth-child(2)") %>% html_text2()
+  return(element)
+} 
+
+#Fonction d'extraction du nombre de la surface jardin
+extraire_surfj <- function(url) {
+  element <- page %>% html_elements("li.list-group-item:nth-child(5) > strong:nth-child(2)") %>% html_text2()
+  return(element)
+} 
+
+#Fonction d'extraction du prix
+extraire_prix <- function(url) {
+  element <- page %>% html_elements("li.list-group-item:nth-child(6) > strong:nth-child(2)") %>% html_text2()
+  return(element)
+} 
+
+#Fonction d'extraction de la commune 
+extraire_commune <- function(url) {
+  element <- page %>% html_elements("div.list-group:nth-child(1) > li:nth-child(1) > strong:nth-child(1)") %>% html_text2()
+  return(element)
+} 
+
+#Fonction d'extraction du département
+extraire_commune <- function(url) {
+  element <- page %>% html_elements("div.list-group:nth-child(1) > li:nth-child(2) > strong:nth-child(1)") %>% html_text2()
+  return(element)
+} 
+
+
+#Fonction d'extraction de la localisation 
+extraire_loc <- function(url){
+  element <- 
+    page %>% html_elements('script') %>% # On récupère les balises de type script
+                      html_text2() %>% # On en extrait le contenu
+                      pluck(2) %>% # On ne garde que la 2ème balise string, qui est celle qui contient le code leaflet
+                      str_extract(string = .,
+                                  pattern = "var annonce_coords = \\[(\\d+\\.?\\d*\\, \\d+\\.?\\d*)\\]", # regexp qui cherche les caractères "var annonce_coords = [unNombreDecimal, unAutreNombreDecimal]" et met les deux nombres décimaux dans un groupe (les parenthèses) -> "49.224678, 1.184296"
+                                  group = 1) %>% # On ne conserve que le groupe 1, donc ce qui était en parenthèse dans la regexp 
+                      str_split(pattern = ',') %>% # On découpe par la virgule -> list(c("49.224678", " 1.184296"))
+                      pluck(1) %>% # str_split crée une liste de vecteurs, on ne garde que le premier élément -> c("49.224678", " 1.184296")
+                      str_trim() %>% # sur chaque vecteur, on enlève les espaces en début et en fin -> c("49.224678", "1.184296")
+                      as.numeric() # On peut enfin les convertir en numérique, et donc récupérer la latitude puis la longitude (ordre inversé de coordonnées de leaflet)
+  return(element)
+}
+
+
+```
+
+### Scraping de la base 
+Appliquons maintenant les fonctions à la liste de biens pour constituer notre base de données
+
+
+
+## Exploration de la base de données scrappées 
+
+### Présentation de la BD scrapée
 
 ### Répartition par type
 
