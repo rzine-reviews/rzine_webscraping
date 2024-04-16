@@ -7,6 +7,8 @@ author:
    affiliation: Université Paris 1 Panthéon-Sorbonne, UMR Géographie-cités
  - name: Hugues Pecout
    affiliation: CNRS, UMR Géographie-cités
+ - name: Robin Cura
+   affiliation: CNRS, UMR PRODIG
 image: "featured.png"   
 logo: "figures/rzine.png"  
 output:
@@ -375,6 +377,7 @@ Le CSS met également à disposition des sélecteurs complexes et combinateurs q
 
 :::: {style="display: flex;"}
 ::: {.column width="49%"}
+<center><b>page.html</b></center>
 ``` {html, eval = FALSE, class.source='bg-info'}
 <div id="liste_ref">
 
@@ -390,6 +393,7 @@ Le CSS met également à disposition des sélecteurs complexes et combinateurs q
 :::
 
 ::: {.column width="49%"}
+<center><b>style.css</b></center>
 ```{css, eval = FALSE, class.source='bg-warning'}
 #liste_ref p .summary { font-size: 12px; }
 ```
@@ -404,6 +408,7 @@ Le CSS met également à disposition des sélecteurs complexes et combinateurs q
 
 :::: {style="display: flex;"}
 ::: {.column width="49%"}
+<center><b>page.html</b></center>
 ``` {html, eval = FALSE, class.source='bg-info'}
 <div id="liste_ref">
 
@@ -421,6 +426,7 @@ Le CSS met également à disposition des sélecteurs complexes et combinateurs q
 :::
 
 ::: {.column width="49%"}
+<center><b>style.css</b></center>
 ```{css, eval = FALSE, class.source='bg-warning'}
 #liste_ref + h2 { font-size: 14px; }
 ```
@@ -431,6 +437,31 @@ Le CSS met également à disposition des sélecteurs complexes et combinateurs q
 :::
 ::::
 
+\
+
+### Exemple pratique simple
+
+Pour mieux comprendre l'utilisation et le fonctionnement du HTML et du CSS, **vous pouvez vous exercer à la pratique de ces deux langages à partir de cet exemple simple mis à disposition en téléchargement** :
+
+\
+
+<center>
+[<img src="figures/zip.png"  width="30"/> **exo_HTML.zip**](https://gitlab.huma-num.fr/webscraping/rzine_webscraping/-/raw/master/exo_HTML.zip?ref_type=heads&inline=false)
+</center>
+
+<br>
+
+Une fois téléchargé, décompressez le répertoire. 
+Un fichier HTML peut être interprété (mis en page) par n'importe quel navigateur (Firefox, Google Chrome, Microsoft Edge, ect...) :
+
+1. Ouvrez le fichier page.html avec un naviguateur web. Aucune connexion internet n'est nécessaire.
+
+2. Ouvrez le fichier page.hmtl et le fichier style.CSS avec un editeur de fichier texte (ex : bloc-note, Rstudio...).
+
+3. Ajoutez et/ou modifiez du contenu (balise) dans le code source du fichier page.html. Enregistrez le fichier réaffichez (ou raffraichissez avec la touche `F5`) la page HTML dans le naviguateur pour apercevoir la nouvelle mise en page. 
+
+4. Ajoutez et/ou modifiez du contenu dans le code source du fichier style.css. Enregistrez le fichier réaffichez (ou raffraichissez avec la touche `F5`) la page HTML dans le naviguateur pour apercevoir la nouvelle mise en page.
+
 
 
 \
@@ -439,10 +470,10 @@ Le CSS met également à disposition des sélecteurs complexes et combinateurs q
 
 La connaissance du HTML et du CSS vous permettra de comprendre et de naviguer dans le code source du page web. L’ensemble des navigateurs web modernes proposent des outils d’inspection du code source des pages web. 
 
-**L’inspecteur de code source** permet d’explorer le code source d’une page web en direct. Il **permet l’identification des balises, des classes, des identifiants et des styles associés aux éléments, et ainsi de procéder à une extraction ciblée de données**. En utilisant l’inspecteur de code source, vous accédez à toutes les informations nécessaires pour concevoir un script de scraping. 
+**L’inspecteur de code source** permet d’explorer le code source d’une page web. Il **permet l’identification des balises, des classes, des identifiants et des styles associés aux éléments, et ainsi de procéder à une extraction ciblée de données**. En utilisant l’inspecteur de code source, vous accédez à toutes les informations nécessaires pour concevoir un script de collecte automatisée. 
 
 
-Pour y accéder, cliquez-droit n’importe où sur la page web ciblée, puis cliquez sur “Inspecter” :
+Pour y accéder, cliquez-droit n’importe où sur la page web ouverte dans un naviguateur, puis cliquez sur “Inspecter” :
 
 :::: {style="display: flex;"}
 ::: {.column width="49%"}
@@ -473,14 +504,17 @@ L'inspecteur s'ouvre et en utilisant l'outil de sélection (entouré en <font st
 
 \
 
-Vous pouvez déplier le code source pour l'explorer en profondeur. Cet article est une page HTML dans laquelle l'ensemble de la partie "2. Bases techniques" semblent contenu dans une `div` ayant pour identifiant "bases-techniques" :
+Vous pouvez déplier le code source pour l'explorer en profondeur. Cet article est une page HTML dans laquelle l'ensemble de la partie "2. Bases techniques" semblent contenu dans une `div` ayant pour identifiant `"bases-techniques"` :
 
 ![](figures/code_inspect.png)
+
 \
 
 En réalisant un clic-droit sur un élément, vous pouvez récupérer plusieurs choses. Cliquez sur copier :
 
 ![](figures/copier_select.png)
+
+
 
 \
 
@@ -493,51 +527,54 @@ Ainsi, vous pouvez récupérer aisément :
 - **Le Xpath** (ex : `//*[@id="bases-techniques"]`)
 
 Ces trois derniers éléments pourront vous être précieux pour automatiser votre collecte.
+Pour cette page, le sélecteur CSS `#bases-techniques h2` permet ainsi de cibler tous les titres de niveau 2 présents dans l'élément `div` ayant pour identifiant "bases-techniques"... Le scraping peut commencer !
 
-<div class="alert alert-danger">Pour cette page, le sélecteur CSS `#bases-techniques h2` permet ainsi de cibler tous les titres de niveau 2 présents dans l'élément `div` ayant pour identifiant "bases-techniques"... Le scraping peut commencer !</div>
+<div class="alert alert-danger">
+<b>La première étape du webscraping consiste ainsi à analyser le code source de la page et du site web ciblé, afin de trouver le chemin ou l'emplacement exacte des informations que l'on souhaite récupérer.</b>
+</div>
 
 
-**Fin de partie à développer !!!**
+**Partie à développer ? Plus de chose sur l'inspecteur ?**
 
 \
 
 
-# Présentation du cas pratique et objectifs
+# Présentation du cas pratique
 
-## Site web utilisé pour le scrapping
+## Le site web de démonstration
 
-:::: {style="display: flex;"}
-::: {.column width="49%"}
-::: {style="text-align: left;"}
-Nous allons passer à la mise en application à partir du site [ScrapImmob](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html). Il compile un ensemble d'annonces immobilières fictives sur plusieurs départements.  
+Pour cette introduction au web scraping avec R, nous proposons une mise en pratique sur un site web de démonstration crée pour l'occasion : [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html). **Ce site compile 1000 annonces fictives de ventes immobilères de maisons et d'appartements**.  
 
-<div class="alert alert-danger"> Les biens ainsi que leurs images ont été générés par différents modèles d'intelligence artificielle. Toutes les informations que contiennent ce site sont donc fausses. </div>
-:::
-::: 
-::: {.column width="2%"}
-:::
-::: {.column width="49%"}
-::: {style="text-align: center;"}
-![](figures/scapImmob_visuel.png)
-::: 
-::: 
-::::
+<center>
 
-Dans un premier temps, nous pouvons naviguer sur le site afin de voir les informations qu'il contient. ScapImmob recense des annonces immobilières de maisons ou d'appartements dans dix départements français : l'Essonne, l'Eure, les Hauts-de-Seine, Paris, la Seine-Maritime, la Seine-Saint-Denis, la Seine-et-Marne, le Val d'Oise,  le Val de Marne et les Yvelines. 
-Chacune des annonces contient les informations suivantes : 
+![URL : https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html](figures/ScrapImmob_Visuel.png)
+</center>
 
-- des photographies
-- un titre d'annonces 
-- une description détaillée 
-- les caractéristiques du biens (surfaces, prix, nombre de chambres, etc.)
-- la location avec l'information sur la commune, le département et une zone plus précise. 
+\
 
+<div class="alert alert-danger"> <b>L'intégralité biens présentés ainsi que les images associées ont été générés par différents modèles d'intelligence artificielle. Toutes les informations affichées sont donc fausses !</b> </div>
+
+
+Comme n'importe quel site d'annonces immobilières, **ScapImmob recense des annonces de ventes de maisons ou d'appartements dans dix départements français : l'Essonne, l'Eure, les Hauts-de-Seine, Paris, la Seine-Maritime, la Seine-Saint-Denis, la Seine-et-Marne, le Val d'Oise, le Val de Marne et les Yvelines.** 
+
+Une exploration rapide du site nous permet d'observer que chaque annonce contient les informations suivantes : 
+
+- des photographies,    
+- un titre,     
+- une description,     
+- des caractèristiques techniques (surfaces, prix, nombre de pièces, etc.),   
+- Une localisation (commune et carte interactive). 
+
+Pour automatiser la collecte de ces informations, nous devons inspecter le code source du site pour déterminer la localisation précise de ces différents éléments. Dans quelles balises se trouvent-il ? Quels sont les identifiants ou classes des différentes balises ? ect.
+
+\
 
 ## Exploration du site web
 
 Pour scrapper, il est important de comprendre comment le site web est construit pour être capacité de cibler les bons élements lors du scrapping. Après avoir navigué sur ScrapImmob dans la partie précédente, nous pouvons donc commencer à explorer son code source. Pour cela, nous allons utiliser l'inspecteur de code expliqué dans la partie sur [le code source d'une page web](#codesource) de cette fiche. Pour rappel, c'est à l'aide de l'inspecteur que nous pourrons donc trouver les balises, les classes, les identifiants et les styles associés aux éléments, et ainsi de procéder à une extraction ciblée des informations. 
 
 ![](figures/code_inspect_scapimmob.png)
+\
 
 ## Objectifs
 Avant de commencer à scrapper, il est important de définir nos objectifs et de clarifier les informations que l'on souhaite récupérer. Cela permet de construire un code optimisé récupérant uniquement les élements qui seront utiles à notre analyse. Nous souhaitons obtenir une base de 
@@ -547,7 +584,7 @@ Définir ses objectifs ! = Présentation du système d'URL
 lecture de chaque page de chaque bien
 Objectifs de ce scraping ?
 
-
+\
 
 # Mise en pratique
 
