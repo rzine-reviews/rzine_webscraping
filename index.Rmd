@@ -68,6 +68,9 @@ L’extraction automatisé de données du web requiert des prérequis indispensa
 
 ## Le langage HTML
 
+INTRO -> HTML = Sous langage XML (Introduire XML - > langage de balisage (utilisé dans word))
+
+
 Le HTML, acronyme de HyperText Markup Language (langage de balisage hypertexte en français), est un langage informatique utilisé pour structurer et organiser le contenu des pages web.Il utilise une syntaxe basée sur des balises (tags) pour délimiter les différents éléments d’une page. 
 
 ### Les balises
@@ -526,6 +529,8 @@ Ainsi, vous pouvez récupérer aisément :
 - **Le chemin CSS** (ex : `html body.preload div#content div#main div#bases-techniques.section.level1`
 - **Le Xpath** (ex : `//*[@id="bases-techniques"]`)
 
+Définition du Xpath ! langage de requete xml pour naviguer dans un contenu XML (SQL de XML)
+
 Ces trois derniers éléments pourront vous être précieux pour automatiser votre collecte.
 Pour cette page, le sélecteur CSS `#bases-techniques h2` permet ainsi de cibler tous les titres de niveau 2 présents dans l'élément `div` ayant pour identifiant "bases-techniques"... Le scraping peut commencer !
 
@@ -535,6 +540,9 @@ Pour cette page, le sélecteur CSS `#bases-techniques h2` permet ainsi de cibler
 
 
 **Partie à développer ? Plus de chose sur l'inspecteur ?**
+
+
+Micro texte + GIF onglet réseau pour montrer ce qui se passe lorsque l'on charge un opage 
 
 \
 
@@ -588,15 +596,26 @@ Pour scrapper, il est important de comprendre comment le site web est construit 
 
 Avant de se lancer dans une collecte automatisée, **il est primordiale de bien définir ses objectifs et de déterminer précisément quelles informations on souhaite récupérer**. L'exploration du code source nous permettra ensuite d'estimer le niveau de difficulté et de choisir une méthode optimisée.
 
-Pour cette introduction, notre objectif est de récupérer l'intégralité de la base de données des biens mis en vente sur [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), incluant l'ensemble des caractèristiques décrivant les biens. La récupération des coordonnées géographiques affichées dans la carte intéractive est également souhaitée.
+Pour cette introduction, notre objectif est de récupérer une partie de la base de données des (Uniquement un département, maisons et appartement) biens mis en vente sur [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), incluant l'ensemble des caractèristiques décrivant les biens. La récupération des coordonnées géographiques affichées dans la carte intéractive est également souhaitée.
 
 
 
 Pour répondre a cet objectif, le processus de collecte va se dérouler en plusieurs étapes :
 
-1. Comprendre le système d'URL du site afin de pouvoir récupérer tous les biens mis en avant sur le site.
+1. Comprendre la structure de la page d'acceuil/central / Comprendre le système d'URL du site afin de pouvoir récupérer toutes les pages ciblés. / comprendre le système de catégorie , page d'annonce par catégorie = Cmmt le site marche = page d'acceuil filtrée
 
-2. A partir de la liste des URL de toutes les pages à scraper, collecter l'ensemble des caractèristiques de chaque bien.
+2. Comprendre comment récupérer les URL des annonces
+
+3. Récuperer la liste des URLs à attaquer
+
+4. Comprendre la structure des pages d'annonces / Ou sont stocké les données/ caractéristiques des biens
+
+5. A partir de la liste des URL de toutes les pages à scraper, collecter l'ensemble des caractèristiques de chaque bien.
+
+
+6. Coordonnées géo
+
+
 
 
 \
@@ -627,6 +646,9 @@ library(rvest)
 ### Le mode de fonctionnement
 
 Commençons à explorer les principales fonctions du package <code>rvest</code> à partir d'un extrait de code html du site [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html) : 
+
+
+
 
 ``` {r message=FALSE, warning=FALSE}
 #Exemple HTML simple
@@ -661,6 +683,9 @@ basic_html %>% html_elements("p") %>% html_text2()
 
 
 ### Scraping de la première page du site
+
+
+ !! D'abord détécter l'URL de la page de sous séléction dans le code source !!
 
 [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html)
 
@@ -871,12 +896,6 @@ Géocodage adresse + carto
 
 #### Géopackage
 
-
-# Pour aller plus loin
-
-## Rselenium
-
-## Support complet
 
 
 # Conclusion
