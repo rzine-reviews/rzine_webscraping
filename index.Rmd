@@ -585,8 +585,8 @@ En réalisant un clic-droit sur un élément, vous pouvez récupérer plusieurs 
 
 Ainsi, vous pouvez récupérer aisément : 
 
-- l'intérieur du HTML (c'est-à-dire le contenu de la balise sélectionnée : l'intérieur du HTML de `<div id="abc" class="foo"><strong>TEXTE</strong></div>` est  ̀<strong>TEXTE</strong>`)
-- l'exterieur du HTML (c'est-à-dire l'ensemble de la balise sélectionnée : l'extérieur du HTML de `<div id="abc" class="foo"><strong>TEXTE</strong></div>` est  <div id="abc" class="foo"><strong>TEXTE</strong></div>`)
+- l'intérieur du HTML (c'est-à-dire le contenu de la balise sélectionnée : l'intérieur du HTML de `<div id="abc" class="foo"><strong>TEXTE</strong></div>` est  `<strong>TEXTE</strong>`)
+- l'exterieur du HTML (c'est-à-dire l'ensemble de la balise sélectionnée : l'extérieur du HTML de `<div id="abc" class="foo"><strong>TEXTE</strong></div>` est  `<div id="abc" class="foo"><strong>TEXTE</strong></div>`)
 - **Le sélecteur CSS** (ex : `#bases-techniques`)
 - **Le chemin CSS** (ex : `html body.preload div#content div#main div#bases-techniques.section.level1`
 - **Le Xpath** (ex : `//*[@id="bases-techniques"]`)
@@ -601,16 +601,20 @@ Par exemple, le sélecteur CSS `#bases-techniques h2` permet de cibler tous les 
 ## Les appels réseaux d'une page web {#pagenetwork}
 
 Quand on souhaite réaliser une collecte d'éléments redondants sur une page web, par exemple sur des sites présentant de nombreux éléments structurés de la même manière (pages de sites d'annonce, catalogues de médias, etc.), il peut être utile de chercher à comprendre le fonctionnement interne de la page web.
+
 Pour cela, une méthode préalable consiste à observer ce qui se passe quand une page web est chargée, de manière à essayer de repérer des éléments structurés (données *json* par exemple) qui seraient chargées ou requêtées lors de l'interrogation de la page.
-Il s'agit donc d'observer les *appels* qu'une page émet lors de son chargement, par exemple pour récuperer des images, des polices, des bibliothèques de mise en page (CSS, javascript, etc.).
+
+Il s'agit donc d'observer les *appels* qu'une page émet lors de son chargement, par exemple pour récupérer des images, des polices, des bibliothèques de mise en page (CSS, javascript, etc.).
 
 On peut réaliser cette opération, dans l'inspecteur, en observant l'onglet "Réseaux" (ou *Network* dans Chrome) après avoir actualisé la page :
 
-{{< video figures/Screencast_Inspecteur_Network_crop.webm >}}
+<video width="100%" controls>
+<source src="figures/Screencast_Inspecteur_Network_crop.webm" type="video/webm">
+</video>
 
 Dans cet exemple d'inspection de cette même page, on constate que l'ouverture de la page de cet article déclenche :  
-1. L'ouverture de la page à proprement parler (format  ̀html` dans la colonne `Type`)
-2. Le chargement de la bibliothèque de fonctions MathJax.js (format `js`) qui permettent de mettre en forme des équations dans des pages HTML
+1. L'ouverture de la page à proprement parler (format  `html` dans la colonne `Type`)  
+2. Le chargement de la bibliothèque de fonctions MathJax.js (format `js`) qui permettent de mettre en forme des équations dans des pages HTML  
 3. La tentative de chargement de la "favicon" du site, c'est-à-dire de l'icône qui devrait s'afficher dans le titre de l'onglet. Comme cette icône n'existe pas, la page essaie de la charger depuis d'autres emplacements (3 derniers appels), sans succès. 
 
 
