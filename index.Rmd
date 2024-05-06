@@ -713,16 +713,42 @@ Le site web [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob
 
 Le package **`rvest`** permet de naviguer à travers la structure HTML des pages web, extraire du texte, des tableaux, des images et d'autres éléments, et les convertir en données structurées directement exploitables dans R. 
 
+Pour le besoin de l'exercice, nous allons aussi utiliser les packages [`purr`](https://cran.r-project.org/web/packages/purrr/index.html),[`tibble`](https://cran.r-project.org/web/packages/tibble/index.html), [`dplyr`](https://cran.r-project.org/web/packages/dplyr/index.html) et [`stringr`](https://cran.r-project.org/web/packages/stringr/index.html).
+
 Installez le package, puis chargez la librairie.
 
 ```{r message=FALSE, warning=FALSE, eval=FALSE}
 install.packages("rvest")
+install.package("purrr")
+install.package("tibble")
+install.package("dplyr")
+install.package("stringr")
+install.packages("ggplot2")
+install.packages("tm")
+install.packages("wordcloud")
+install.packages("leaflet")
 library(rvest)
+library(purrr)
+library(tibble)
+library(dplyr)
+library(stringr)
+library(ggplot2)
+library(tm)
+library(wordcloud)
+library(leaflet)
 ```
 
 
 ```{r message=FALSE, warning=FALSE, echo = FALSE}
 library(rvest)
+library(purrr)
+library(tibble)
+library(dplyr)
+library(stringr)
+library(ggplot2)
+library(tm)
+library(wordcloud)
+library(leaflet)
 ```
 
 ### Mode de fonctionnement
@@ -731,10 +757,15 @@ Commençons par explorer les principales fonctions du package **`rvest`** à par
 Pour cela, nous pouvons utiliser la fonction **`minimal_html()`** qui permet de créer un contenu HTML (XML) requêtable à partir d'un contenu HTML fourni dans une chaîne de caractère.
 
 ``` {r message=FALSE, warning=FALSE}
-basic_html <- minimal_html("<div class='card-body'>
-                              <a href='annonces/IDF_0078.html' class='stretched-link'></a>
-                              <p class='card-text'>Maison charmante de 96 m² avec grand jardin à Châtenay-Malabry</p>
-                            </div>")
+#Exemple de texte html extrait du site ScrapImmob 
+extrait_html <- "<div class='card-body'>
+                      <a href='annonces/IDF_0078.html' class='stretched-link'></a>
+                      <p class='card-text'>Maison charmante de 96 m² avec grand jardin à Châtenay-Malabry</p>
+                  </div>"
+
+#Interprétation du texte comme du html grâce à la fonction minimal_html
+basic_html <- minimal_html(extrait_html)
+
 
 class(basic_html)
 ```
@@ -754,7 +785,7 @@ basic_html %>% html_elements("a") %>% html_attr("href")
 ```
 
 
-- Les fonctions **`html_text()`** ou **`html_text2()`** permettent d'extraire uniquement le texte d'un élément
+- Les fonctions **`html_text()`** ou **`html_text2()`** permettent d'extraire uniquement le texte d'un élément.
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
 # Récupérer le contenu textuel d'une balise
@@ -770,62 +801,160 @@ basic_html %>% html_elements("p") %>% html_text2()
 - choix du sous corpus à scrapper.
 -> détécter l'URL de la page de sous séléction dans le code source
 
-### Récupération des URL ciblées
 
-Maintenant, nous allons nous exercer sur la [première page du site ScrapImmob](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html). Nous récupérons le code de la page à l'aide de la fonction `read_html` : 
+
+### Système d'URLs pour filtrer les biens
+
+
+:::: {style="display: flex;"}
+::: {.column width="68%"}
+::: {style="text-align: left;"}
+
+En explorant la 1ère page du site web, on observe, à gauche, un ensemble de boutons permettant de filtrer par département et par type de biens. Lorsque l'on clique sur l'un de ces élements, on remarque que l'URL principal change dans la barre d'URL : 
+
+- L'URL principal sans filtre appliqué est  https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/. C'est L'URL que l'on a utilisé pour récupérer les biens sur la 1ère page à l'étape précédente
+
+- En cliquant sur l'un des boutons, l'URL change. En cliquant sur le bouton "Essonne (91) - Appartement" par exemple, l'URL devient https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/91_appartement/index.html et les biens affichés sur la page ont changé. 
+
+
+::: 
+::: 
+::: {.column width="2%"}
+:::
+  
+::: {.column width="30%"}
+::: {style="text-align: center;"}
+![](figures/menu_filtre.png)
+:::
+::: 
+::::
+
+
+Pour rappel, notre objectif est de webscapper uniquement les biens (maisons et appartemments) d'un seul département. Ces filtres vont donc être nécessaire pour cibler les bons URLS à scrapper. Pour la suite de l'exercice, nous allons collecter les annonces d'appartements ou maisons de la Seine-Maritime via les deux URLS suivants : 
+
+- Pour les maisons : https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/93_maison/index.html
+
+- Pour les appartements : https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/index.html 
+
+Nous récupérons le code de la première page des appartements en Seine-Martime et de celle des maisons à l'aide de la fonction `read_html`. Cette fonction effectue une requête HTTP, puis en analyse le HTML reçu à l'aide du package xml2.
 
 ``` {r message=FALSE, warning=FALSE}
-# Stockage de l'URL 
-urlannonce <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/"
 
-#Lecture de l'URL
-page <- read_html(urlannonce)
+# Stockage des URLs
+urlannonceappart <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/"
+urlannoncemaison <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/"
+
+#Lecture des URLs
+pageappart <- read_html(urlannonceappart)
+pagemaison <- read_html(urlannoncemaison)
+
 ```
 
-Notre 1ère objectif est de récupérer les URLs des biens immobiliers de cette première page de ScrapImmob. 
+### Récupération des URLs des biens sur la 1ère page
+
+Maintenant, nous allons nous exercer sur la [page des appartements du site ScrapImmob](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/index.html ). Notre 1ère objectif est de récupérer les URLs des biens immobiliers de cette première page de ScrapImmob. 
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
 #Récupérer les url des biens immobiliers de la 1ère page
-page %>% html_elements("div:nth-child(1) > div:nth-child(3) > a:nth-child(1)") %>% html_attr("href")
+pageappart %>% html_elements("div:nth-child(1) > div:nth-child(3) > a:nth-child(1)") %>% html_attr("href")
 ```
 
+### Définir le nombre de page à scrapper
 
-### Scraping des URLs de tous les biens immobiliers
+Nous avons pu scrapper les URLs des biens sur la première page des appartements. Nous souhaitons reproduire la collecte d'URLs des biens sur l'ensemble des pages des appartements et des maisons de Seine-Maritime donc nous devons savoir combien de pages il y a. 
+
+
+
+:::: {style="display: flex;"}
+::: {.column width="47%"}
+
+Sur la [première page des appartements](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/index.html), nous avons récupéré 18 URLs d'annonces sur les 156 disponibles. Sur les appartements il y a donc 9 pages à scrapper.
+
+::: {style="text-align: center;"}
+![](figures/nb_annonces.png)
+::: 
+
+::: 
+
+::: {.column width="6%"}
+:::
+  
+::: {.column width="47%"}
+Sur la [première page des maisons](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/index.html), nous avons récupéré 18 URLs d'annonces sur les 263 disponibles. Sur les maisons, il y a donc 15 pages à scrapper. 
+
+::: {style="text-align: center;"}
+
+![](figures/nb_annonces2.png)
+:::
+::: 
+::::
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+#Stocker le nombres de pages à scrapper
+nbpage_appart <- 9
+nbpage_maison <- 15
+```
+
+### Scraping des URLs de tous les biens immobiliers de Seine-Maritime
+
+Nous avons maintenant tous les élements donc nous avons besoin pour collecter les URLs des biens de la Seine-Maritime. 
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
-#Récupérer les url des biens immobiliers de la 1ère page
 
+#Fonction pour récupérer les url des biens immobiliers 
 extraire_liens <- function(url) {
   page <- read_html(url)
   liens <- page %>% html_elements("div:nth-child(1) > div:nth-child(3) > a:nth-child(1)") %>% html_attr("href")
   return(liens)
 } 
 
-#Récupérer le nombre de pages
-nombre_de_pages <- 5
 
 # Liste pour stocker tous les liens
 liste_de_liens <- list()
 
-#Boucle
-for (i in 1:nombre_de_pages) {
-  url_page <- paste0(urlannonce, "?page=", i)
+#Stocker les liens de la première page des appartements
+liens_page <- extraire_liens(urlannonceappart)
+liste_de_liens <- c(liste_de_liens, liens_page)
+
+#Boucle pour les appartements
+for (i in 2:nbpage_appart) {
+  url_page <- paste0(urlannonceappart, "page_", i,".html")
   liens_page <- extraire_liens(url_page)
   
-  # Faire quelque chose avec les liens extraits (imprimer, stocker, etc.)
+  # Stocker les liens obtenus
   liste_de_liens <- c(liste_de_liens, liens_page)
 }
 
+#Stocker les liens de la première page des maisons
+liens_page <- extraire_liens(urlannoncemaison)
+liste_de_liens <- c(liste_de_liens, liens_page)
+
+#Boucle pour les maisons
+for (i in 2:nbpage_maison) {
+  url_page <- paste0(urlannoncemaison, "page_", i,".html")
+  liens_page <- extraire_liens(url_page)
+  
+  # Stocker les obtenus
+  liste_de_liens <- c(liste_de_liens, liens_page)
+}
+#Transformer en lien absolu
+for (i in 1:length(liste_de_liens)){
+  lientemp <- url_absolute(liste_de_liens[[i]], "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
+  liste_de_liens[[i]] <- lientemp 
+}
+
+#Afficher l'URL du premier bien récupéré
 liste_de_liens[[1]]
+
 ```
 
 ### Scraping d'éléments d'une page d'annonce immobilière
-Travaillons maintenant sur la 1ère annonce immobilière de cette liste 
+
+L'exploration de la page d'accueil et en comprendre la structure nous a permis de collecter les informations sur les liens d'URLs du site utiles à la suite de notre travail. Maintenant, nous allons explorer les pages de chaque annonce pour comprendre leur structure à partir du 1er bien de notre liste.  
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
 
 #Récupérer l'URL de la 1ère annonce
-urlannonce1 <- paste0("https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/",liste_de_liens[1])
+urlannonce1 <- liste_de_liens[[1]]
 
 #Lire la page 
 pageannonce1 <- read_html(urlannonce1)
@@ -848,92 +977,82 @@ image_url <- pageannonce1  %>%
 ```
 
 
-## Scraping de la base de données sur Paris 
-
-### Création de la liste des annonces à scrapper 
-Nous souhaitons maintenant obtenir une base de données complète des biens immobiliers qui contient un ensemble d'informations sur Paris.Pour ça, il nous faut la liste des urls des biens. 
-
-``` {r echo= TRUE, message=FALSE, warning=FALSE}
-
-#METTRE ICI LE CODE QUI PERMET DE RECUPERER LA LISTE DES BIENS SUR PARIS 
-
-
-```
+## Scraping de la base de données de la Seine-Maritime 
 
 ### Fonctions nécessaires au scraping 
-Nous allons créer un ensemble de fonction qui nous permettent de scrapper ces éléments.
+Nous allons créer un ensemble de fonction qui nous permettent de scrapper les différents élements des annonces de la Seine-Maritime.
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
 
 #Fonction d'extraction du titre court 
-extraire_titrec <- function(url) {
-  titre <- page %>% html_elements(".display-6)") %>% html_text2()
+extraire_titrec <- function(page) {
+  titre <- page %>% html_element(".display-6") %>% html_text2()
   return(titre)
 } 
 
 #Fonction d'extraction du titre long 
-extraire_titrel <- function(url) {
-  element <- page %>% html_elements("h5.card-title:nth-child(1)") %>% html_text2()
+extraire_titrel <- function(page) {
+  element <- page %>% html_element("h5.card-title:nth-child(1)") %>% html_text2()
   return(element)
 } 
 
 #Fonction d'extraction de la description 
-extraire_description <- function(url) {
-  element <- page %>% html_elements(".card-text") %>% html_text2()
+extraire_description <- function(page) {
+  element <- page %>% html_element(".card-text") %>% html_text2()
   return(element)
 } 
 
-#Fonction d'extraction du type 
-extraire_type <- function(url) {
-  element <- page %>% html_elements("ul.list-group > li:nth-child(1) > strong:nth-child(2)") %>% html_text2()
+#Fonction d'extraction de l'attribut 1 du tableau
+extr_att1 <- function(page) {
+  element <- page %>% html_element("ul.list-group > li:nth-child(1) > strong:nth-child(2)") %>% html_text2()
   return(element)
 } 
 
 
-#Fonction d'extraction du nombre de chambres 
-extraire_chambres <- function(url) {
-  element <- page %>% html_elements("ul.list-group > li:nth-child(2) > strong:nth-child(2)") %>% html_text2()
+#Fonction d'extraction de l'attribut 2 du tableau
+extr_att2 <- function(page) {
+  element <- page %>% html_element("ul.list-group > li:nth-child(2) > strong:nth-child(2)") %>% html_text2()
   return(element)
 } 
 
-#Fonction d'extraction du nombre de salle de bains
-extraire_chambres <- function(url) {
-  element <- page %>% html_elements("li.list-group-item:nth-child(3) > strong:nth-child(2)") %>% html_text2()
+#Fonction d'extraction de l'attribut 3 du tableau
+extr_att3 <- function(page) {
+  element <- page %>% html_element("li.list-group-item:nth-child(3) > strong:nth-child(2)") %>% html_text2()
   return(element)
 } 
 
-#Fonction d'extraction du nombre de la surface habitable
-extraire_surf <- function(url) {
-  element <- page %>% html_elements("li.list-group-item:nth-child(4) > strong:nth-child(2)") %>% html_text2()
+#Fonction d'extraction de l'attribut 4 du tableau
+extr_att4 <- function(page) {
+  element <- page %>% html_element("li.list-group-item:nth-child(4) > strong:nth-child(2)") %>% html_text2()
   return(element)
 } 
 
-#Fonction d'extraction du nombre de la surface jardin
-extraire_surfj <- function(url) {
-  element <- page %>% html_elements("li.list-group-item:nth-child(5) > strong:nth-child(2)") %>% html_text2()
+#Fonction d'extraction de l'attribut 5 du tableau
+extr_att5 <- function(page) {
+  element <- page %>% html_element("li.list-group-item:nth-child(5) > strong:nth-child(2)") %>% html_text2()
   return(element)
 } 
 
-#Fonction d'extraction du prix
-extraire_prix <- function(url) {
-  element <- page %>% html_elements("li.list-group-item:nth-child(6) > strong:nth-child(2)") %>% html_text2()
+#Fonction d'extraction de l'attribut 6 du tableau
+extr_att6 <- function(page) {
+  element <- page %>% html_element("li.list-group-item:nth-child(6) > strong:nth-child(2)") %>% html_text2()
   return(element)
 } 
 
 #Fonction d'extraction de la commune 
-extraire_commune <- function(url) {
-  element <- page %>% html_elements("div.list-group:nth-child(1) > li:nth-child(1) > strong:nth-child(1)") %>% html_text2()
+extraire_commune <- function(page) {
+  element <- page %>% html_element("div.list-group:nth-child(1) > li:nth-child(1) > strong:nth-child(1)") %>% html_text2()
   return(element)
 } 
 
 #Fonction d'extraction du département
-extraire_commune <- function(url) {
-  element <- page %>% html_elements("div.list-group:nth-child(1) > li:nth-child(2) > strong:nth-child(1)") %>% html_text2()
+extraire_departement <- function(page) {
+  element <- page %>% html_element("div.list-group:nth-child(1) > li:nth-child(2) > strong:nth-child(1)") %>% html_text2()
   return(element)
 } 
 
 
 #Fonction d'extraction de la localisation 
-extraire_loc <- function(url){
+extraire_loc <- function(page){
   element <- 
     page %>% html_elements('script') %>% # On récupère les balises de type script
                       html_text2() %>% # On en extrait le contenu
@@ -952,24 +1071,153 @@ extraire_loc <- function(url){
 ```
 
 ### Scraping de la base 
-Appliquons maintenant les fonctions à la liste de biens pour constituer notre base de données
+Appliquons maintenant les fonctions à la liste de biens pour constituer notre base de données. Nous pourrions effectuer une boucle comme nous l'avons fait précédemment avec les URL afin de montrer une autre méthode nous allons utiliser la fonction `map_df` du package **`purrr`**. Elle permet d'appliquer des fonctions à chaque élement d'une liste et de combiner les résultats en un unique tableau de données. 
 
+
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+#Scrapping de la base de données 
+db_bien <- map_df(liste_de_liens  , ~{
+  paste(.)
+  page <- read_html(.)
+  tibble (lien = ., 
+          titrecourt = extraire_titrec(page),
+           titrelong = extraire_titrel(page),
+           description = extraire_description(page),
+           type = extr_att1(page), 
+           nb_chambres =  extr_att2(page),
+           nb_sb = extr_att3(page),
+           surf_h = extr_att4(page), 
+           surf_j = case_when(!is.na(extr_att6(page))~ extr_att5(page), .default = NA_character_), #l'attribut surface jardin n'est pas toujours présent. 
+           prix = case_when(!is.na(extr_att6(page))~ extr_att6(page), .default = extr_att5(page)),
+           commune = extraire_commune(page), 
+           departement = extraire_departement(page),
+          latitude = extraire_loc(page)[1],
+          longitude = extraire_loc(page)[2]
+          )
+  
+})
+
+#Nettoyage de la base de données
+db_bien <- db_bien %>% mutate(identifiant = row_number(), #ajout d'un identifiant 
+                                   nb_chambres = as.numeric(nb_chambres), #nombre de chambres en numérique
+                                   nb_sb = as.numeric(nb_sb), #nombre de salle de bain en numérique
+                                   surf_h=as.numeric(str_remove(surf_h,"m²")), #enlever le symbole m2 et transformation en numérique
+                                   surf_j = as.numeric(str_remove(surf_j,"m²")), #enlever le symbole m2 et transformation en numérique
+                                   prix = as.numeric(str_remove_all(prix,"€| ")), #enlever le symbole € et les espaces puis transformation en numérique
+                                   libcom = substr(commune, 1, nchar(commune) - 8), #enlever le code INSEE pour garder que le nom de commune
+                                   code_insee = substr(commune, nchar(commune)-5, nchar(commune)-1) #enlever le nom de commune que le code insee
+                                   ) %>%
+                            select(- commune )
+
+
+```
 
 
 ## Exploration de la base de données scrappées 
 
 ### Présentation de la BD scrapée
+Notre base de données scrappées contient les 419 biens à vendre en Seine-Maritime avec les attributs suivants : 
+
+- `lien` = l'URL pour accèder en ligne au bien
+
+- `titrecourt`= le titre court de l'annonce
+
+- `titrelong`= le titre long de l'annonce
+
+- `description` = la description complète de l'annonce
+
+- `type` = le type de bien (maison ou appartement)
+
+- `nb_chambres`= le nombre de chambres
+
+- `nb_sb` = le nombre de salles de bain 
+
+- `surface_h` = la surface habitable (en m2)
+
+- `surface_j` = la surface de jardin (en m2)
+
+- `prix` = le prix (en €)
+
+- `departement`= le département dans lequel le bien se situe
+
+- `latitude` = la latitude
+
+- `longitude` = la longitude
+
+- `identifiant`= un identifiant unique
+
+- `libcom` = le nom de la commune 
+
+- `code_insee` = le code insee
 
 ### Répartition par type
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
 
+ggplot(db_bien) +
+ aes(x = type) +
+ geom_bar(fill = "#112446") +
+ theme_minimal()
+
+
+
+```
 ### Distribution par type/prix
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
 
+ggplot(db_bien) +
+ aes(x = type, y = prix) +
+ geom_boxplot(fill = "#112446") +
+ theme_minimal()
+
+
+
+```
 ### Surface moyenne
 
+  
+  
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+ggplot(db_bien) +
+  aes(x = type, y = surf_h) +
+  geom_boxplot(fill = "#112446") +
+  theme_minimal()
+
+```
+
+
 ### Nuage de mot sur les description des biens
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+# Création du corpus
+corpus <- Corpus(VectorSource(db_bien$description))
+
+# Prétraitement du texte
+corpus <- tm_map(corpus, content_transformer(tolower))
+corpus <- tm_map(corpus, removePunctuation)
+corpus <- tm_map(corpus, removeNumbers)
+corpus <- tm_map(corpus, removeWords, stopwords("french"))
+
+# Création du nuage de mots
+wordcloud(corpus, scale=c(3,0.5), max.words=50, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
+
+
+```
+
 
 
 ### Carte !
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+# Créer la carte Leaflet
+carte <- leaflet(db_bien) %>% 
+  addTiles() %>%
+  addCircleMarkers(lng = ~longitude, lat = ~latitude, popup = ~titrecourt,
+                   label = ~identifiant, radius = 5, color = ~ifelse(type == "Appartement", "blue", "green"), fillOpacity = 0.8)
+carte
+
+
+
+```
 
 Géocodage adresse + carto 
 
