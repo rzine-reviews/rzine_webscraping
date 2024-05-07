@@ -710,14 +710,31 @@ Le site web [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob
 \
 
 ## Le package `rvest`
-
+### Installation
 Le package **`rvest`** permet de naviguer à travers la structure HTML des pages web, extraire du texte, des tableaux, des images et d'autres éléments, et les convertir en données structurées directement exploitables dans R. 
 
-Pour le besoin de l'exercice, nous allons aussi utiliser les packages [`purr`](https://cran.r-project.org/web/packages/purrr/index.html),[`tibble`](https://cran.r-project.org/web/packages/tibble/index.html), [`dplyr`](https://cran.r-project.org/web/packages/dplyr/index.html) et [`stringr`](https://cran.r-project.org/web/packages/stringr/index.html).
+Pour le besoin de l'exercice, nous allons aussi utiliser les packages : 
 
-Installez le package, puis chargez la librairie.
+- [`purr`](https://cran.r-project.org/web/packages/purrr/index.html) pour manipuler des données en utilisant des fonctions de programmation fonctionnelle.
+
+- [`tibble`](https://cran.r-project.org/web/packages/tibble/index.html) pour manipuler les données tabulaires. 
+
+- [`dplyr`](https://cran.r-project.org/web/packages/dplyr/index.html) pour manipuler les données.
+
+- [`stringr`](https://cran.r-project.org/web/packages/stringr/index.html) pour manipuler les chaînes de caractères. 
+
+- [`ggplot2`](https://cran.r-project.org/web/packages/ggplot2/index.html) pour faire des graphiques. 
+
+- [`tm`](https://cran.r-project.org/web/packages/tm/index.html) pour l'analyse statistique de textes. 
+
+- [`wordcloud`](https://cran.r-project.org/web/packages/wordcloud/) pour faire un nuage de mots.
+
+- [`leaflet`](https://cran.r-project.org/web/packages/leaflet/) pour faire une carte interactive.
+
+Installez les packages, puis chargez la librairie.
 
 ```{r message=FALSE, warning=FALSE, eval=FALSE}
+#Installation des packages 
 install.packages("rvest")
 install.package("purrr")
 install.package("tibble")
@@ -727,6 +744,8 @@ install.packages("ggplot2")
 install.packages("tm")
 install.packages("wordcloud")
 install.packages("leaflet")
+
+#Chargement des librairies
 library(rvest)
 library(purrr)
 library(tibble)
@@ -749,7 +768,9 @@ library(ggplot2)
 library(tm)
 library(wordcloud)
 library(leaflet)
+library(DT)
 ```
+
 
 ### Mode de fonctionnement
 
@@ -933,7 +954,7 @@ for (i in 2:nbpage_maison) {
   url_page <- paste0(urlannoncemaison, "page_", i,".html")
   liens_page <- extraire_liens(url_page)
   
-  # Stocker les obtenus
+  # Stocker les liens obtenus
   liste_de_liens <- c(liste_de_liens, liens_page)
 }
 #Transformer en lien absolu
@@ -951,6 +972,8 @@ liste_de_liens[[1]]
 
 L'exploration de la page d'accueil et en comprendre la structure nous a permis de collecter les informations sur les liens d'URLs du site utiles à la suite de notre travail. Maintenant, nous allons explorer les pages de chaque annonce pour comprendre leur structure à partir du 1er bien de notre liste.  
 
+Récuperons de le titre d'une annonce.
+
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
 
 #Récupérer l'URL de la 1ère annonce
@@ -964,18 +987,20 @@ pageannonce1 %>% html_element(".display-6") %>% html_text2()
 
 
 ```
-
+Affichons la 1ère image de l'un des biens
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
 
 #Récupérer de l'URL de la 1ère image
 image_url <- pageannonce1  %>% 
            html_element("img") %>%  # Sélectionner tous les éléments 'img'
-  html_attr("src")
+           html_attr("src")
+image_url <-  url_absolute(image_url, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
 
 
 ```
 
+![resultat_du_code](`r image_url`)
 
 ## Scraping de la base de données de la Seine-Maritime 
 
@@ -1067,6 +1092,13 @@ extraire_loc <- function(page){
   return(element)
 }
 
+extraire_img <- function(page) { 
+  element <- page %>% html_element("img") %>%  # Sélectionner tous les éléments 'img'
+           html_attr("src")
+  element <- url_absolute( element, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
+  
+return(element)
+}
 
 ```
 
@@ -1092,6 +1124,7 @@ db_bien <- map_df(liste_de_liens  , ~{
            prix = case_when(!is.na(extr_att6(page))~ extr_att6(page), .default = extr_att5(page)),
            commune = extraire_commune(page), 
            departement = extraire_departement(page),
+          lien_img = extraire_img(page),
           latitude = extraire_loc(page)[1],
           longitude = extraire_loc(page)[2]
           )
@@ -1108,7 +1141,7 @@ db_bien <- db_bien %>% mutate(identifiant = row_number(), #ajout d'un identifian
                                    libcom = substr(commune, 1, nchar(commune) - 8), #enlever le code INSEE pour garder que le nom de commune
                                    code_insee = substr(commune, nchar(commune)-5, nchar(commune)-1) #enlever le nom de commune que le code insee
                                    ) %>%
-                            select(- commune )
+                            select(- commune ) #Supprimer le champs commune
 
 
 ```
@@ -1119,56 +1152,86 @@ db_bien <- db_bien %>% mutate(identifiant = row_number(), #ajout d'un identifian
 ### Présentation de la BD scrapée
 Notre base de données scrappées contient les 419 biens à vendre en Seine-Maritime avec les attributs suivants : 
 
-- `lien` = l'URL pour accèder en ligne au bien
+- `lien`, l'URL pour accèder en ligne au bien
 
-- `titrecourt`= le titre court de l'annonce
+- `titrecourt`, le titre court de l'annonce
 
-- `titrelong`= le titre long de l'annonce
+- `titrelong`, le titre long de l'annonce
 
-- `description` = la description complète de l'annonce
+- `description`, la description complète de l'annonce
 
-- `type` = le type de bien (maison ou appartement)
+- `type`, le type de bien (maison ou appartement)
 
-- `nb_chambres`= le nombre de chambres
+- `nb_chambres`, le nombre de chambres
 
-- `nb_sb` = le nombre de salles de bain 
+- `nb_sb`, le nombre de salles de bain 
 
-- `surface_h` = la surface habitable (en m2)
+- `surface_h`, la surface habitable (en m2)
 
-- `surface_j` = la surface de jardin (en m2)
+- `surface_j`, la surface de jardin (en m2)
 
-- `prix` = le prix (en €)
+- `prix`, le prix (en €)
 
-- `departement`= le département dans lequel le bien se situe
+- `departement`, le département dans lequel le bien se situe
 
-- `latitude` = la latitude
+- `lien_img`, l'URL de la 1ère image de l'annonce
 
-- `longitude` = la longitude
+- `latitude`, la latitude
 
-- `identifiant`= un identifiant unique
+- `longitude`, la longitude
 
-- `libcom` = le nom de la commune 
+- `identifiant`, un identifiant unique
 
-- `code_insee` = le code insee
+- `libcom`, le nom de la commune 
 
+- `code_insee`, le code insee
+
+```{r echo=FALSE}
+
+datatable(db_bien, options = list(columnDefs = list(list(
+  targets = c(2,3,4), # Index de la colonne avec le champ long
+  render = JS(
+    #Tool pour explorer les attributs raccourcis au survol de la souris
+    "function(data, type, row, meta) {",
+    "  if (type === 'display') {",
+    "    return data.length < 15 ? data : ",
+    "      '<span title=\"' + data + '\">' + data.substr(0, 15) + '...</span>';",
+    "  }",
+    "  return data;",
+    "}"
+  )
+))))
+
+```
 ### Répartition par type
+
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
 
 ggplot(db_bien) +
  aes(x = type) +
- geom_bar(fill = "#112446") +
- theme_minimal()
-
+ geom_bar(fill = "#4682B4") +
+ labs(y = "Nombre de biens", title = "Répartition du nombre de biens selon le type") +
+ coord_flip() +
+ theme_gray() +
+ theme(plot.title = element_text(size = 14L, face = "bold"))
 
 
 ```
+
 ### Distribution par type/prix
+
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
 
 ggplot(db_bien) +
  aes(x = type, y = prix) +
- geom_boxplot(fill = "#112446") +
- theme_minimal()
+ geom_boxplot(fill = "#4682B4") +
+ geom_jitter() +
+ labs(y = "Prix des biens", 
+ title = "Répartition selon le prix des biens") +
+ theme_gray() +
+ theme(plot.title = element_text(size = 14L, 
+ face = "bold"))
+
 
 
 
@@ -1179,9 +1242,15 @@ ggplot(db_bien) +
   
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
 ggplot(db_bien) +
-  aes(x = type, y = surf_h) +
-  geom_boxplot(fill = "#112446") +
-  theme_minimal()
+ aes(x = type, y = surf_h, color=type) +
+ geom_boxplot() +
+ geom_jitter() +
+ labs(y = "Surface en m2", 
+ title = "Répartition selon le prix des biens") +
+ theme_gray() +
+ theme(plot.title = element_text(size = 14L, 
+ face = "bold"))
+
 
 ```
 
@@ -1211,8 +1280,22 @@ wordcloud(corpus, scale=c(3,0.5), max.words=50, random.order=FALSE, colors=brewe
 # Créer la carte Leaflet
 carte <- leaflet(db_bien) %>% 
   addTiles() %>%
-  addCircleMarkers(lng = ~longitude, lat = ~latitude, popup = ~titrecourt,
-                   label = ~identifiant, radius = 5, color = ~ifelse(type == "Appartement", "blue", "green"), fillOpacity = 0.8)
+  addCircleMarkers(lng = ~longitude, 
+                   lat = ~latitude, 
+                   popup = ~paste("<strong>", titrecourt, "</strong>", 
+                                  "<br><img src='",lien_img,"' style='width:200px;height:200px;'>",
+                                  "<br><strong>Type :</strong>", type, 
+                                  "<br><strong>Surface habitable :</strong>",surf_h,"m²",
+                                  "<br><strong>Nombre de chambres :</strong>",nb_chambres,                                   "</strong>", 
+                                  "<br><strong>Nombre de salles de bains :</strong>",                                       nb_sb,"</strong>",
+                                  "<br><strong>Prix :</strong>",prix,"€"
+                                  ),
+                   label = ~titrecourt, 
+                   radius = 1, 
+                   color = ~ifelse(type == "Appartement", "#0C3762", "#F0AA0C"),
+                   fillOpacity = 0.8)
+
+#Afficher la carte
 carte
 
 
