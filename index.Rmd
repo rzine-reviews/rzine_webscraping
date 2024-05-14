@@ -53,12 +53,16 @@ Le *web scraping*, ou extraction de données sur le web, est une technique qui c
 
 En sciences humaines et sociales, le *web scraping* peut être utilisé pour collecter des données pertinentes sur des sites web, forums, blogs, des réseaux sociaux, ou autres sources en ligne. Cette méthode peut être particulièrement utile pour analyser des tendances, des opinions, des dynamiques, ou tout simplement pour constituer une base de données à partir de plusieurs sources web. L'utilisation de R pour le web scraping permet d'automatiser ces processus et d'analyser les données extraites de manière efficace.
 
-Le *Web scraping* permet d'extraire des informations spécifiques d'une page web en analysant sa structure HTML et en extrayant uniquement les éléments pertinents. Cette pratique demande ainsi quelques connaissances techniques en matière de web, de langague de balisage HTML et de langage CSS, qui permettent respectivement de structurer une page web et de définir l'apparence et la mise en forme des différents éléments du document.
+Le *Web scraping* permet d'extraire des informations spécifiques d'une page web en analysant sa structure HTML et en extrayant uniquement les éléments pertinents. Cette pratique demande ainsi quelques connaissances techniques en matière de web, de langage de balisage HTML et de langage CSS, qui permettent respectivement de structurer une page web et de définir l'apparence et la mise en forme des différents éléments du document.
 
 Au delà de présenter le web scraping avec R, cet article aborde dans un premier temps les connaisances indispensables à la mise en place d'une collecte de données automatisée.
 
-Le *Web scraping* regroupe différentes techniques plus ou moins complexes. Cet article, qui est une inititation à la pratique de la collecte automatique de données présente le cas d'utilisation le plus simple. Pour aller plus loin et se former à des techniques plus avancées, vous pouvez consulter ce support de formation plus détaillé : [https://webscraping.gitpages.huma-num.fr/website/](https://webscraping.gitpages.huma-num.fr/website/){target="_blank"}
+Le *Web scraping* regroupe différentes techniques plus ou moins complexes. Cet article, qui est une inititation à la pratique de la collecte automatique de données présente le cas d'utilisation le plus simple. Pour aller plus loin et se former à des techniques plus avancées, vous pouvez consulter ce support de formation plus détaillé :
 
+
+<center>
+[**https://webscraping.gitpages.huma-num.fr/website/**](https://webscraping.gitpages.huma-num.fr/website/){target="_blank"}
+</center>
 
 
 \
@@ -108,7 +112,7 @@ Chaque balise est entourée des symboles **`<`** et **`>`** et peut contenir des
 - **`<!DOCTYPE html>`** : En début du document, indique au navigateur qu’il s’agit d’une page HTML5^[HTML5 (HyperText Markup Language 5) est la dernière révision majeure du HTML (format de données conçu pour représenter les pages web). Cette version a été finalisée le 28 octobre 2014. HTML5 spécifie deux syntaxes d'un modèle abstrait défini en termes de DOM : HTML5 et XHTML5.].
 - **`<html>`** : Englobe tout le contenu de la page HTML. Définit le début et la fin du document HTML.
 - **`<head>`** : Contient les métadonnées de la page, des liens vers des fichiers annexes (CSS, javascript…), etc.
-- **`<title>`** : Pour définir le titre de la page qui apparaîtra dans la barre de titre du navigateur.
+- **`<title>`** : Définit le titre de la page qui apparaîtra dans la barre de titre du navigateur.
 - **`<body>`** : Contient tout le contenu visible de la page, tel que le texte, les images, les liens, les tableaux, etc.
 
 
@@ -158,12 +162,11 @@ Les différentes balises permettent ainsi de structurer, hierarchiser et organis
 
 </div>  
   
-  
 </body>
 ```
 
 
-Voici le rendu graphique dans un naviguateur web du code HTMl ci-dessus  :
+Voici le rendu graphique du code HTMl ci-dessus dans un naviguateur web :
 
 ![](figures/para_html.png)
 
@@ -171,14 +174,14 @@ Voici le rendu graphique dans un naviguateur web du code HTMl ci-dessus  :
 
 ### Les attributs
 
-Ces balises hiérarchisées et potentiellement regroupées, peuvent être renseignées d'attributs qui permettent de spécifier des informations supplémentaires et jouer sur leur mise en forme.
-Exemple d'attributs :      
+Ces balises hiérarchisées et potentiellement regroupées, peuvent être renseignées d'attributs qui permettent de spécifier des informations supplémentaires et jouer sur leur mise en forme. Par exemple :
+
 - **`id`** : identifiants,    
 - **`class`** : classes,    
 - **`href`** : liens,    
 - etc.    
 
-Ces attributs sont à spécifier dans les balises d'ouverture :
+Ces attributs sont à spécifier dans les balises ouvrantes :
 
 ``` {html, eval = FALSE, class.source='bg-info'}
 <body>
@@ -202,7 +205,7 @@ Ces attributs sont à spécifier dans les balises d'ouverture :
 
 L'organisation segmentée du contenu via les balises **`div`** ou **`span`** ainsi que les différents attributs spécifiés permettent la mise en forme et le paramétrage des éléments. Les attributs des balises peuvent être associés à une mise en forme (couleur, taille, position, etc.) à l'aide du langage CSS (cf. [partie suivante](#le-langage-css)). Mais **il s'agit également d'éléments cruciaux pour la collecte automatisée de données sur le web**, car il permettent de cibler précisément des éléments. 
 
-Dans l'exemple ci-dessus, il est ainsi possible de récupérer toutes les URLs (**U**niform **R**esource **L**ocator) des articles en ciblant le contenu de tous les attributs **`href`** des balises **`<a>`** situés dans les **`<div>`** ayant pour identifiant "***Liste_ref***".
+Dans l'exemple ci-dessus, il est ainsi possible de récupérer toutes les URLs (**U**niform **R**esource **L**ocator) des articles en ciblant le contenu de tous les attributs **`href`** des balises **`<a>`** situés dans les **`<div>`** ayant pour identifiant "***Liste_ref***"...
 
 
 \
@@ -276,7 +279,7 @@ text-align:center;
 :::
 ::::
 
-À chaque fois, le rendu graphique dans un naviguateur web sera le suivant :
+Dans les trois cas, le rendu graphique dans un naviguateur web sera le suivant :
 
 ![](figures/h1.png){fig-align="center"}
 
@@ -284,13 +287,11 @@ text-align:center;
 
 ### Les sélecteurs CSS simples
 
-
 <div class="alert alert-danger">**Bien qu'une connaissance approfondie du CSS ne soit pas nécessaire le scraping, il est important de connaître les sélecteurs CSS.** **Leur utilisation est précieuse pour cibler des données de manière détaillée et ainsi optimiser la collecte.**</div>
 
 Plusieurs sélecteurs CSS permettent de cibler et styliser les différentes balises HTML :
 
-
-**1. Les sélecteurs d’éléments** : permet de cibler tous les éléments d’un même type.
+**1. Les sélecteurs d’éléments** permettent de cibler tous les éléments d’un même type.
 
 :::: {style="display: flex;"}
 ::: {.column width="49%"}
@@ -313,7 +314,7 @@ h2 { font-size: 20px; }
 
 \
 
-**2. Les sélecteurs d'identifiants** : permet de cibler un élément spécifique par son identifiant (**`id`**).
+**2. Les sélecteurs d'identifiants** permettent de cibler un élément spécifique par son identifiant (**`id`**).
 
 :::: {style="display: flex;"}
 ::: {.column width="49%"}
@@ -336,7 +337,7 @@ h2 { font-size: 20px; }
 
 \
 
-**3. Les sélecteurs de classes** : permet de cibler les éléments ayant une classe spécifique (**`class`**).
+**3. Les sélecteurs de classes** permettent de cibler les éléments ayant une classe spécifique (**`class`**).
 
 :::: {style="display: flex;"}
 ::: {.column width="49%"}
@@ -359,7 +360,7 @@ h2 { font-size: 20px; }
 
 \
 
-**4. Les sélecteurs d'attributs** : cible les éléments ayant un attribut spécifique. Exemple : l'attribut `href` (lien cliquable)\
+**4. Les sélecteurs d'attributs** permettent de cibler les éléments ayant un attribut spécifique. Exemple : l'attribut `href` (lien cliquable)\
 
 :::: {style="display: flex;"}
 ::: {.column width="49%"}
@@ -393,7 +394,7 @@ a[href="https://example.org"] { color: purple;}
 
 Le CSS met également à disposition des sélecteurs complexes et combinateurs que l'on peut utiliser pour cibler des contenus de manière très précise. Quelques exemples :
 
-**A. Les sélecteurs descendants** : cible les éléments qui sont descendants d'un autre élément.
+**A. Les sélecteurs descendants** ciblent les éléments, descendants d'un autre élément.
 
 :::: {style="display: flex;"}
 ::: {.column width="49%"}
@@ -424,7 +425,7 @@ Le CSS met également à disposition des sélecteurs complexes et combinateurs q
 
 \
 
-**B. Les sélecteurs de voisin direct** : cible les nœuds qui suivent immédiatement un élément
+**B. Les sélecteurs de voisin direct** ciblent les nœuds qui suivent immédiatement un élément.
 
 :::: {style="display: flex;"}
 ::: {.column width="49%"}
@@ -523,11 +524,9 @@ text-align:center;
 
 :::
 
-3. Ajoutez et/ou modifiez du contenu (balise) dans le code source du fichier page.html. Enregistrez le fichier réaffichez (ou raffraichissez avec la touche `F5`) la page HTML dans le naviguateur pour apercevoir la nouvelle mise en page. 
+3. Ajoutez et/ou modifiez du contenu (balise) dans le code source du fichier page.html. Enregistrez le fichier et réaffichez (ou raffraichissez avec la touche `F5`) la page HTML dans le naviguateur pour apprécier la nouvelle mise en page. 
 
-4. Ajoutez et/ou modifiez du contenu dans le code source du fichier style.css. Enregistrez le fichier réaffichez la page HTML (ou raffraichissez la avec la touche `F5`) dans le naviguateur pour apercevoir la nouvelle mise en page.
-
-
+4. Ajoutez et/ou modifiez du contenu dans le code source du fichier style.css. Enregistrez le fichier et réaffichez la page HTML (ou raffraichissez la avec la touche `F5`) dans le naviguateur pour apprécier la nouvelle mise en page.
 
 \
 
@@ -569,7 +568,7 @@ L'inspecteur s'ouvre et en utilisant l'outil de sélection (entouré en <font st
 
 \
 
-Vous pouvez déplier le code source pour l'explorer en profondeur. Cet article est une page HTML dans laquelle l'ensemble de la partie "2. Bases techniques" semblent contenu dans une `div` ayant pour identifiant `"bases-techniques"` :
+Vous pouvez déplier le code source pour l'explorer en profondeur. Cet article est une page HTML dans laquelle l'ensemble de la partie "*2. Bases techniques*" semblent contenu dans une `div` ayant pour identifiant `"bases-techniques"` :
 
 ![](figures/code_inspect.png)
 
@@ -580,13 +579,12 @@ En réalisant un clic-droit sur un élément, vous pouvez récupérer plusieurs 
 ![](figures/copier_select.png)
 
 
-
 \
 
-Ainsi, vous pouvez récupérer aisément : 
+Il est ainsi possible de récupérer aisément : 
 
-- l'intérieur du HTML (c'est-à-dire le contenu de la balise sélectionnée : l'intérieur du HTML de `<div id="abc" class="foo"><strong>TEXTE</strong></div>` est  `<strong>TEXTE</strong>`)
-- l'exterieur du HTML (c'est-à-dire l'ensemble de la balise sélectionnée : l'extérieur du HTML de `<div id="abc" class="foo"><strong>TEXTE</strong></div>` est  `<div id="abc" class="foo"><strong>TEXTE</strong></div>`)
+- l'**intérieur du HTML** : contenu de la balise sélectionnée. Par exemple, l'intérieur du HTML de `<div id="abc" class="foo"><strong>TEXTE</strong></div>` est  `<strong>TEXTE</strong>`)
+- l'**exterieur du HTML** : ensemble de la balise sélectionnée. Par exemple, l'extérieur du HTML de `<div id="abc" class="foo"><strong>TEXTE</strong></div>` est  `<div id="abc" class="foo"><strong>TEXTE</strong></div>`)
 - **Le sélecteur CSS** (ex : `#bases-techniques`)
 - **Le chemin CSS** (ex : `html body.preload div#content div#main div#bases-techniques.section.level1`
 - **Le Xpath** (ex : `//*[@id="bases-techniques"]`)
@@ -595,32 +593,33 @@ Ainsi, vous pouvez récupérer aisément :
 XPath est un acronyme qui signifie "*XML Path Language*". Il s'agit d'un langage de requête utilisé pour naviguer et interroger des documents XML ou HTML. XPath est ainsi utilisé pour sélectionner des éléments spécifiques d'une page web.</div>
 
 Ces trois derniers éléments pourront vous être précieux pour automatiser votre collecte.
-Par exemple, le sélecteur CSS `#bases-techniques h2` permet de cibler tous les titres de niveau 2 présents dans l'élément `div` ayant pour identifiant "bases-techniques".
+Par exemple, le sélecteur CSS `#bases-techniques h2` permet de cibler tous les titres de niveau 2 présents dans l'élément `div` ayant pour identifiant "*bases-techniques*".
 
 
 ## Les appels réseaux d'une page web {#pagenetwork}
 
-Quand on souhaite réaliser une collecte d'éléments redondants sur une page web, par exemple sur des sites présentant de nombreux éléments structurés de la même manière (pages de sites d'annonce, catalogues de médias, etc.), il peut être utile de chercher à comprendre le fonctionnement interne de la page web.
+Quand on souhaite réaliser une collecte d'éléments redondants (structurés de la même manière) sur une page web (ex: sites d'annonce, catalogues de médias, etc.), il peut être utile de chercher à comprendre le fonctionnement interne de la page.
 
-Pour cela, une méthode préalable consiste à observer ce qui se passe quand une page web est chargée, de manière à essayer de repérer des éléments structurés (données *json* par exemple) qui seraient chargées ou requêtées lors de l'interrogation de la page.
+Pour cela, il est possible d'observer ce qui se passe lorsqu'une page web est chargée, de manière à essayer de repérer des éléments structurés (données *json* par exemple) qui seraient chargées ou requêtées lors de l'interrogation de la page. Il s'agit donc d'observer les *appels* qu'une page émet lors de son chargement, pour par récupérer des images, des polices, des bibliothèques de mise en page (CSS, javascript), etc...
 
-Il s'agit donc d'observer les *appels* qu'une page émet lors de son chargement, par exemple pour récupérer des images, des polices, des bibliothèques de mise en page (CSS, javascript, etc.).
-
-On peut réaliser cette opération, dans l'inspecteur, en observant l'onglet "Réseaux" (ou *Network* dans Chrome) après avoir actualisé la page :
+On peut réaliser cette opération dans l'inspecteur de code, dans l'onglet "*Réseaux*" (ou *Network* dans Chrome) après avoir actualisé la page :
 
 <video width="100%" controls>
 <source src="figures/Screencast_Inspecteur_Network_crop.webm" type="video/webm">
 </video>
 
-Dans cet exemple d'inspection de cette même page, on constate que l'ouverture de la page de cet article déclenche :  
-1. L'ouverture de la page à proprement parler (format  `html` dans la colonne `Type`)  
-2. Le chargement de la bibliothèque de fonctions MathJax.js (format `js`) qui permettent de mettre en forme des équations dans des pages HTML  
+\
+
+Dans L'exemple ci-dessus, on constate que l'ouverture de la page de cet article déclenche :  
+
+1. L'ouverture de la page à proprement parler (format  `html` dans la colonne `Type`).    
+2. Le chargement de la bibliothèque de fonctions MathJax.js (`javascript`) qui permettent de mettre en forme des équations dans des pages HTML.  
 3. La tentative de chargement de la "favicon" du site, c'est-à-dire de l'icône qui devrait s'afficher dans le titre de l'onglet. Comme cette icône n'existe pas, la page essaie de la charger depuis d'autres emplacements (3 derniers appels), sans succès. 
 
 
 
 <div class="alert alert-danger">
-<b>La première étape du webscraping consiste ainsi à analyser le code source de la page et du site web ciblé, afin de trouver le chemin ou l'emplacement exacte des informations que l'on souhaite récupérer. Plus un site présente du code HTML correctement structuré et optimisé, plus la collecte automatisé de données sera facilitée.</b></div>
+<b>La première étape du webscraping consiste ainsi à analyser le code source de la page et du site web ciblé, afin de trouver le chemin ou l'emplacement exacte des informations que l'on souhaite récupérer. Plus le code HTML d'un site est structuré et optimisé, plus la collecte automatisé sera facilitée.</b></div>
 
 
 \
@@ -634,7 +633,7 @@ Pour cette introduction au web scraping avec R, nous proposons une mise en prati
 
 <center>
 
-![URL : https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html](figures/ScrapImmob_Visuel.png)
+![Source : https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html](figures/ScrapImmob_Visuel.png)
 </center>
 
 \
@@ -654,7 +653,7 @@ Une exploration rapide du site nous permet d'observer que chaque annonce contien
 
 <center>
 
-![](figures/ScrapImmob_annonce.png)
+![Source : https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/annonces/IDF_0078.html](figures/ScrapImmob_annonce.png)
 
 </center>
 
@@ -666,7 +665,7 @@ Pour automatiser la collecte de ces informations, nous devons inspecter le code 
 
 ## Exploration du code source
 
-Pour scrapper, il est important de comprendre comment le site web est construit pour être capacité de cibler les bons élements lors du scrapping. Après avoir navigué sur [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html) de manière classique, nous pouvons donc commencer à explorer son code source. Pour cela, nous allons utiliser l'inspecteur de code pour comprendre comment les élément sont organisés dans la page et détécter les noms de balises, de classes, d'identifiants et les styles associés aux différents éléments.. 
+Pour *scrapper*, il est important de comprendre comment le site web est construit pour être capacité de cibler les bons élements. Après avoir navigué sur [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html) de manière classique, nous pouvons commencer à explorer son code source. Pour cela, nous allons utiliser l'inspecteur de code pour comprendre comment les éléments sont organisés dans la page et détécter les noms de balises, de classes, d'identifiants et les styles associés aux différents éléments.. 
 
 ![](figures/code_inspect_scapimmob.png)
 
@@ -676,7 +675,7 @@ Pour scrapper, il est important de comprendre comment le site web est construit 
 
 Avant de se lancer dans une collecte automatisée, **il est primordiale de bien définir ses objectifs et de déterminer précisément quelles informations on souhaite récupérer**. L'exploration du code source nous permettra ensuite d'estimer le niveau de difficulté et de choisir une méthode optimisée.
 
-**Pour cette introduction, notre objectif est de récupérer une partie de la base de données (un département) des biens mis en vente sur [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), incluant l'ensemble des caractèristiques de description. La récupération des coordonnées géographiques affichées dans la carte intéractive est également souhaitée.**
+Pour cette introduction, **notre objectif est de récupérer une partie de la base de données (un département) des biens mis en vente sur [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), incluant l'ensemble des caractèristiques de description**. La récupération des coordonnées géographiques affichées dans la carte intéractive est également souhaitée.
 
 Pour répondre a cet objectif, le processus de collecte va se dérouler en plusieurs étapes :
 
@@ -688,7 +687,7 @@ Pour répondre a cet objectif, le processus de collecte va se dérouler en plusi
 
 4. **Comprendre la structure des pages d'annonces** et localiser les informations à récupérer dans le code source.
 
-5. **Collecter l'ensemble des caractèristiques** de chaque bien à partir de la liste des URL récupérées.
+5. **Collecter l'ensemble des caractèristiques de chaque bien**  à partir de la liste des URL récupérées.
 
 6. **Collecter les coordonnées géographiques** affichées dans la carte interactive pour tous les biens ciblés. 
 
@@ -700,18 +699,18 @@ Pour répondre a cet objectif, le processus de collecte va se dérouler en plusi
 
 Comme pour toutes les opérations et manipulations de données, plusieurs solutions existent pour le scraping avec le langage R. Si plusieurs fonctions R-base peuvent être utilisées, il existe surtout deux packages R de référence en matière de collecte automatisée :
 
-- [**`rvest`**](https://rvest.tidyverse.org/) : développé par Hadley Wickham (Rstudio), ce package facilite le scraping en utilisant les sélecteurs CSS et XPath pour extraire les données formatées en HTML ou en XML. Ce package s'insprire de bibliothèque python déjà existantes : [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/) et [RoboBrowser](https://robobrowser.readthedocs.io/en/latest/readme.html). **`rvest`** fait partie de l'écosystème **`tidyverse`**, les fonctions peuvent s'utiliser avec le(s) pipe(s). Ce package est simple d'utilisation mais également limité en matière de fonctionnalité. Il ne permet pas de simuler des actions d'un utilisateur (clic, scroll...). On l'utilisera essentiellement pour l'extraction de données de sites web statiques bien structurée.
+- [**`rvest`**](https://rvest.tidyverse.org/) : développé par Hadley Wickham (Rstudio), ce package facilite le scraping en utilisant les sélecteurs CSS et XPath pour extraire les données formatées en HTML ou en XML. Ce package s'insprire de bibliothèques python déjà existantes : [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/) et [RoboBrowser](https://robobrowser.readthedocs.io/en/latest/readme.html). **`rvest`** fait partie de l'écosystème **`tidyverse`**, les fonctions peuvent s'utiliser avec le(s) pipe(s). Ce package est simple d'utilisation mais également limité en matière de fonctionnalité. Il ne permet pas de simuler des actions d'un utilisateur (clic, scroll...). On l'utilisera essentiellement pour l'extraction de données de sites web statiques bien structurée.
 
-- [**`Rselenium`**](https://cran.r-project.org/web/packages/RSelenium/index.html) : ce package est ce qu l'on appelle un *bindings de langage* ("liaison") qui permet d'utiliser les fonctionnalités de **`Selenium 2.0 WebDriver`**. Ce framework web permet d'automatiser les tests d’applications Web en simulant des utilisateurs. **`Selenium 2.0 WebDriver`** peut aussi être utilisé pour la collecte automatisée de données sur des sites web dynamiques, nécessitant une interaction utilisateur (exécution de code javascript généré par clic, survol, scroll...)
+- [**`Rselenium`**](https://cran.r-project.org/web/packages/RSelenium/index.html) : ce package est ce qu l'on appelle un *binding* de langage ("liaison") qui permet d'utiliser les fonctionnalités de **`Selenium 2.0 WebDriver`**. Ce framework web permet d'automatiser les tests d’applications Web en simulant des utilisateurs. **`Selenium 2.0 WebDriver`** peut aussi être utilisé pour la collecte automatisée de données sur des sites web dynamiques, nécessitant une interaction utilisateur (exécution de code javascript généré par clic, survol, scroll...).
 
 
-Le site web [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html) est un site web statique. Il n'existe pas de base de données, toutes les informations affichées sont présentes dans le code source de la page. Il n'est donc pas necessaire de simuler le comportement d'un utilisateur pour accéder aux données ciblées. **Dans ce cas, il sera donc plus simple et préférable d'utiliser le package [**`rvest`**](https://rvest.tidyverse.org/).**
+Le site web [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html) est un site web statique. Il n'existe pas de base de données, toutes les informations affichées sont présentes dans le code source de la page. Il n'est donc pas necessaire de simuler le comportement d'un utilisateur pour accéder aux données ciblées. **Dans ce cas, il sera donc plus simple d'utiliser le package [**`rvest`**](https://rvest.tidyverse.org/)**.
 
 \
 
 ## Le package `rvest`
 ### Installation
-Le package **`rvest`** permet de naviguer à travers la structure HTML des pages web, extraire du texte, des tableaux, des images et d'autres éléments, et les convertir en données structurées directement exploitables dans R. 
+Le package [**`rvest`**](https://rvest.tidyverse.org/)** permet de naviguer à travers la structure HTML des pages web, extraire du texte, des tableaux, des images et d'autres éléments, et les convertir en données structurées directement exploitables dans R. 
 
 Pour le besoin de l'exercice, nous allons aussi utiliser les packages : 
 
@@ -772,19 +771,20 @@ library(DT)
 ```
 
 
+
 ### Mode de fonctionnement
 
-Commençons par explorer les principales fonctions du package **`rvest`** à partir d'un extrait du code source du site web [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html).
+Commençons par explorer les principales fonctions du package [**`rvest`**](https://rvest.tidyverse.org/)** à partir d'un extrait du code source du site web [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html).
 Pour cela, nous pouvons utiliser la fonction **`minimal_html()`** qui permet de créer un contenu HTML (XML) requêtable à partir d'un contenu HTML fourni dans une chaîne de caractère.
 
 ``` {r message=FALSE, warning=FALSE}
-#Exemple de texte html extrait du site ScrapImmob 
+# Extrait de code source html du site ScrapImmob 
 extrait_html <- "<div class='card-body'>
                       <a href='annonces/IDF_0078.html' class='stretched-link'></a>
                       <p class='card-text'>Maison charmante de 96 m² avec grand jardin à Châtenay-Malabry</p>
                   </div>"
 
-#Interprétation du texte comme du html grâce à la fonction minimal_html
+# Interprétation du "texte" comme du code source html
 basic_html <- minimal_html(extrait_html)
 
 
@@ -809,7 +809,7 @@ basic_html %>% html_elements("a") %>% html_attr("href")
 - Les fonctions **`html_text()`** ou **`html_text2()`** permettent d'extraire uniquement le texte d'un élément.
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
-# Récupérer le contenu textuel d'une balise
+# Récupérer le contenu textuel des balises <p>
 basic_html %>% html_elements("p") %>% html_text2()
 ```
 
@@ -818,69 +818,80 @@ basic_html %>% html_elements("p") %>% html_text2()
 
 ## Le système d'URL 
 
-- Présentation système URL 
-- choix du sous corpus à scrapper.
--> détécter l'URL de la page de sous séléction dans le code source
-
-
-
-### Système d'URLs pour filtrer les biens
-
+### Filtrage des biens & ciblage d'URL
 
 :::: {style="display: flex;"}
-::: {.column width="68%"}
+::: {.column width="28%"}
 ::: {style="text-align: left;"}
 
-En explorant la 1ère page du site web, on observe, à gauche, un ensemble de boutons permettant de filtrer par département et par type de biens. Lorsque l'on clique sur l'un de ces élements, on remarque que l'URL principal change dans la barre d'URL : 
-
-- L'URL principal sans filtre appliqué est  https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/. C'est L'URL que l'on a utilisé pour récupérer les biens sur la 1ère page à l'étape précédente
-
-- En cliquant sur l'un des boutons, l'URL change. En cliquant sur le bouton "Essonne (91) - Appartement" par exemple, l'URL devient https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/91_appartement/index.html et les biens affichés sur la page ont changé. 
-
-
+ ![](figures/menu_filtre.png)
 ::: 
 ::: 
 ::: {.column width="2%"}
 :::
   
-::: {.column width="30%"}
-::: {style="text-align: center;"}
-![](figures/menu_filtre.png)
-:::
+::: {.column width="70%"}
+
+Sur la page d'acceuil du site [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), un ensemble de boutons situé à gauche permet de filtrer les biens par département et par type de biens. **Lorsque l'on clique sur l'un de ces bouttons, les biens affichés sur la page sont filtrés en fonction du choix réalisé** et l'URL de la page est modifié de la manière suivante :
+
+URL principale :       
+[https://analytics.huma-num.fr/Robin.Cura/**ScrapImmob/index.html**]{style="font-size: 90%;"}    
+
+URL du filtre "Essonne (91) - Appartement" :  
+[https://analytics.huma-num.fr/Robin.Cura/**ScrapImmob/91_appartement/index.html**]{style="font-size: 90%;"}     
+
+URL du filtre "Val-d'Oise (95) - Maison" :          
+[https://analytics.huma-num.fr/Robin.Cura/**ScrapImmob/95_maison/index.html**]{style="font-size: 90%;"}  
+
 ::: 
 ::::
 
 
-Pour rappel, notre objectif est de webscapper uniquement les biens (maisons et appartemments) d'un seul département. Ces filtres vont donc être nécessaire pour cibler les bons URLS à scrapper. Pour la suite de l'exercice, nous allons collecter les annonces d'appartements ou maisons de la Seine-Maritime via les deux URLS suivants : 
 
-- Pour les maisons : https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/93_maison/index.html
+Notre objectif étant de collecter uniquement des données sur les biens (maisons et appartemments) de la Seine-Maritime, nous allons cibler bnotre collecte sur les deux URLs suivantes :
 
-- Pour les appartements : https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/index.html 
+- Maisons : https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/**76_maison/index.html**   
+- Appartements : https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/**76_appartement/index.html**
 
-Nous récupérons le code de la première page des appartements en Seine-Martime et de celle des maisons à l'aide de la fonction `read_html`. Cette fonction effectue une requête HTTP, puis en analyse le HTML reçu à l'aide du package xml2.
+Commençons par récupérer le code source de ces deux pages à l'aide de la fonction `read_html`. Cette fonction effectue une requête HTTP, puis en analyse le code HTML récupéré à l'aide du package `xml2`.
 
-``` {r message=FALSE, warning=FALSE}
+``` {r eval = TRUE,message=FALSE, warning=FALSE}
+url_appart <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/"
+url_maison <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/"
 
-# Stockage des URLs
-urlannonceappart <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/"
-urlannoncemaison <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/"
+code_appart <- read_html(url_appart)
+code_maison <- read_html(url_maison)
 
-#Lecture des URLs
-pageappart <- read_html(urlannonceappart)
-pagemaison <- read_html(urlannoncemaison)
-
+# Affichage de l'objet code_appart
+code_appart
 ```
 
-### Récupération des URLs des biens sur la 1ère page
+\
 
-Maintenant, nous allons nous exercer sur la [page des appartements du site ScrapImmob](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/index.html ). Notre 1ère objectif est de récupérer les URLs des biens immobiliers de cette première page de ScrapImmob. 
+### Collecte des URLs de chaque annonce
+
+A partir de ces deux URLs, nous allons pouvoir récupérer la liste des URLs de toutes les pages des annonces affichées sur ces pages. Cela nous permettra dans un second temps, de collecter l'ensemble des informations de description de chaque bien en vente. Ces URLs sont stockées dans une balise `<a>` de la classe : `*stretched-link*` :
+
+![](figures/detect_URL.png)
+\
+
+Pour récuperer la liste de ces URLs, nous devons donc cibler les valeurs de l'attribut `href` dans toutes les balises de classe `*stretched-link*` :
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
-#Récupérer les url des biens immobiliers de la 1ère page
-pageappart %>% html_elements("div:nth-child(1) > div:nth-child(3) > a:nth-child(1)") %>% html_attr("href")
+code_appart %>% html_elements(".stretched-link") %>%  html_attr("href")
 ```
 
-### Définir le nombre de page à scrapper
+Nous pouvons faire la même chose pour les annonces de vente de maison en Seine-Maritime :
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+code_maison %>% html_elements(".stretched-link") %>%  html_attr("href")
+```
+
+Cela permet uniquement de récupérer les URls des annonces affichées sur la première page. Pour collecter l'ensemble des biens ciblés, nous devons comprendre comment fonctionne le système d'URL qui permet d'afficher les différentes pages...
+
+\
+
+### Nombre de page & ciblage d’URL
 
 Nous avons pu scrapper les URLs des biens sur la première page des appartements. Nous souhaitons reproduire la collecte d'URLs des biens sur l'ensemble des pages des appartements et des maisons de Seine-Maritime donc nous devons savoir combien de pages il y a. 
 
@@ -919,7 +930,7 @@ nbpage_maison <- 15
 
 Nous avons maintenant tous les élements donc nous avons besoin pour collecter les URLs des biens de la Seine-Maritime. 
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE}
+``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE}
 
 #Fonction pour récupérer les url des biens immobiliers 
 extraire_liens <- function(url) {
@@ -933,12 +944,12 @@ extraire_liens <- function(url) {
 liste_de_liens <- list()
 
 #Stocker les liens de la première page des appartements
-liens_page <- extraire_liens(urlannonceappart)
+liens_page <- extraire_liens(url_appart)
 liste_de_liens <- c(liste_de_liens, liens_page)
 
 #Boucle pour les appartements
 for (i in 2:nbpage_appart) {
-  url_page <- paste0(urlannonceappart, "page_", i,".html")
+  url_page <- paste0(url_appart, "page_", i,".html")
   liens_page <- extraire_liens(url_page)
   
   # Stocker les liens obtenus
@@ -946,12 +957,12 @@ for (i in 2:nbpage_appart) {
 }
 
 #Stocker les liens de la première page des maisons
-liens_page <- extraire_liens(urlannoncemaison)
+liens_page <- extraire_liens(url_maison)
 liste_de_liens <- c(liste_de_liens, liens_page)
 
 #Boucle pour les maisons
 for (i in 2:nbpage_maison) {
-  url_page <- paste0(urlannoncemaison, "page_", i,".html")
+  url_page <- paste0(url_maison, "page_", i,".html")
   liens_page <- extraire_liens(url_page)
   
   # Stocker les liens obtenus
@@ -1006,7 +1017,7 @@ image_url <-  url_absolute(image_url, "https://analytics.huma-num.fr/Robin.Cura/
 
 ### Fonctions nécessaires au scraping 
 Nous allons créer un ensemble de fonction qui nous permettent de scrapper les différents élements des annonces de la Seine-Maritime.
-``` {r echo= TRUE, message=FALSE, warning=FALSE}
+``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE}
 
 #Fonction d'extraction du titre court 
 extraire_titrec <- function(page) {
@@ -1107,7 +1118,7 @@ Appliquons maintenant les fonctions à la liste de biens pour constituer notre b
 
 
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE}
+``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE}
 #Scrapping de la base de données 
 db_bien <- map_df(liste_de_liens  , ~{
   paste(.)
