@@ -856,6 +856,7 @@ Notre objectif étant de collecter uniquement des données sur les biens (maison
 Commençons par récupérer le code source de ces deux pages à l'aide de la fonction `read_html`. Cette fonction effectue une requête HTTP, puis en analyse le code HTML récupéré à l'aide du package `xml2`.
 
 ``` {r eval = TRUE,message=FALSE, warning=FALSE}
+
 url_appart <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/"
 url_maison <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/"
 
@@ -939,22 +940,21 @@ Ainsi, il est simple de reconstituer la liste des URLs de pages ciblées :
 nbpage_appart <- 9
 nbpage_maison <- 15
 
-# Création de vecteurs avec l'URL de la première page
-list_url_appart <- paste0(url_appart, "index.html")
-list_url_maison <- paste0(url_maison, "index.html")
-
-# Affichage
-list_url_appart
 ```
 
 Nous utilisons ensuite une boucle pour reconstituer la liste des URLs à scrapper :
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
+
 # Récupération des URLs pour les biens de type "appartement" (76) 
-list_url_appart[2:nbpage_appart] <- paste0(url_appart, "page_", 2:nbpage_appart,".html")
+list_url_appart <- paste0(url_appart, "page_", 1:nbpage_appart,".html")
+# Remplacement de la première page qui s'appelle index
+list_url_appart[1] <- gsub(x = list_url_appart, pattern =  "page_1.html", replacement = "index.html")
+
 
 # Récupération des URLs pour les biens de type "maison" (76) 
-list_url_maison[2:nbpage_maison] <- paste0(url_maison, "page_", 2:nbpage_maison,".html")
+list_url_maison <- paste0(url_maison, "page_", 1:nbpage_maison,".html")
+list_url_maison[1] <- gsub(x = list_url_maison, pattern =  "page_1.html", replacement = "index.html")
 
 # Concaténation des deux vecteurs
 list_url <- c(list_url_appart, list_url_maison)
