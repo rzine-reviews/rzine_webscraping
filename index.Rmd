@@ -600,7 +600,7 @@ Par exemple, le sélecteur CSS `#bases-techniques h2` permet de cibler tous les 
 
 Quand on souhaite réaliser une collecte d'éléments redondants (structurés de la même manière) sur une page web (ex: sites d'annonce, catalogues de médias, etc.), il peut être utile de chercher à comprendre le fonctionnement interne de la page.
 
-Pour cela, il est possible d'observer ce qui se passe lorsqu'une page web est chargée, de manière à essayer de repérer des éléments structurés (données *json* par exemple) qui seraient chargées ou requêtées lors de l'interrogation de la page. Il s'agit donc d'observer les *appels* qu'une page émet lors de son chargement, pour par récupérer des images, des polices, des bibliothèques de mise en page (CSS, javascript), etc...
+Pour cela, il est possible d'observer ce qui se passe lorsqu'une page web est chargée, de manière à essayer de repérer des éléments structurés (données *json* par exemple) qui seraient chargées ou requêtées lors de l'interrogation de la page. Il s'agit donc d'observer les appels qu'une page émet lors de son chargement, pour par récupérer des images, des polices, des bibliothèques de mise en page (CSS, javascript), etc...
 
 On peut réaliser cette opération dans l'inspecteur de code, dans l'onglet "*Réseaux*" (ou *Network* dans Chrome) après avoir actualisé la page :
 
@@ -710,7 +710,7 @@ Le site web [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob
 
 ## Le package `rvest`
 ### Installation
-Le package [**`rvest`**](https://rvest.tidyverse.org/)** permet de naviguer à travers la structure HTML des pages web, extraire du texte, des tableaux, des images et d'autres éléments, et les convertir en données structurées directement exploitables dans R. 
+Le package [**`rvest`**](https://rvest.tidyverse.org/) permet de naviguer à travers la structure HTML des pages web, extraire du texte, des tableaux, des images et d'autres éléments, et les convertir en données structurées directement exploitables dans R. 
 
 Pour le besoin de l'exercice, nous allons aussi utiliser les packages : 
 
@@ -878,13 +878,13 @@ A partir de ces deux URLs, nous allons pouvoir récupérer la liste des URLs de 
 Pour récuperer la liste de ces URLs, nous devons donc cibler les valeurs de l'attribut `href` dans toutes les balises de classe `*stretched-link*` :
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
-code_appart %>% html_elements(".stretched-link") %>%  html_attr("href")
+code_appart %>% html_elements("a.stretched-link") %>%  html_attr("href")
 ```
 
 Nous pouvons faire la même chose pour les annonces de vente de maison en Seine-Maritime :
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
-code_maison %>% html_elements(".stretched-link") %>%  html_attr("href")
+code_maison %>% html_elements("a.stretched-link") %>%  html_attr("href")
 ```
 
 Cela permet uniquement de récupérer les URls des annonces affichées sur la première page. Pour collecter l'ensemble des biens ciblés, nous devons comprendre comment fonctionne le système d'URL qui permet d'afficher les différentes pages...
@@ -988,7 +988,7 @@ for (i in 1:length(list_url)){
   page <- read_html(list_url[i])
 
   # Récupération du lien dans les balises de la classe "stretched-link"
-  liens[i] <- page %>% html_elements(".stretched-link") %>%  html_attr("href")
+  liens[i] <- page %>% html_elements("a.stretched-link") %>%  html_attr("href")
 
 }
 
