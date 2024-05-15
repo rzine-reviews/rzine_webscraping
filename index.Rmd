@@ -33,7 +33,7 @@ link-citations: true
 
 ## Global options
 knitr::opts_chunk$set(echo=TRUE,
-        	            cache=FALSE,
+        	            cache=TRUE,
                       prompt=FALSE,
                       comment=NA,
                       message=FALSE,
@@ -530,7 +530,7 @@ text-align:center;
 
 \
 
-## Le code source d'une page web {#codesource}
+## Le code source d'une page {#codesource}
 
 La connaissance du HTML et du CSS vous permettra de comprendre et de naviguer dans le code source du page web. L’ensemble des navigateurs web modernes proposent des outils d’inspection du code source des pages web. 
 
@@ -596,7 +596,7 @@ Ces trois derniers éléments pourront vous être précieux pour automatiser vot
 Par exemple, le sélecteur CSS `#bases-techniques h2` permet de cibler tous les titres de niveau 2 présents dans l'élément `div` ayant pour identifiant "*bases-techniques*".
 
 
-## Les appels réseaux d'une page web {#pagenetwork}
+## Les appels réseaux d'une page {#pagenetwork}
 
 Quand on souhaite réaliser une collecte d'éléments redondants (structurés de la même manière) sur une page web (ex: sites d'annonce, catalogues de médias, etc.), il peut être utile de chercher à comprendre le fonctionnement interne de la page.
 
@@ -868,9 +868,9 @@ code_appart
 
 \
 
-### Collecte des URLs de chaque annonce
+### Collecte des URLs des pages d'annonce
 
-A partir de ces deux URLs, nous allons pouvoir récupérer la liste des URLs de toutes les pages des annonces affichées sur ces pages. Cela nous permettra dans un second temps, de collecter l'ensemble des informations de description de chaque bien en vente. Ces URLs sont stockées dans une balise `<a>` de la classe : `*stretched-link*` :
+A partir de ces deux URLs, nous allons pouvoir récupérer la liste des URLs de toutes les pages des annonces affichées sur ces pages. Cela nous permettra dans un second temps, de collecter l'ensemble des informations de description de chaque bien en vente. Ces URLs sont stockées dans une balise `<a>` de la classe `*stretched-link*` :
 
 ![](figures/detect_URL.png)
 \
@@ -891,20 +891,20 @@ Cela permet uniquement de récupérer les URls des annonces affichées sur la pr
 
 \
 
-### Nombre de page & ciblage d’URL
+### Nombre de page & liste d’URLs
 
-Nous avons pu scrapper les URLs des biens sur la première page des appartements. Nous souhaitons reproduire la collecte d'URLs des biens sur l'ensemble des pages des appartements et des maisons de Seine-Maritime donc nous devons savoir combien de pages il y a. 
+Nous avons pu collecter les URLs des biens affichés sur la première page. Pour reproduire la collecte d'URLs sur l'ensemble des pages des appartements et des maisons de Seine-Maritime, il est necéssaire de connaitre le nombre de page affichables et de comprendre le système d'URLs.
 
 
 
 :::: {style="display: flex;"}
 ::: {.column width="47%"}
 
-Sur la [première page des appartements](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/index.html), nous avons récupéré 18 URLs d'annonces sur les 156 disponibles. Sur les appartements il y a donc 9 pages à scrapper.
+<center><b>[Page appartements (76)](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/index.html)</b></center>
 
-::: {style="text-align: center;"}
 ![](figures/nb_annonces.png)
-::: 
+
+Dans cette section, il y a **156 biens en vente**, et chaque page en affiche jusqu'à 18. Il y a donc **9 pages des biens listés à collecter** (156 / 18 = 8.7).
 
 ::: 
 
@@ -912,23 +912,104 @@ Sur la [première page des appartements](https://analytics.huma-num.fr/Robin.Cur
 :::
   
 ::: {.column width="47%"}
-Sur la [première page des maisons](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/index.html), nous avons récupéré 18 URLs d'annonces sur les 263 disponibles. Sur les maisons, il y a donc 15 pages à scrapper. 
 
-::: {style="text-align: center;"}
+<center><b>[Page maisons (76)](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/index.html)</b></center>
 
 ![](figures/nb_annonces2.png)
-:::
+
+Dans cette section, il y a **263 biens en vente**, et chaque page en affiche jusqu'à 18. Il y a donc **15 pages des biens listés** à collecter (263 / 18 = 14.6).
+
 ::: 
 ::::
+
+
+Losrque l'on observe le comportement de l'URL à chauqe chargement d'une nouvelle page, il est facile de comprendre le système d'URLs utilisé par [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), exemple :
+
+**Page 1** = https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/**index.html**   
+**Page 2** = https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/**page_2.html**   
+**Page 3** = https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/**page_3.html**    
+...     
+**Page 9** = https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/**page_9.html**   
+
+
+Ainsi, il est simple de reconstituer la liste des URLs de pages ciblées :
+
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
-#Stocker le nombres de pages à scrapper
+# Nombres de pages à scrapper
 nbpage_appart <- 9
 nbpage_maison <- 15
+
+# Création de vecteurs avec l'URL de la première page
+list_url_appart <- paste0(url_appart, "index.html")
+list_url_maison <- paste0(url_maison, "index.html")
+
+# Affichage
+list_url_appart
 ```
 
-### Scraping des URLs de tous les biens immobiliers de Seine-Maritime
+Nous utilisons ensuite une boucle pour reconstituer la liste des URLs à scrapper :
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+# Récupération des URLs pour les biens de type "appartement" (76) 
+list_url_appart[2:nbpage_appart] <- paste0(url_appart, "page_", 2:nbpage_appart,".html")
+
+# Récupération des URLs pour les biens de type "maison" (76) 
+list_url_maison[2:nbpage_maison] <- paste0(url_maison, "page_", 2:nbpage_maison,".html")
+
+# Concaténation des deux vecteurs
+list_url <- c(list_url_appart, list_url_maison)
+
+# Affichage
+print(list_url)
+```
+
+\
+
+<div class="alert alert-danger"> <b>
+L'utilisation du package `rselenium` nous aurait permis de simuler un clic d'utilisateur sur le bouton "*page suivante*", et ainsi de collecter les informations de l'ensemble des pages sans se soucier du système d'URL. Cette étape n'aurait pas été nécéssaire.</b></div>
+
+\
+
+
+### Scraping des URLs de tous les biens ciblés
 
 Nous avons maintenant tous les élements donc nous avons besoin pour collecter les URLs des biens de la Seine-Maritime. 
+
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE}
+
+# Création d'un vecteur vide
+liens <- character()
+
+# Boucle de récupération des URLs de page d'annonce
+for (i in 1:length(list_url)){
+
+  # Récupération du code source de la page
+  page <- read_html(list_url[i])
+
+  # Récupération du lien dans les balises de la classe "stretched-link"
+  liens[i] <- page %>% html_elements(".stretched-link") %>%  html_attr("href")
+
+}
+
+
+print(liens)
+```
+
+Les URLs récupérées semblent relatives (uniquement la fin), nous allons donc reconstituer les URLs à l'aide de la fonction `gsub()` :
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE}
+
+liens <- gsub(x = liens, 
+              pattern = "..", 
+              replacement = "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob",
+              fixed = TRUE)
+
+print(liens)
+``` 
+
+\
+
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE}
 
@@ -938,7 +1019,6 @@ extraire_liens <- function(url) {
   liens <- page %>% html_elements("div:nth-child(1) > div:nth-child(3) > a:nth-child(1)") %>% html_attr("href")
   return(liens)
 } 
-
 
 # Liste pour stocker tous les liens
 liste_de_liens <- list()
@@ -981,9 +1061,25 @@ liste_de_liens[[1]]
 
 ### Scraping d'éléments d'une page d'annonce immobilière
 
-L'exploration de la page d'accueil et en comprendre la structure nous a permis de collecter les informations sur les liens d'URLs du site utiles à la suite de notre travail. Maintenant, nous allons explorer les pages de chaque annonce pour comprendre leur structure à partir du 1er bien de notre liste.  
 
-Récuperons de le titre d'une annonce.
+Notre liste de page web a scrapper est prête. Nous pouvons maintenant explorer les pages de chaque annonce pour comprendre comment sont structurées les données en HTML pour afin de les extraire automatiquement.
+
+Après exploration avec l'inspecteur de code, nous observons que les éléments ciblés sont stockés dans les balises suivantes :
+
+
+- Titre court : Balise `<h6>` de classe `display-6`
+- Titre long : Balise `<h5>` de classe `card-title`
+- Description : Balise `<p>` de classe `card-text text-start`
+
+Les autres informations sont stockées dans une même  balise `<ul>` (liste) de classe `list-group` :
+
+- Type de bien : Balise `<h6>` de classe `card-text text-start`
+- Nombre de chambre
+- Nb de salle de bain
+- Surface habitable
+- Prix
+
+La récupération de la localisation du marqueur dans la carte intéractive est un peu plus complexe. Nous les récupérerons dans un second temps.
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
 
@@ -998,7 +1094,7 @@ pageannonce1 %>% html_element(".display-6") %>% html_text2()
 
 
 ```
-Affichons la 1ère image de l'un des biens
+ Affichons la 1ère image de l'un des biens
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
 
@@ -1012,6 +1108,8 @@ image_url <-  url_absolute(image_url, "https://analytics.huma-num.fr/Robin.Cura/
 ```
 
 ![resultat_du_code](`r image_url`)
+
+\
 
 ## Scraping de la base de données de la Seine-Maritime 
 
