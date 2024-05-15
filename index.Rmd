@@ -710,64 +710,34 @@ Le site web [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob
 
 ## Le package `rvest`
 ### Installation
+
 Le package [**`rvest`**](https://rvest.tidyverse.org/) permet de naviguer à travers la structure HTML des pages web, extraire du texte, des tableaux, des images et d'autres éléments, et les convertir en données structurées directement exploitables dans R. 
 
-Pour le besoin de l'exercice, nous allons aussi utiliser les packages : 
-
-- [`purr`](https://cran.r-project.org/web/packages/purrr/index.html) pour manipuler des données en utilisant des fonctions de programmation fonctionnelle.
-
-- [`tibble`](https://cran.r-project.org/web/packages/tibble/index.html) pour manipuler les données tabulaires. 
+Pour la manipulation de données lors de la collecte, nous avons également besoin des packages suivants: 
 
 - [`dplyr`](https://cran.r-project.org/web/packages/dplyr/index.html) pour manipuler les données.
 
 - [`stringr`](https://cran.r-project.org/web/packages/stringr/index.html) pour manipuler les chaînes de caractères. 
 
-- [`ggplot2`](https://cran.r-project.org/web/packages/ggplot2/index.html) pour faire des graphiques. 
-
-- [`tm`](https://cran.r-project.org/web/packages/tm/index.html) pour l'analyse statistique de textes. 
-
-- [`wordcloud`](https://cran.r-project.org/web/packages/wordcloud/) pour faire un nuage de mots.
-
-- [`leaflet`](https://cran.r-project.org/web/packages/leaflet/) pour faire une carte interactive.
 
 Installez les packages, puis chargez la librairie.
 
 ```{r message=FALSE, warning=FALSE, eval=FALSE}
-#Installation des packages 
+# Installation des packages 
 install.packages("rvest")
-install.package("purrr")
-install.package("tibble")
 install.package("dplyr")
 install.package("stringr")
-install.packages("ggplot2")
-install.packages("tm")
-install.packages("wordcloud")
-install.packages("leaflet")
 
-#Chargement des librairies
 library(rvest)
-library(purrr)
-library(tibble)
 library(dplyr)
 library(stringr)
-library(ggplot2)
-library(tm)
-library(wordcloud)
-library(leaflet)
 ```
 
 
-```{r message=FALSE, warning=FALSE, echo = FALSE}
+```{r message=FALSE, warning=FALSE, echo = FALSE, eval=TRUE}
 library(rvest)
-library(purrr)
-library(tibble)
 library(dplyr)
 library(stringr)
-library(ggplot2)
-library(tm)
-library(wordcloud)
-library(leaflet)
-library(DT)
 ```
 
 
@@ -869,7 +839,7 @@ code_appart
 
 \
 
-### Collecte des URLs des pages d'annonce
+### Récupérer les URLs des pages d'annonces
 
 A partir de ces deux URLs, nous allons pouvoir récupérer la liste des URLs de toutes les pages des annonces affichées sur ces pages. Cela nous permettra dans un second temps, de collecter l'ensemble des informations de description de chaque bien en vente. Ces URLs sont stockées dans une balise `<a>` de la classe `*stretched-link*` :
 
@@ -892,7 +862,7 @@ Cela permet uniquement de récupérer les URls des annonces affichées sur la pr
 
 \
 
-### Nombre de page & liste d’URLs
+### Récupérer toutes les URLs
 
 Nous avons pu collecter les URLs des biens affichés sur la première page. Pour reproduire la collecte d'URLs sur l'ensemble des pages des appartements et des maisons de Seine-Maritime, il est necéssaire de connaitre le nombre de page affichables et de comprendre le système d'URLs.
 
@@ -901,11 +871,13 @@ Nous avons pu collecter les URLs des biens affichés sur la première page. Pour
 :::: {style="display: flex;"}
 ::: {.column width="47%"}
 
-<center><b>[Page appartements (76)](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/index.html)</b></center>
+<center><b>[**Page appartements (76)**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/index.html)</b></center>
 
+:::{style="margin-top:3%;"}
 ![](figures/nb_annonces.png)
+:::
 
-Dans cette section, il y a **156 biens en vente**, et chaque page en affiche jusqu'à 18. Il y a donc **9 pages des biens listés à collecter** (156 / 18 = 8.7).
+Dans cette section, il y a **156 biens en vente**, et chaque page en affiche jusqu'à 18. Il y a donc **9 pages des biens à collecter** (156 / 18 = 8.7).
 
 ::: 
 
@@ -914,66 +886,62 @@ Dans cette section, il y a **156 biens en vente**, et chaque page en affiche jus
   
 ::: {.column width="47%"}
 
-<center><b>[Page maisons (76)](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/index.html)</b></center>
+<center><b>[**Page maisons (76)**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/index.html)</b></center>
 
+:::{style="margin-top:3%;"}
 ![](figures/nb_annonces2.png)
+:::
 
-Dans cette section, il y a **263 biens en vente**, et chaque page en affiche jusqu'à 18. Il y a donc **15 pages des biens listés** à collecter (263 / 18 = 14.6).
+Dans cette section, il y a **263 biens en vente**, et chaque page en affiche jusqu'à 18. Il y a donc **15 pages des biens** à collecter (263 / 18 = 14.6).
 
 ::: 
 ::::
 
 
-Losrque l'on observe le comportement de l'URL à chauqe chargement d'une nouvelle page, il est facile de comprendre le système d'URLs utilisé par [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), exemple :
+Lorsque l'on observe le comportement de l'URL à chaque chargement d'une nouvelle page, il est facile de comprendre le système d'URLs utilisé par [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html) :
 
 **Page 1** = https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/**index.html**   
 **Page 2** = https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/**page_2.html**   
 **Page 3** = https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/**page_3.html**    
+**Page 4** = https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/**page_4.html**     
+**Page 5** = https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/**page_5.html**     
 ...     
-**Page 9** = https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/**page_9.html**   
 
 
-Ainsi, il est simple de reconstituer la liste des URLs de pages ciblées :
+Ce fonctionnement nous permet de reconstituer simplement la liste des URLs des pages ciblées :
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
 # Nombres de pages à scrapper
 nbpage_appart <- 9
 nbpage_maison <- 15
 
-```
-
-Nous utilisons ensuite une boucle pour reconstituer la liste des URLs à scrapper :
-
-``` {r echo= TRUE, message=FALSE, warning=FALSE}
-
-# Récupération des URLs pour les biens de type "appartement" (76) 
+# Construction des URLs pour les biens de type "appartement" (76) 
 list_url_appart <- paste0(url_appart, "page_", 1:nbpage_appart,".html")
-# Remplacement de la première page qui s'appelle index
-list_url_appart[1] <- gsub(x = list_url_appart, pattern =  "page_1.html", replacement = "index.html")
 
-
-# Récupération des URLs pour les biens de type "maison" (76) 
+# Construction des URLs pour les biens de type "maison" (76) 
 list_url_maison <- paste0(url_maison, "page_", 1:nbpage_maison,".html")
-list_url_maison[1] <- gsub(x = list_url_maison, pattern =  "page_1.html", replacement = "index.html")
 
-# Concaténation des deux vecteurs
+# Concaténation des deux vecteurs d'URLs
 list_url <- c(list_url_appart, list_url_maison)
 
-# Affichage
+# Modification URL première page : page_1.html -> index.html
+list_url<- gsub(x = list_url, pattern =  "page_1.html", replacement = "index.html")
+
+# Affichage du vecteur
 print(list_url)
 ```
 
 \
 
 <div class="alert alert-danger"> <b>
-L'utilisation du package `rselenium` nous aurait permis de simuler un clic d'utilisateur sur le bouton "*page suivante*", et ainsi de collecter les informations de l'ensemble des pages sans se soucier du système d'URL. Cette étape n'aurait pas été nécéssaire.</b></div>
+Une autre solution aurait été de simuler des clics d'utilisateur sur le bouton "page suivante". Cela aurait permis de lancer un scraping sans récupérer en amont les URLs des pages ciblées.</b></div>
 
 \
 
 
-### Scraping des URLs de tous les biens ciblés
+### Scraper toutes les URLs
 
-Nous avons maintenant tous les élements donc nous avons besoin pour collecter les URLs des biens de la Seine-Maritime. 
+A partir de cette liste, nous pouvons collecter l'ensemble des URLs présent sur ces pages et renvoyant vers des pages d'annonces complètes. Pour cela, nous créons une boucle : 
 
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE}
@@ -984,241 +952,219 @@ liens <- character()
 # Boucle de récupération des URLs de page d'annonce
 for (i in 1:length(list_url)){
 
-  # Récupération du code source de la page
+  # Récupération du code source de la page i
   page <- read_html(list_url[i])
 
   # Récupération du lien dans les balises de la classe "stretched-link"
   liens[i] <- page %>% html_elements("a.stretched-link") %>%  html_attr("href")
 
-}
+ }
 
-
+# Affichage des URLs récupérées
 print(liens)
 ```
 
-Les URLs récupérées semblent relatives (uniquement la fin), nous allons donc reconstituer les URLs à l'aide de la fonction `gsub()` :
+Les URLs récupérées sont relatives, c'est à dire qu'elles n’incluent que le nom d’une page spécifique. Le chemin courant n'est pas indiqué. Nous allons donc le rajouter à l'aide de la fonction `url_absolute()`.
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE}
+liens <- url_absolute(liens, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
 
-liens <- gsub(x = liens, 
-              pattern = "..", 
-              replacement = "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob",
-              fixed = TRUE)
-
+# Affichage des URLs récupérées
 print(liens)
 ``` 
 
 \
 
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE}
+### Scraper les différentes informations
 
-#Fonction pour récupérer les url des biens immobiliers 
-extraire_liens <- function(url) {
-  page <- read_html(url)
-  liens <- page %>% html_elements("div:nth-child(1) > div:nth-child(3) > a:nth-child(1)") %>% html_attr("href")
-  return(liens)
-} 
+Notre liste de page web à scrapper est prête. Nous pouvons maintenant explorer les pages de chaque annonce pour comprendre comment sont structurées les données en HTML pour afin de les extraire automatiquement. Après une exploration avec l'inspecteur de code, nous observons que les éléments ciblés sont stockés dans les balises suivantes :
 
-# Liste pour stocker tous les liens
-liste_de_liens <- list()
+- **Titre court** : balise `<h6>` de classe `display-6`
+- **Titre long** : balise `<h5>` de classe `card-title`
+- **Description** : balise `<p>` de classe `card-text`
+- **Photos (3)** : balise `<img>` de classe `img-fluid`
 
-#Stocker les liens de la première page des appartements
-liens_page <- extraire_liens(url_appart)
-liste_de_liens <- c(liste_de_liens, liens_page)
+Les autres informations sont stockées dans une balise `<ul>` (ou `<div>`) de classe `list-group` :
 
-#Boucle pour les appartements
-for (i in 2:nbpage_appart) {
-  url_page <- paste0(url_appart, "page_", i,".html")
-  liens_page <- extraire_liens(url_page)
-  
-  # Stocker les liens obtenus
-  liste_de_liens <- c(liste_de_liens, liens_page)
-}
+- **Type de bien** : balise `<li>` de classe `list-group-item` - élément 1    
+- **Nombre de chambre** : balise `<li>` de classe `list-group-item` - élément 2   
+- **Nb de salle de bain** : balise `<li>` de classe `list-group-item` - élément 3   
+- **Surface habitable** : balise `<li>` de classe `list-group-item` - élément 4   
+- **Prix** : balise `<li>` de classe `list-group-item` - élément 5   
+- **Commune** : balise `<li>` de classe `list-group-item` - élément 6
+-  **Département** : balise `<li>` de classe `list-group-item` - élément 7
 
-#Stocker les liens de la première page des maisons
-liens_page <- extraire_liens(url_maison)
-liste_de_liens <- c(liste_de_liens, liens_page)
+Il est aussi possible de récupérer les coordonnées du marqueur situé dans la carte interactive. Ces coordonnées sont stocké dans .... ???
 
-#Boucle pour les maisons
-for (i in 2:nbpage_maison) {
-  url_page <- paste0(url_maison, "page_", i,".html")
-  liens_page <- extraire_liens(url_page)
-  
-  # Stocker les liens obtenus
-  liste_de_liens <- c(liste_de_liens, liens_page)
-}
-#Transformer en lien absolu
-for (i in 1:length(liste_de_liens)){
-  lientemp <- url_absolute(liste_de_liens[[i]], "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
-  liste_de_liens[[i]] <- lientemp 
-}
+Dans un premier temps, nous essayons d'extraire ces informations pour une seule page d'annonce :
 
-#Afficher l'URL du premier bien récupéré
-liste_de_liens[[1]]
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval =TRUE, cache = FALSE}
+library(rvest)
+# Lecture du code source de la page 1
+code_annonce_1 <- read_html(liens[1])
+``` 
 
-```
-
-### Scraping d'éléments d'une page d'annonce immobilière
-
-
-Notre liste de page web a scrapper est prête. Nous pouvons maintenant explorer les pages de chaque annonce pour comprendre comment sont structurées les données en HTML pour afin de les extraire automatiquement.
-
-Après exploration avec l'inspecteur de code, nous observons que les éléments ciblés sont stockés dans les balises suivantes :
-
-
-- Titre court : Balise `<h6>` de classe `display-6`
-- Titre long : Balise `<h5>` de classe `card-title`
-- Description : Balise `<p>` de classe `card-text text-start`
-
-Les autres informations sont stockées dans une même  balise `<ul>` (liste) de classe `list-group` :
-
-- Type de bien : Balise `<h6>` de classe `card-text text-start`
-- Nombre de chambre
-- Nb de salle de bain
-- Surface habitable
-- Prix
-
-La récupération de la localisation du marqueur dans la carte intéractive est un peu plus complexe. Nous les récupérerons dans un second temps.
+Test de collecte des différentes information pour cette première page :
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
 
-#Récupérer l'URL de la 1ère annonce
-urlannonce1 <- liste_de_liens[[1]]
+# Titre court
+code_annonce_1 %>% html_element("h6.display-6") %>% html_text2()
 
-#Lire la page 
-pageannonce1 <- read_html(urlannonce1)
+# Titre long
+code_annonce_1 %>% html_element("h5.card-title") %>% html_text2()
 
-#Récupérer l'élément titre 
-pageannonce1 %>% html_element(".display-6") %>% html_text2()
+# Description
+code_annonce_1 %>% html_element("p.card-text") %>% html_text2()
 
+# Photos (liens relatifs)
+code_annonce_1 %>% html_elements("img.img-fluid") %>%  html_attr("src")
+
+# Photos 1
+code_annonce_1 %>% html_element("a.col-sm-3:nth-child(1) > img") %>%  html_attr("src")
+
+# Photos 2
+code_annonce_1 %>% html_element("a.col-sm-3:nth-child(2) > img") %>%  html_attr("src")
+
+# Photos 3
+code_annonce_1 %>% html_element("a.col-sm-3:nth-child(3) > img") %>%  html_attr("src")
+
+
+# Type, Nb de chambre, de salle de bain, surface, prix, commune et département
+code_annonce_1 %>% html_elements("li.list-group-item") %>% html_text2()
 
 ```
- Affichons la 1ère image de l'un des biens
-
-``` {r echo= TRUE, message=FALSE, warning=FALSE}
-
-#Récupérer de l'URL de la 1ère image
-image_url <- pageannonce1  %>% 
-           html_element("img") %>%  # Sélectionner tous les éléments 'img'
-           html_attr("src")
-image_url <-  url_absolute(image_url, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
-
-
-```
-
-![resultat_du_code](`r image_url`)
+ 
 
 \
 
-## Scraping de la base de données de la Seine-Maritime 
+<div class="alert alert-danger"> <b>
+La récupération de la localisation du marqueur affiché dans la carte intéractive est un peu plus complexe. Nous les récupérerons dans un second temps. (cf [partie XXXX]())</b></div>
 
-### Fonctions nécessaires au scraping 
-Nous allons créer un ensemble de fonction qui nous permettent de scrapper les différents élements des annonces de la Seine-Maritime.
+
+\
+
+## Scraping automatisé
+
+### Construction d'un tableau de collecte
+
 ``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE}
 
-#Fonction d'extraction du titre court 
-extraire_titrec <- function(page) {
-  titre <- page %>% html_element(".display-6") %>% html_text2()
-  return(titre)
-} 
-
-#Fonction d'extraction du titre long 
-extraire_titrel <- function(page) {
-  element <- page %>% html_element("h5.card-title:nth-child(1)") %>% html_text2()
-  return(element)
-} 
-
-#Fonction d'extraction de la description 
-extraire_description <- function(page) {
-  element <- page %>% html_element(".card-text") %>% html_text2()
-  return(element)
-} 
-
-#Fonction d'extraction de l'attribut 1 du tableau
-extr_att1 <- function(page) {
-  element <- page %>% html_element("ul.list-group > li:nth-child(1) > strong:nth-child(2)") %>% html_text2()
-  return(element)
-} 
-
-
-#Fonction d'extraction de l'attribut 2 du tableau
-extr_att2 <- function(page) {
-  element <- page %>% html_element("ul.list-group > li:nth-child(2) > strong:nth-child(2)") %>% html_text2()
-  return(element)
-} 
-
-#Fonction d'extraction de l'attribut 3 du tableau
-extr_att3 <- function(page) {
-  element <- page %>% html_element("li.list-group-item:nth-child(3) > strong:nth-child(2)") %>% html_text2()
-  return(element)
-} 
-
-#Fonction d'extraction de l'attribut 4 du tableau
-extr_att4 <- function(page) {
-  element <- page %>% html_element("li.list-group-item:nth-child(4) > strong:nth-child(2)") %>% html_text2()
-  return(element)
-} 
-
-#Fonction d'extraction de l'attribut 5 du tableau
-extr_att5 <- function(page) {
-  element <- page %>% html_element("li.list-group-item:nth-child(5) > strong:nth-child(2)") %>% html_text2()
-  return(element)
-} 
-
-#Fonction d'extraction de l'attribut 6 du tableau
-extr_att6 <- function(page) {
-  element <- page %>% html_element("li.list-group-item:nth-child(6) > strong:nth-child(2)") %>% html_text2()
-  return(element)
-} 
-
-#Fonction d'extraction de la commune 
-extraire_commune <- function(page) {
-  element <- page %>% html_element("div.list-group:nth-child(1) > li:nth-child(1) > strong:nth-child(1)") %>% html_text2()
-  return(element)
-} 
-
-#Fonction d'extraction du département
-extraire_departement <- function(page) {
-  element <- page %>% html_element("div.list-group:nth-child(1) > li:nth-child(2) > strong:nth-child(1)") %>% html_text2()
-  return(element)
-} 
-
-
-#Fonction d'extraction de la localisation 
-extraire_loc <- function(page){
-  element <- 
-    page %>% html_elements('script') %>% # On récupère les balises de type script
-                      html_text2() %>% # On en extrait le contenu
-                      pluck(2) %>% # On ne garde que la 2ème balise string, qui est celle qui contient le code leaflet
-                      str_extract(string = .,
-                                  pattern = "var annonce_coords = \\[(\\d+\\.?\\d*\\, \\d+\\.?\\d*)\\]", # regexp qui cherche les caractères "var annonce_coords = [unNombreDecimal, unAutreNombreDecimal]" et met les deux nombres décimaux dans un groupe (les parenthèses) -> "49.224678, 1.184296"
-                                  group = 1) %>% # On ne conserve que le groupe 1, donc ce qui était en parenthèse dans la regexp 
-                      str_split(pattern = ',') %>% # On découpe par la virgule -> list(c("49.224678", " 1.184296"))
-                      pluck(1) %>% # str_split crée une liste de vecteurs, on ne garde que le premier élément -> c("49.224678", " 1.184296")
-                      str_trim() %>% # sur chaque vecteur, on enlève les espaces en début et en fin -> c("49.224678", "1.184296")
-                      as.numeric() # On peut enfin les convertir en numérique, et donc récupérer la latitude puis la longitude (ordre inversé de coordonnées de leaflet)
-  return(element)
-}
-
-extraire_img <- function(page) { 
-  element <- page %>% html_element("img") %>%  # Sélectionner tous les éléments 'img'
-           html_attr("src")
-  element <- url_absolute( element, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
-  
-return(element)
-}
+RESULT <- data.frame(URL = as.character(liens),
+                     T_court = as.character(0),
+                     T_long = as.character(0),
+                     Description = as.character(0),
+                     Photo_1 = as.character(0),
+                     Photo_2 = as.character(0),
+                     Photo_3 =  as.character(0),
+                     Type = as.character(0),
+                     nb_ch = as.character(0),
+                     nb_sdb = as.character(0),
+                     surface = as.character(0),
+                     prix = as.character(0),
+                     com = as.character(0),
+                     dep =  as.character(0))
 
 ```
 
-### Scraping de la base 
+Voilà le tableau crée :
+
+```{r echo=FALSE, result=TRUE, eval=TRUE}
+library(DT)
+datatable(RESULT, options = list(columnDefs = list(list(
+  targets = c(2,3,4), # Index de la colonne avec le champ long
+  render = JS(
+    #Tool pour explorer les attributs raccourcis au survol de la souris
+    "function(data, type, row, meta) {",
+    "  if (type === 'display') {",
+    "    return data.length < 15 ? data : ",
+    "      '<span title=\"' + data + '\">' + data.substr(0, 15) + '...</span>';",
+    "  }",
+    "  return data;",
+    "}"
+  )
+))))
+
+```
+
+\
+
+### Collecte des données
+
+Nous pouvons désormais construire une boucle qui collecte toutes ses données et complète le tableau précédemment créée :
+
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+
+for (i in 1:nrow(RESULT)){   
+
+code_annonce <- read_html(RESULT$URL[i])
+
+# Titre court
+RESULT$T_court[i] <- code_annonce %>% html_element("h6.display-6") %>% html_text2()
+
+# Titre long
+RESULT$T_long[i] <- code_annonce %>% html_element("h5.card-title") %>% html_text2()
+
+# Description
+RESULT$Description[i] <- code_annonce %>% html_element("p.card-text") %>% html_text2()
+
+# Photo 1 (lien relatif)
+RESULT$Photo_1[i] <- code_annonce %>% html_element("a.col-sm-3:nth-child(1) > img") %>%  html_attr("src")
+
+# Photo 2
+RESULT$Photo_2[i] <- code_annonce %>% html_element("a.col-sm-3:nth-child(2) > img") %>%  html_attr("src")
+
+# Photo 3
+RESULT$Photo_3[i] <- code_annonce %>% html_element("a.col-sm-3:nth-child(3) > img") %>%  html_attr("src")
+
+# Type, Nb de chambre, de salle de bain, surface, prix, commune et département
+infos <- code_annonce %>% html_elements("li.list-group-item") %>% html_text2()
+
+RESULT$Type[i] <- infos[1]
+RESULT$nb_ch[i] <- infos[2]
+RESULT$nb_sdb[i] <- infos[3]
+RESULT$surface[i] <- infos[4]
+RESULT$prix[i] <- infos[5]
+RESULT$com[i] <- infos[6]
+}
+
+ 
+```
+
+
+Résultat :
+
+```{r echo=FALSE, result=TRUE, eval=TRUE}
+library(DT)
+datatable(RESULT, options = list(columnDefs = list(list(
+  targets = c(2,3,4), # Index de la colonne avec le champ long
+  render = JS(
+    #Tool pour explorer les attributs raccourcis au survol de la souris
+    "function(data, type, row, meta) {",
+    "  if (type === 'display') {",
+    "    return data.length < 15 ? data : ",
+    "      '<span title=\"' + data + '\">' + data.substr(0, 15) + '...</span>';",
+    "  }",
+    "  return data;",
+    "}"
+  )
+))))
+
+```
+
+\
+
+## Nettoyage des données
+
 Appliquons maintenant les fonctions à la liste de biens pour constituer notre base de données. Nous pourrions effectuer une boucle comme nous l'avons fait précédemment avec les URL afin de montrer une autre méthode nous allons utiliser la fonction `map_df` du package **`purrr`**. Elle permet d'appliquer des fonctions à chaque élement d'une liste et de combiner les résultats en un unique tableau de données. 
 
 
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE}
+``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval = FALSE}
 #Scrapping de la base de données 
-db_bien <- map_df(liste_de_liens  , ~{
+db_bien <- map_df(liens  , ~{
   paste(.)
   page <- read_html(.)
   tibble (lien = ., 
@@ -1256,7 +1202,20 @@ db_bien <- db_bien %>% mutate(identifiant = row_number(), #ajout d'un identifian
 ```
 
 
-## Exploration de la base de données scrappées 
+# Exploration de la base de données scrappées 
+
+- [`purr`](https://cran.r-project.org/web/packages/purrr/index.html) pour manipuler des données en utilisant des fonctions de programmation fonctionnelle.
+
+- [`tibble`](https://cran.r-project.org/web/packages/tibble/index.html) pour manipuler les données tabulaires.
+
+- [`ggplot2`](https://cran.r-project.org/web/packages/ggplot2/index.html) pour faire des graphiques. 
+
+- [`tm`](https://cran.r-project.org/web/packages/tm/index.html) pour l'analyse statistique de textes. 
+
+- [`wordcloud`](https://cran.r-project.org/web/packages/wordcloud/) pour faire un nuage de mots.
+
+- [`leaflet`](https://cran.r-project.org/web/packages/leaflet/) pour faire une carte interactive.
+
 
 ### Présentation de la BD scrapée
 Notre base de données scrappées contient les 419 biens à vendre en Seine-Maritime avec les attributs suivants : 
@@ -1315,7 +1274,7 @@ datatable(db_bien, options = list(columnDefs = list(list(
 ### Répartition par type
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
-
+library(ggplot2)
 ggplot(db_bien) +
  aes(x = type) +
  geom_bar(fill = "#4682B4") +
@@ -1366,6 +1325,8 @@ ggplot(db_bien) +
 
 ### Nuage de mot sur les description des biens
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
+library(tm)
+library(wordcloud)
 # Création du corpus
 corpus <- Corpus(VectorSource(db_bien$description))
 
@@ -1386,6 +1347,7 @@ wordcloud(corpus, scale=c(3,0.5), max.words=50, random.order=FALSE, colors=brewe
 ### Carte !
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
+library(leaflet)
 # Créer la carte Leaflet
 carte <- leaflet(db_bien) %>% 
   addTiles() %>%
