@@ -723,6 +723,7 @@ Pour la manipulation de données lors de la collecte, nous avons également beso
 Installez les packages, puis chargez la librairie.
 
 ```{r message=FALSE, warning=FALSE, eval=FALSE}
+
 # Installation des packages 
 install.packages("rvest")
 install.package("dplyr")
@@ -747,7 +748,7 @@ library(stringr)
 Commençons par explorer les principales fonctions du package [**`rvest`**](https://rvest.tidyverse.org/)** à partir d'un extrait du code source du site web [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html).
 Pour cela, nous pouvons utiliser la fonction **`minimal_html()`** qui permet de créer un contenu HTML (XML) requêtable à partir d'un contenu HTML fourni dans une chaîne de caractère.
 
-``` {r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 # Extrait de code source html du site ScrapImmob 
 extrait_html <- "<div class='card-body'>
                       <a href='annonces/IDF_0078.html' class='stretched-link'></a>
@@ -763,14 +764,14 @@ class(basic_html)
 
 - Les fonctions **`read_element()`** ou **`read_elements()`** permettent respectivement la récupération du 1er ou de tous les élements d'un document HTML, en précisant un sélécteur CSS ou un Xpath.
 
-``` {r echo = TRUE, message=FALSE, warning=FALSE}
+```{r echo = TRUE, message=FALSE, warning=FALSE}
 # Récupérer toutes les balises <p> du document :
 basic_html %>% html_elements("p")
 ```
 
 - La fonction **`html_attr()`** permet l'extraction des valeurs d'attributs. 
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE}
+```{r echo= TRUE, message=FALSE, warning=FALSE}
 # Récupérer le ou les URL(s) indiquée(s) dans l'attribut href
 basic_html %>% html_elements("a") %>% html_attr("href")
 ```
@@ -778,7 +779,7 @@ basic_html %>% html_elements("a") %>% html_attr("href")
 
 - Les fonctions **`html_text()`** ou **`html_text2()`** permettent d'extraire uniquement le texte d'un élément.
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE}
+```{r echo= TRUE, message=FALSE, warning=FALSE}
 # Récupérer le contenu textuel des balises <p>
 basic_html %>% html_elements("p") %>% html_text2()
 ```
@@ -825,7 +826,7 @@ Notre objectif étant de collecter uniquement des données sur les biens (maison
 
 Commençons par récupérer le code source de ces deux pages à l'aide de la fonction `read_html`. Cette fonction effectue une requête HTTP, puis en analyse le code HTML récupéré à l'aide du package `xml2`.
 
-``` {r eval = TRUE,message=FALSE, warning=FALSE}
+```{r eval = TRUE,message=FALSE, warning=FALSE}
 
 url_appart <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/"
 url_maison <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/"
@@ -848,13 +849,13 @@ A partir de ces deux URLs, nous allons pouvoir récupérer la liste des URLs de 
 
 Pour récuperer la liste de ces URLs, nous devons donc cibler les valeurs de l'attribut `href` dans toutes les balises de classe `*stretched-link*` :
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE}
+```{r echo= TRUE, message=FALSE, warning=FALSE}
 code_appart %>% html_elements("a.stretched-link") %>%  html_attr("href")
 ```
 
 Nous pouvons faire la même chose pour les annonces de vente de maison en Seine-Maritime :
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE}
+```{r echo= TRUE, message=FALSE, warning=FALSE}
 code_maison %>% html_elements("a.stretched-link") %>%  html_attr("href")
 ```
 
@@ -910,7 +911,7 @@ Lorsque l'on observe le comportement de l'URL à chaque chargement d'une nouvell
 
 Ce fonctionnement nous permet de reconstituer simplement la liste des URLs des pages ciblées :
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE}
+```{r echo= TRUE, message=FALSE, warning=FALSE}
 # Nombres de pages à scrapper
 nbpage_appart <- 9
 nbpage_maison <- 15
@@ -944,7 +945,7 @@ Une autre solution aurait été de simuler des clics d'utilisateur sur le bouton
 A partir de cette liste, nous pouvons collecter l'ensemble des URLs présent sur ces pages et renvoyant vers des pages d'annonces complètes. Pour cela, nous créons une boucle : 
 
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE}
+```{r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE}
 
 # Création d'un vecteur vide
 liens <- character()
@@ -966,7 +967,7 @@ print(liens)
 
 Les URLs récupérées sont relatives, c'est à dire qu'elles n’incluent que le nom d’une page spécifique. Le chemin courant n'est pas indiqué. Nous allons donc le rajouter à l'aide de la fonction `url_absolute()`.
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE}
+```{r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE}
 liens <- url_absolute(liens, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
 
 # Affichage des URLs récupérées
@@ -991,16 +992,16 @@ Les autres informations sont stockées dans une balise `<ul>` (ou `<div>`) de cl
 - **Nombre de chambre** : balise `<li>` de classe `list-group-item` - élément 2   
 - **Nb de salle de bain** : balise `<li>` de classe `list-group-item` - élément 3   
 - **Surface habitable** : balise `<li>` de classe `list-group-item` - élément 4   
-- **Prix** : balise `<li>` de classe `list-group-item` - élément 5   
-- **Commune** : balise `<li>` de classe `list-group-item` - élément 6
--  **Département** : balise `<li>` de classe `list-group-item` - élément 7
+- **Surface jardin** : balise `<li>` de classe `list-group-item` - **élément facultatif**     
+- **Prix** : balise `<li>` de classe `list-group-item` - élément 5 ou 6   
+- **Commune** : balise `<li>` de classe `list-group-item` - élément 6 ou 7
+-  **Département** : balise `<li>` de classe `list-group-item` - élément 7 ou 8
 
 Il est aussi possible de récupérer les coordonnées du marqueur situé dans la carte interactive. Ces coordonnées sont stocké dans .... ???
 
 Dans un premier temps, nous essayons d'extraire ces informations pour une seule page d'annonce :
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE, eval =TRUE, cache = FALSE}
-library(rvest)
 # Lecture du code source de la page 1
 code_annonce_1 <- read_html(liens[1])
 ``` 
@@ -1031,7 +1032,7 @@ code_annonce_1 %>% html_element("a.col-sm-3:nth-child(2) > img") %>%  html_attr(
 code_annonce_1 %>% html_element("a.col-sm-3:nth-child(3) > img") %>%  html_attr("src")
 
 
-# Type, Nb de chambre, de salle de bain, surface, prix, commune et département
+# Type, Nb de chambre, de salle de bain, surfaces, prix, commune et département
 code_annonce_1 %>% html_elements("li.list-group-item") %>% html_text2()
 
 ```
@@ -1061,7 +1062,8 @@ RESULT <- data.frame(URL = as.character(liens),
                      Type = as.character(0),
                      nb_ch = as.character(0),
                      nb_sdb = as.character(0),
-                     surface = as.character(0),
+                     surf_hab = as.character(0),
+                     surf_jar = as.character(0),
                      prix = as.character(0),
                      com = as.character(0),
                      dep =  as.character(0))
@@ -1125,18 +1127,32 @@ infos <- code_annonce %>% html_elements("li.list-group-item") %>% html_text2()
 RESULT$Type[i] <- infos[1]
 RESULT$nb_ch[i] <- infos[2]
 RESULT$nb_sdb[i] <- infos[3]
-RESULT$surface[i] <- infos[4]
+RESULT$surf_hab[i] <- infos[4]
+
+if (length(infos)==7){
+
+RESULT$surf_jar[i] <- NA
 RESULT$prix[i] <- infos[5]
 RESULT$com[i] <- infos[6]
+RESULT$dep[i] <- infos[7]
+
+} else {
+
+RESULT$surf_jar[i] <- infos[5]
+RESULT$prix[i] <- infos[6]
+RESULT$com[i] <- infos[7]
+RESULT$dep[i] <- infos[8]
+
+}
 }
 
- 
 ```
 
 
 Résultat :
 
 ```{r echo=FALSE, result=TRUE, eval=TRUE}
+
 library(DT)
 datatable(RESULT, options = list(columnDefs = list(list(
   targets = c(2,3,4), # Index de la colonne avec le champ long
@@ -1158,47 +1174,51 @@ datatable(RESULT, options = list(columnDefs = list(list(
 
 ## Nettoyage des données
 
-Appliquons maintenant les fonctions à la liste de biens pour constituer notre base de données. Nous pourrions effectuer une boucle comme nous l'avons fait précédemment avec les URL afin de montrer une autre méthode nous allons utiliser la fonction `map_df` du package **`purrr`**. Elle permet d'appliquer des fonctions à chaque élement d'une liste et de combiner les résultats en un unique tableau de données. 
+Certaines des informations collectées ont besoin d'être nettoyées. C'est par exemple le cas de la variable "Type", pour laquelle a été collécté des chaînes de caractères qui doivent être simplifiées, ou le cas de la v ariable "com" qui contient le nom de la commune et son code INSEE. Nous procédons donc à des traitements pour optimiser la base de données collectée. 
 
+1) Supression des bouts de chaînes de caractères précédant la valeur des variables ciblées : "Type : Appartement" -> "Appartement".
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval = FALSE}
+# Supression de tous les caractères, jusqu'au symbol ": ", pour toutes les colonnes
+RESULT <- lapply(RESULT, gsub, pattern = "^.+: ", replacement = "")
+
+# Conversion du résultat en tableau (data.frame)
+RESULT <- as.data.frame(RESULT)
+```
+
+2) Suppression des unités de mesure pour les prix est les surfaces collectées
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval = FALSE}
+# Suppression du symbol " m²"
+RESULT$surf_hab <- gsub(x = RESULT$surf_hab, pattern = " m²", replacement = "")
+RESULT$surf_jar <- gsub(x = RESULT$surf_jar, pattern = " m²", replacement = "")
+
+# Suppression du symbol "€" et des espaces
+RESULT$prix <- gsub(x = RESULT$prix, pattern = "€", replacement = "")
+RESULT$prix <- gsub(x = RESULT$prix, pattern = " ", replacement = "")
+```
+
+3) Conversion des nombres en format `numeric`
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval = FALSE}
+# Vecteur des colonnes à convertir
+col <- c("nb_ch", "nb_sdb", "surf_hab", "surf_jar", "prix")
+
+# Conversion des colonnes ciblées en numeric
+RESULT[col] <- as.data.frame(lapply(RESULT[col], as.numeric))
+```
+
+4) Ventilation de la variable "com" en deux colonnes : "nom" et "INSEE"
 
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval = FALSE}
-#Scrapping de la base de données 
-db_bien <- map_df(liens  , ~{
-  paste(.)
-  page <- read_html(.)
-  tibble (lien = ., 
-          titrecourt = extraire_titrec(page),
-           titrelong = extraire_titrel(page),
-           description = extraire_description(page),
-           type = extr_att1(page), 
-           nb_chambres =  extr_att2(page),
-           nb_sb = extr_att3(page),
-           surf_h = extr_att4(page), 
-           surf_j = case_when(!is.na(extr_att6(page))~ extr_att5(page), .default = NA_character_), #l'attribut surface jardin n'est pas toujours présent. 
-           prix = case_when(!is.na(extr_att6(page))~ extr_att6(page), .default = extr_att5(page)),
-           commune = extraire_commune(page), 
-           departement = extraire_departement(page),
-          lien_img = extraire_img(page),
-          latitude = extraire_loc(page)[1],
-          longitude = extraire_loc(page)[2]
-          )
-  
-})
 
-#Nettoyage de la base de données
-db_bien <- db_bien %>% mutate(identifiant = row_number(), #ajout d'un identifiant 
-                                   nb_chambres = as.numeric(nb_chambres), #nombre de chambres en numérique
-                                   nb_sb = as.numeric(nb_sb), #nombre de salle de bain en numérique
-                                   surf_h=as.numeric(str_remove(surf_h,"m²")), #enlever le symbole m2 et transformation en numérique
-                                   surf_j = as.numeric(str_remove(surf_j,"m²")), #enlever le symbole m2 et transformation en numérique
-                                   prix = as.numeric(str_remove_all(prix,"€| ")), #enlever le symbole € et les espaces puis transformation en numérique
-                                   libcom = substr(commune, 1, nchar(commune) - 8), #enlever le code INSEE pour garder que le nom de commune
-                                   code_insee = substr(commune, nchar(commune)-5, nchar(commune)-1) #enlever le nom de commune que le code insee
-                                   ) %>%
-                            select(- commune ) #Supprimer le champs commune
+RESULT$com_name <- ""
+RESULT$com_insee <- ""
 
+RESULT[, c("com_name ","com_insee")] <- unlist(strsplit(RESULT$com, split = " \\(" ))
 
+unlist(name_insee)
 ```
 
 
