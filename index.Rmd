@@ -29,11 +29,11 @@ link-citations: true
 # 5 possible choices : "by-nd", "by", "by-nc-sa", "by-nc","by-sa"
 ---
 
-```{r setup, include=FALSE}
+``` {r setup, include=FALSE}
 
 ## Global options
 knitr::opts_chunk$set(echo=TRUE,
-        	            cache=TRUE,
+        	            cache=FALSE,
                       prompt=FALSE,
                       comment=NA,
                       message=FALSE,
@@ -267,7 +267,7 @@ text-align: center;
 ::: {.column width="39%"}
 <center><b>style.css</b></center>
 
-```{r, eval = FALSE, class.source='bg-warning'}
+``` {r, eval = FALSE, class.source='bg-warning'}
 
 h1 { 
 color: #f03b35;
@@ -306,7 +306,7 @@ Plusieurs sélecteurs CSS permettent de cibler et styliser les différentes bali
 
 ::: {.column width="49%"}
 <center><b>style.css</b></center>
-```{css, eval = FALSE, class.source='bg-warning'}
+``` {css, eval = FALSE, class.source='bg-warning'}
 h2 { font-size: 20px; }
 ```
 :::
@@ -319,7 +319,7 @@ h2 { font-size: 20px; }
 :::: {style="display: flex;"}
 ::: {.column width="49%"}
 <center><b>page.html</b></center>
-```{html, eval = FALSE, class.source='bg-info'}
+``` {html, eval = FALSE, class.source='bg-info'}
 <div id="example">  </div>
 ```
 :::
@@ -329,7 +329,7 @@ h2 { font-size: 20px; }
 
 ::: {.column width="49%"}
 <center><b>style.css</b></center>
-```{css, eval = FALSE, class.source='bg-warning'}
+``` {css, eval = FALSE, class.source='bg-warning'}
 #example { background-color: #f2f2f2; }
 ```
 :::
@@ -352,7 +352,7 @@ h2 { font-size: 20px; }
 
 ::: {.column width="49%"}
 <center><b>style.css</b></center>
-```{css, eval = FALSE, class.source='bg-warning'}
+``` {css, eval = FALSE, class.source='bg-warning'}
 .summary { font-family: Arial, sans-serif; }
 ```
 :::
@@ -375,7 +375,7 @@ h2 { font-size: 20px; }
 
 ::: {.column width="49%"}
 <center><b>style.css</b></center>
-```{css, eval = FALSE, class.source='bg-warning'}
+``` {css, eval = FALSE, class.source='bg-warning'}
 a[href] { color: purple; }
 ```
 :::
@@ -383,7 +383,7 @@ a[href] { color: purple; }
 
 Il est possible de préciser sa cible en indiquant une valeur pour l'attribut.
 
-```{css, eval = FALSE, class.source='bg-warning'}
+``` {css, eval = FALSE, class.source='bg-warning'}
 a[href="https://example.org"] { color: purple;}
 ```
 
@@ -415,7 +415,7 @@ Le CSS met également à disposition des sélecteurs complexes et combinateurs q
 
 ::: {.column width="49%"}
 <center><b>style.css</b></center>
-```{css, eval = FALSE, class.source='bg-warning'}
+``` {css, eval = FALSE, class.source='bg-warning'}
 #liste_ref p .summary { font-size: 12px; }
 ```
 <div class="alert alert-danger">Cible tous les paragraphes de la classe `summary`, positionnés dans l'élément ayant pour identifiant `liste_ref`.</div>
@@ -448,7 +448,7 @@ Le CSS met également à disposition des sélecteurs complexes et combinateurs q
 
 ::: {.column width="49%"}
 <center><b>style.css</b></center>
-```{css, eval = FALSE, class.source='bg-warning'}
+``` {css, eval = FALSE, class.source='bg-warning'}
 #liste_ref + h2 { font-size: 14px; }
 ```
 
@@ -513,7 +513,7 @@ Une fois téléchargé, décompressez le répertoire qui contient deux fichiers 
 
 ::: {.column width="29%"}
 <center><b>style.css</b></center>
-```{css, eval = FALSE, class.source='bg-warning'}
+``` {css, eval = FALSE, class.source='bg-warning'}
 h1 { 
 color: #f03b35;
 font-size: 40px;
@@ -530,7 +530,7 @@ text-align:center;
 
 \
 
-## Le code source d'une page {#codesource}
+## Le code source d'une page 
 
 La connaissance du HTML et du CSS vous permettra de comprendre et de naviguer dans le code source du page web. L’ensemble des navigateurs web modernes proposent des outils d’inspection du code source des pages web. 
 
@@ -583,8 +583,8 @@ En réalisant un clic-droit sur un élément, vous pouvez récupérer plusieurs 
 
 Il est ainsi possible de récupérer aisément : 
 
-- l'**intérieur du HTML** : contenu de la balise sélectionnée. Par exemple, l'intérieur du HTML de `<div id="abc" class="foo"><strong>TEXTE</strong></div>` est  `<strong>TEXTE</strong>`)
-- l'**exterieur du HTML** : ensemble de la balise sélectionnée. Par exemple, l'extérieur du HTML de `<div id="abc" class="foo"><strong>TEXTE</strong></div>` est  `<div id="abc" class="foo"><strong>TEXTE</strong></div>`)
+- **l'intérieur du HTML** : contenu de la balise sélectionnée. Par exemple, l'intérieur du HTML de `<div id="abc" class="foo"><strong>TEXTE</strong></div>` est  `<strong>TEXTE</strong>`)
+- **l'exterieur du HTML** : ensemble de la balise sélectionnée. Par exemple, l'extérieur du HTML de `<div id="abc" class="foo"><strong>TEXTE</strong></div>` est  `<div id="abc" class="foo"><strong>TEXTE</strong></div>`)
 - **Le sélecteur CSS** (ex : `#bases-techniques`)
 - **Le chemin CSS** (ex : `html body.preload div#content div#main div#bases-techniques.section.level1`
 - **Le Xpath** (ex : `//*[@id="bases-techniques"]`)
@@ -595,8 +595,9 @@ XPath est un acronyme qui signifie "*XML Path Language*". Il s'agit d'un langage
 Ces trois derniers éléments pourront vous être précieux pour automatiser votre collecte.
 Par exemple, le sélecteur CSS `#bases-techniques h2` permet de cibler tous les titres de niveau 2 présents dans l'élément `div` ayant pour identifiant "*bases-techniques*".
 
+\
 
-## Les appels réseaux d'une page {#pagenetwork}
+## Les appels réseaux d'une page
 
 Quand on souhaite réaliser une collecte d'éléments redondants (structurés de la même manière) sur une page web (ex: sites d'annonce, catalogues de médias, etc.), il peut être utile de chercher à comprendre le fonctionnement interne de la page.
 
@@ -623,7 +624,6 @@ Dans L'exemple ci-dessus, on constate que l'ouverture de la page de cet article 
 
 
 \
-
 
 # Présentation du cas pratique
 
@@ -708,47 +708,31 @@ Le site web [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob
 
 \
 
-## Le package `rvest`
-### Installation
+### Installation de `rvest`
 
 Le package [**`rvest`**](https://rvest.tidyverse.org/) permet de naviguer à travers la structure HTML des pages web, extraire du texte, des tableaux, des images et d'autres éléments, et les convertir en données structurées directement exploitables dans R. 
 
-Pour la manipulation de données lors de la collecte, nous avons également besoin des packages suivants: 
+Installez le package, puis chargez la librairie.
 
-- [`dplyr`](https://cran.r-project.org/web/packages/dplyr/index.html) pour manipuler les données.
-
-- [`stringr`](https://cran.r-project.org/web/packages/stringr/index.html) pour manipuler les chaînes de caractères. 
-
-
-Installez les packages, puis chargez la librairie.
-
-```{r message=FALSE, warning=FALSE, eval=FALSE}
-
-# Installation des packages 
+``` {r message=FALSE, warning=FALSE, eval=FALSE}
 install.packages("rvest")
-install.package("dplyr")
-install.package("stringr")
 
 library(rvest)
-library(dplyr)
-library(stringr)
 ```
 
 
-```{r message=FALSE, warning=FALSE, echo = FALSE, eval=TRUE}
+``` {r message=FALSE, warning=FALSE, echo = FALSE, eval=TRUE}
 library(rvest)
-library(dplyr)
-library(stringr)
 ```
 
+\
 
+### Fonctionnement de **`rvest`**
 
-### Mode de fonctionnement
-
-Commençons par explorer les principales fonctions du package [**`rvest`**](https://rvest.tidyverse.org/)** à partir d'un extrait du code source du site web [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html).
+Commençons par explorer les principales fonctions du package [**`rvest`**](https://rvest.tidyverse.org/) à partir d'un extrait du code source du site web [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html).
 Pour cela, nous pouvons utiliser la fonction **`minimal_html()`** qui permet de créer un contenu HTML (XML) requêtable à partir d'un contenu HTML fourni dans une chaîne de caractère.
 
-```{r message=FALSE, warning=FALSE}
+``` {r message=FALSE, warning=FALSE}
 # Extrait de code source html du site ScrapImmob 
 extrait_html <- "<div class='card-body'>
                       <a href='annonces/IDF_0078.html' class='stretched-link'></a>
@@ -764,24 +748,24 @@ class(basic_html)
 
 - Les fonctions **`read_element()`** ou **`read_elements()`** permettent respectivement la récupération du 1er ou de tous les élements d'un document HTML, en précisant un sélécteur CSS ou un Xpath.
 
-```{r echo = TRUE, message=FALSE, warning=FALSE}
+``` {r echo = TRUE, message=FALSE, warning=FALSE}
 # Récupérer toutes les balises <p> du document :
-basic_html %>% html_elements("p")
+basic_html |> html_elements("p")
 ```
 
 - La fonction **`html_attr()`** permet l'extraction des valeurs d'attributs. 
 
-```{r echo= TRUE, message=FALSE, warning=FALSE}
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
 # Récupérer le ou les URL(s) indiquée(s) dans l'attribut href
-basic_html %>% html_elements("a") %>% html_attr("href")
+basic_html |> html_elements("a") |> html_attr("href")
 ```
 
 
 - Les fonctions **`html_text()`** ou **`html_text2()`** permettent d'extraire uniquement le texte d'un élément.
 
-```{r echo= TRUE, message=FALSE, warning=FALSE}
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
 # Récupérer le contenu textuel des balises <p>
-basic_html %>% html_elements("p") %>% html_text2()
+basic_html |> html_elements("p") |> html_text2()
 ```
 
 
@@ -826,7 +810,7 @@ Notre objectif étant de collecter uniquement des données sur les biens (maison
 
 Commençons par récupérer le code source de ces deux pages à l'aide de la fonction `read_html`. Cette fonction effectue une requête HTTP, puis en analyse le code HTML récupéré à l'aide du package `xml2`.
 
-```{r eval = TRUE,message=FALSE, warning=FALSE}
+``` {r  eval=TRUE, message=FALSE, warning=FALSE}
 
 url_appart <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/"
 url_maison <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/"
@@ -842,21 +826,21 @@ code_appart
 
 ### Récupérer les URLs des pages d'annonces
 
-A partir de ces deux URLs, nous allons pouvoir récupérer la liste des URLs de toutes les pages des annonces affichées sur ces pages. Cela nous permettra dans un second temps, de collecter l'ensemble des informations de description de chaque bien en vente. Ces URLs sont stockées dans une balise `<a>` de la classe `*stretched-link*` :
+A partir de ces deux URLs, nous allons pouvoir récupérer la liste des URLs de toutes les pages des annonces affichées sur ces pages. Cela nous permettra dans un second temps, de collecter l'ensemble des informations de description de chaque bien en vente. Ces URLs sont stockées dans une balise `<a>` de la classe `stretched-link` :
 
 ![](figures/detect_URL.png)
 \
 
-Pour récuperer la liste de ces URLs, nous devons donc cibler les valeurs de l'attribut `href` dans toutes les balises de classe `*stretched-link*` :
+Pour récuperer la liste de ces URLs, nous devons donc cibler les valeurs de l'attribut `href` dans toutes les balises de classe `stretched-link` :
 
-```{r echo= TRUE, message=FALSE, warning=FALSE}
-code_appart %>% html_elements("a.stretched-link") %>%  html_attr("href")
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+code_appart |> html_elements("a.stretched-link") |>  html_attr("href")
 ```
 
 Nous pouvons faire la même chose pour les annonces de vente de maison en Seine-Maritime :
 
-```{r echo= TRUE, message=FALSE, warning=FALSE}
-code_maison %>% html_elements("a.stretched-link") %>%  html_attr("href")
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
+code_maison |> html_elements("a.stretched-link") |>  html_attr("href")
 ```
 
 Cela permet uniquement de récupérer les URls des annonces affichées sur la première page. Pour collecter l'ensemble des biens ciblés, nous devons comprendre comment fonctionne le système d'URL qui permet d'afficher les différentes pages...
@@ -909,9 +893,9 @@ Lorsque l'on observe le comportement de l'URL à chaque chargement d'une nouvell
 ...     
 
 
-Ce fonctionnement nous permet de reconstituer simplement la liste des URLs des pages ciblées :
+Ce fonctionnement nous permet de reconstituer facilement la liste des URLs des pages ciblées :
 
-```{r echo= TRUE, message=FALSE, warning=FALSE}
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
 # Nombres de pages à scrapper
 nbpage_appart <- 9
 nbpage_maison <- 15
@@ -925,7 +909,7 @@ list_url_maison <- paste0(url_maison, "page_", 1:nbpage_maison,".html")
 # Concaténation des deux vecteurs d'URLs
 list_url <- c(list_url_appart, list_url_maison)
 
-# Modification URL première page : page_1.html -> index.html
+# Modification URL première page : page_1.html = index.html
 list_url<- gsub(x = list_url, pattern =  "page_1.html", replacement = "index.html")
 
 # Affichage du vecteur
@@ -935,17 +919,17 @@ print(list_url)
 \
 
 <div class="alert alert-danger"> <b>
-Une autre solution aurait été de simuler des clics d'utilisateur sur le bouton "page suivante". Cela aurait permis de lancer un scraping sans récupérer en amont les URLs des pages ciblées.</b></div>
+Une autre solution aurait été de simuler des clics d'utilisateur sur le bouton "page suivante". Cela aurait permis de  collecter des données sans avoir à récupérer les URLs des pages ciblées en amont.</b></div>
 
 \
 
 
 ### Scraper toutes les URLs
 
-A partir de cette liste, nous pouvons collecter l'ensemble des URLs présent sur ces pages et renvoyant vers des pages d'annonces complètes. Pour cela, nous créons une boucle : 
+A partir de cette liste, nous pouvons collecter l'ensemble des URLs présentes sur ces pages, qui renvoient vers des pages d'annonces complètes. Pour cela, nous créons la boucle suivante : 
 
 
-```{r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE}
+``` {r echo= TRUE, message=FALSE, warning=FALSE}
 
 # Création d'un vecteur vide
 liens <- character()
@@ -957,7 +941,7 @@ for (i in 1:length(list_url)){
   page <- read_html(list_url[i])
 
   # Récupération du lien dans les balises de la classe "stretched-link"
-  liens[i] <- page %>% html_elements("a.stretched-link") %>%  html_attr("href")
+  liens[i] <- page |> html_elements("a.stretched-link") |>  html_attr("href")
 
  }
 
@@ -967,7 +951,7 @@ print(liens)
 
 Les URLs récupérées sont relatives, c'est à dire qu'elles n’incluent que le nom d’une page spécifique. Le chemin courant n'est pas indiqué. Nous allons donc le rajouter à l'aide de la fonction `url_absolute()`.
 
-```{r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE}
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = TRUE}
 liens <- url_absolute(liens, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
 
 # Affichage des URLs récupérées
@@ -976,8 +960,9 @@ print(liens)
 
 \
 
+## Collecte principale
 
-### Scraper les différentes informations
+### Scraping d'une page d'annonce
 
 Notre liste de page web à scrapper est prête. Nous pouvons maintenant explorer les pages de chaque annonce pour comprendre comment sont structurées les données en HTML pour afin de les extraire automatiquement. Après une exploration avec l'inspecteur de code, nous observons que les éléments ciblés sont stockés dans les balises suivantes :
 
@@ -992,48 +977,51 @@ Les autres informations sont stockées dans une balise `<ul>` (ou `<div>`) de cl
 - **Nombre de chambre** : balise `<li>` de classe `list-group-item` - élément 2   
 - **Nb de salle de bain** : balise `<li>` de classe `list-group-item` - élément 3   
 - **Surface habitable** : balise `<li>` de classe `list-group-item` - élément 4   
-- **Surface jardin** : balise `<li>` de classe `list-group-item` - **élément facultatif**     
+- **Surface jardin** : balise `<li>` de classe `list-group-item` - **Cet élément est facultatif**     
 - **Prix** : balise `<li>` de classe `list-group-item` - élément 5 ou 6   
 - **Commune** : balise `<li>` de classe `list-group-item` - élément 6 ou 7
 -  **Département** : balise `<li>` de classe `list-group-item` - élément 7 ou 8
 
-Il est aussi possible de récupérer les coordonnées du marqueur situé dans la carte interactive. Ces coordonnées sont stocké dans .... ???
 
 Dans un premier temps, nous essayons d'extraire ces informations pour une seule page d'annonce :
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE, eval =TRUE, cache = FALSE}
+``` {r echo= FALSE, message=FALSE, warning=FALSE, eval =TRUE}
+library(rvest)
+``` 
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval =TRUE}
 # Lecture du code source de la page 1
 code_annonce_1 <- read_html(liens[1])
 ``` 
 
-Test de collecte des différentes information pour cette première page :
+A partir de l'exploration du code source, nous pouvons essayer d'extraire chaque élement séparément.
 
 ``` {r echo= TRUE, message=FALSE, warning=FALSE}
 
 # Titre court
-code_annonce_1 %>% html_element("h6.display-6") %>% html_text2()
+code_annonce_1 |> html_element("h6.display-6") |> html_text2()
 
 # Titre long
-code_annonce_1 %>% html_element("h5.card-title") %>% html_text2()
+code_annonce_1 |> html_element("h5.card-title") |> html_text2()
 
 # Description
-code_annonce_1 %>% html_element("p.card-text") %>% html_text2()
+code_annonce_1 |> html_element("p.card-text") |> html_text2()
 
 # Photos (liens relatifs)
-code_annonce_1 %>% html_elements("img.img-fluid") %>%  html_attr("src")
+code_annonce_1 |> html_elements("img.img-fluid") |>  html_attr("src")
 
 # Photos 1
-code_annonce_1 %>% html_element("a.col-sm-3:nth-child(1) > img") %>%  html_attr("src")
+code_annonce_1 |> html_element("a.col-sm-3:nth-child(1) > img") |>  html_attr("src")
 
 # Photos 2
-code_annonce_1 %>% html_element("a.col-sm-3:nth-child(2) > img") %>%  html_attr("src")
+code_annonce_1 |> html_element("a.col-sm-3:nth-child(2) > img") |>  html_attr("src")
 
 # Photos 3
-code_annonce_1 %>% html_element("a.col-sm-3:nth-child(3) > img") %>%  html_attr("src")
+code_annonce_1 |> html_element("a.col-sm-3:nth-child(3) > img") |>  html_attr("src")
 
 
 # Type, Nb de chambre, de salle de bain, surfaces, prix, commune et département
-code_annonce_1 %>% html_elements("li.list-group-item") %>% html_text2()
+code_annonce_1 |> html_elements("li.list-group-item") |> html_text2()
 
 ```
  
@@ -1041,12 +1029,10 @@ code_annonce_1 %>% html_elements("li.list-group-item") %>% html_text2()
 \
 
 <div class="alert alert-danger"> <b>
-La récupération de la localisation du marqueur affiché dans la carte intéractive est un peu plus complexe. Nous les récupérerons dans un second temps. (cf [partie XXXX]())</b></div>
+La récupération des coordonnées du marqueur affiché dans la carte interactive est un peu plus complexe. Leur collecte automatisée est expliquée dans la [partie 3.5](#collecte-de-coordonnées).</b></div>
 
 
 \
-
-## Scraping automatisé
 
 ### Construction d'un tableau de collecte
 
@@ -1072,12 +1058,18 @@ RESULT <- data.frame(URL = as.character(liens),
 
 Voilà le tableau crée :
 
-```{r echo=FALSE, result=TRUE, eval=TRUE}
+``` {r echo=FALSE, result=TRUE, eval=TRUE}
 library(DT)
-datatable(RESULT, options = list(columnDefs = list(list(
-  targets = c(2,3,4), # Index de la colonne avec le champ long
-  render = JS(
-    #Tool pour explorer les attributs raccourcis au survol de la souris
+datatable(
+    RESULT, 
+    rownames = FALSE,  
+    extensions = 'Buttons', options = list(
+    dom = 'Bfrtip', pageLength = 5,
+    buttons = list(list(extend = 'colvis', columns = c(2:14))), 
+    columnDefs = list(list(
+    targets = c(1,2,3),
+    visible = TRUE, 
+    render = JS(
     "function(data, type, row, meta) {",
     "  if (type === 'display') {",
     "    return data.length < 15 ? data : ",
@@ -1088,11 +1080,12 @@ datatable(RESULT, options = list(columnDefs = list(list(
   )
 ))))
 
+
 ```
 
 \
 
-### Collecte des données
+### Scraping de toutes les pages
 
 Nous pouvons désormais construire une boucle qui collecte toutes ses données et complète le tableau précédemment créée :
 
@@ -1104,25 +1097,25 @@ for (i in 1:nrow(RESULT)){
 code_annonce <- read_html(RESULT$URL[i])
 
 # Titre court
-RESULT$T_court[i] <- code_annonce %>% html_element("h6.display-6") %>% html_text2()
+RESULT$T_court[i] <- code_annonce |> html_element("h6.display-6") |> html_text2()
 
 # Titre long
-RESULT$T_long[i] <- code_annonce %>% html_element("h5.card-title") %>% html_text2()
+RESULT$T_long[i] <- code_annonce |> html_element("h5.card-title") |> html_text2()
 
 # Description
-RESULT$Description[i] <- code_annonce %>% html_element("p.card-text") %>% html_text2()
+RESULT$Description[i] <- code_annonce |> html_element("p.card-text") |> html_text2()
 
 # Photo 1 (lien relatif)
-RESULT$Photo_1[i] <- code_annonce %>% html_element("a.col-sm-3:nth-child(1) > img") %>%  html_attr("src")
+RESULT$Photo_1[i] <- code_annonce |> html_element("a.col-sm-3:nth-child(1) > img") |>  html_attr("src")
 
 # Photo 2
-RESULT$Photo_2[i] <- code_annonce %>% html_element("a.col-sm-3:nth-child(2) > img") %>%  html_attr("src")
+RESULT$Photo_2[i] <- code_annonce |> html_element("a.col-sm-3:nth-child(2) > img") |>  html_attr("src")
 
 # Photo 3
-RESULT$Photo_3[i] <- code_annonce %>% html_element("a.col-sm-3:nth-child(3) > img") %>%  html_attr("src")
+RESULT$Photo_3[i] <- code_annonce |> html_element("a.col-sm-3:nth-child(3) > img") |>  html_attr("src")
 
 # Type, Nb de chambre, de salle de bain, surface, prix, commune et département
-infos <- code_annonce %>% html_elements("li.list-group-item") %>% html_text2()
+infos <- code_annonce |> html_elements("li.list-group-item") |> html_text2()
 
 RESULT$Type[i] <- infos[1]
 RESULT$nb_ch[i] <- infos[2]
@@ -1151,13 +1144,111 @@ RESULT$dep[i] <- infos[8]
 
 Résultat :
 
-```{r echo=FALSE, result=TRUE, eval=TRUE}
+``` {r echo=FALSE, result=TRUE, eval=TRUE}
 
-library(DT)
-datatable(RESULT, options = list(columnDefs = list(list(
-  targets = c(2,3,4), # Index de la colonne avec le champ long
-  render = JS(
-    #Tool pour explorer les attributs raccourcis au survol de la souris
+datatable(
+    RESULT, 
+    rownames = FALSE,  
+    extensions = 'Buttons', options = list(
+    dom = 'Bfrtip', pageLength = 5,
+    buttons = list(list(extend = 'colvis', columns = c(2:14))), 
+    columnDefs = list(list(
+    targets = c(1,2,3),
+    visible = TRUE, 
+    render = JS(
+    "function(data, type, row, meta) {",
+    "  if (type === 'display') {",
+    "    return data.length < 15 ? data : ",
+    "      '<span title=\"' + data + '\">' + data.substr(0, 15) + '...</span>';",
+    "  }",
+    "  return data;",
+    "}"
+  )
+))))
+
+
+```
+
+\
+
+## Nettoyage des données
+
+Certaines des informations collectées ont besoin d'être nettoyées. C'est par exemple le cas de la variable "Type", pour laquelle a été collécté des chaînes de caractères qui doivent être simplifiées, ou le cas de la variable "com" qui contient le nom de la commune et son code INSEE. Nous procédons donc à des traitements pour améliorer les données collectées. 
+
+1) Supression des bouts de chaînes de caractères précédant la valeur des variables ciblées :    
+"Type : Appartement" -> "Appartement".
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval = TRUE}
+# Supression de tous les caractères, jusqu'au symbol ": ", pour toutes les colonnes
+RESULT <- lapply(RESULT, gsub, pattern = "^.+: ", replacement = "")
+
+# Conversion du résultat en tableau (data.frame)
+RESULT <- as.data.frame(RESULT)
+```
+
+2) Suppression des unités de mesure pour les prix et les surfaces collectés.
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval = TRUE}
+# Suppression du symbol " m²"
+RESULT$surf_hab <- gsub(x = RESULT$surf_hab, pattern = " m²", replacement = "")
+RESULT$surf_jar <- gsub(x = RESULT$surf_jar, pattern = " m²", replacement = "")
+
+# Suppression du symbol "€" et des espaces
+RESULT$prix <- gsub(x = RESULT$prix, pattern = "€", replacement = "")
+RESULT$prix <- gsub(x = RESULT$prix, pattern = " ", replacement = "")
+```
+
+3) Conversion des nombres stockés en `string` en format `numeric`.
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval = TRUE}
+# Vecteur des colonnes à convertir
+col <- c("nb_ch", "nb_sdb", "surf_hab", "surf_jar", "prix")
+
+# Conversion des colonnes ciblées en numeric
+RESULT[col] <- as.data.frame(lapply(RESULT[col], as.numeric))
+```
+
+
+4) Ventilation de la variable "com" en deux colonnes : "com_name" et "com_insee".
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval = TRUE}
+# Division de la valeur de la variable "com" avec le symbole "("
+Name_and_code <- unlist(strsplit(RESULT$com, split = " \\(" ))
+
+# Transformation du vecteur en matrice + insertion dans le data.frame
+RESULT[ c("com_name","com_insee")] <- matrix(Name_and_code, ncol = 2, byrow = TRUE)
+
+# Supression de la paranthèse restante dans le nouveau champ "com_insee"
+RESULT$com_insee <- gsub(x= RESULT$com_insee, pattern = ")", replacement = "")
+```
+
+5) Même opération sur la variable "dep" qui contient le nom du département et celui de la région et que l'on ventile en deux colonnes : "dep_name" et "reg_name".
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval = TRUE}
+# Division de la valeur de la variable "dep" avec le symbole "("
+dep_and_reg <- unlist(strsplit(RESULT$dep, split = " \\(" ))
+
+# Transformation du vecteur en matrice + insertion dans le data.frame
+RESULT[ c("dep_name","reg_name")] <- matrix(dep_and_reg, ncol = 2, byrow = TRUE)
+
+# Supression de la paranthèse restante dans le nouveau champ "com_insee"
+RESULT$reg_name <- gsub(x= RESULT$reg_name, pattern = ")", replacement = "")
+```
+
+Résultats des traitements de données réalisés :
+
+``` {r echo=FALSE, result=TRUE, eval=TRUE}
+
+datatable(
+    RESULT, 
+    rownames = FALSE,  
+    extensions = 'Buttons', options = list(
+    dom = 'Bfrtip',  pageLength = 5,
+    buttons = list(list(extend = 'colvis', columns = c(2:16))), 
+    columnDefs = list(list(
+    targets = c(1,2,3),
+    visible = TRUE, 
+    render = JS(
     "function(data, type, row, meta) {",
     "  if (type === 'display') {",
     "    return data.length < 15 ? data : ",
@@ -1172,114 +1263,131 @@ datatable(RESULT, options = list(columnDefs = list(list(
 
 \
 
-## Nettoyage des données
+## Collecte de coordonnées
 
-Certaines des informations collectées ont besoin d'être nettoyées. C'est par exemple le cas de la variable "Type", pour laquelle a été collécté des chaînes de caractères qui doivent être simplifiées, ou le cas de la v ariable "com" qui contient le nom de la commune et son code INSEE. Nous procédons donc à des traitements pour optimiser la base de données collectée. 
+Il est possible de récupérer les coordonnées géographiques de la localisation des biens en vente indiquée sur la carte interactive. Cette collecte nécessite de la manipulation de chaîne de caractères.
 
-1) Supression des bouts de chaînes de caractères précédant la valeur des variables ciblées : "Type : Appartement" -> "Appartement".
+Extraction des coordonées (x,y) pour une page d'annonce donnée :
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval = FALSE}
-# Supression de tous les caractères, jusqu'au symbol ": ", pour toutes les colonnes
-RESULT <- lapply(RESULT, gsub, pattern = "^.+: ", replacement = "")
+``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval = TRUE}
 
-# Conversion du résultat en tableau (data.frame)
-RESULT <- as.data.frame(RESULT)
+# Récupération du code source d'une page d'annonce
+page <- read_html(RESULT$URL[1])
+
+# Récupère des balises de type script
+code_page <- page |> html_elements('script') |> html_text2()  
+
+
+# Les coordonnées sont stockée dans la 2nd balise <script> de la page
+code_page_coord <- code_page[2]
+
+# Extraction des coordonnées à l'aide d'une expression régulière
+# = Ne garde que les caractères situés entre []
+coords <- strcapture(x = code_page_coord, 
+                     pattern = "var annonce_coords = \\[(\\d+\\.?\\d*\\, \\d+\\.?\\d*)\\]",                      proto = data.frame(coordinates = character(0)))
+
+# Les coordonées du marqueur affiché sur la carte sont récupérés !
+unlist(strsplit(coords$coordinates, split = ", " ))
+
 ```
 
-2) Suppression des unités de mesure pour les prix est les surfaces collectées
+Nous pouvons alors construire une boucle pour collecter les coordonnées des marqueurs affichés sur les cartes interactives.
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval = FALSE}
-# Suppression du symbol " m²"
-RESULT$surf_hab <- gsub(x = RESULT$surf_hab, pattern = " m²", replacement = "")
-RESULT$surf_jar <- gsub(x = RESULT$surf_jar, pattern = " m²", replacement = "")
+``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval = TRUE}
 
-# Suppression du symbol "€" et des espaces
-RESULT$prix <- gsub(x = RESULT$prix, pattern = "€", replacement = "")
-RESULT$prix <- gsub(x = RESULT$prix, pattern = " ", replacement = "")
-```
+# Création de deux colonnes pour stocker les coordonnées
+RESULT$Lat <- ""
+RESULT$Long <- ""
 
-3) Conversion des nombres en format `numeric`
+for (i in 1:nrow(RESULT)){
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval = FALSE}
-# Vecteur des colonnes à convertir
-col <- c("nb_ch", "nb_sdb", "surf_hab", "surf_jar", "prix")
+page <- read_html(RESULT$URL[i])
 
-# Conversion des colonnes ciblées en numeric
-RESULT[col] <- as.data.frame(lapply(RESULT[col], as.numeric))
-```
+code_page  <- page |> html_elements('script') |> html_text2()  
 
-4) Ventilation de la variable "com" en deux colonnes : "nom" et "INSEE"
+coords <- strcapture(x = code_page[2], 
+                     pattern = "var annonce_coords = \\[(\\d+\\.?\\d*\\, \\d+\\.?\\d*)\\]",                      proto = data.frame(coordinates = character(0)))
 
+RESULT[ c("Lat","Long")][i,] <-  unlist(strsplit(coords$coordinates, split = ", " ))
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval = FALSE}
+}
 
-RESULT$com_name <- ""
-RESULT$com_insee <- ""
+# Conversion des coordonnées récupérées en format numeric
+RESULT$Lat <- as.numeric(RESULT$Lat)
+RESULT$Long <- as.numeric(RESULT$Long)
 
-RESULT[, c("com_name ","com_insee")] <- unlist(strsplit(RESULT$com, split = " \\(" ))
-
-unlist(name_insee)
 ```
 
 
-# Exploration de la base de données scrappées 
+Les colonnes "Lat" et "Long" sont désormais renseignées pour chaque bien en vente :
 
-- [`purr`](https://cran.r-project.org/web/packages/purrr/index.html) pour manipuler des données en utilisant des fonctions de programmation fonctionnelle.
+``` {r echo=FALSE, result=TRUE, eval=TRUE}
 
-- [`tibble`](https://cran.r-project.org/web/packages/tibble/index.html) pour manipuler les données tabulaires.
+tt <-   RESULT[,c("URL", "Lat", "Long")]
+datatable(
+  tt, 
+    rownames = FALSE,  
+    extensions = 'Buttons', options = list(
+    dom = 'Bfrtip', pageLength = 5,
+    buttons = list(list(extend = 'colvis'))
+))
 
-- [`ggplot2`](https://cran.r-project.org/web/packages/ggplot2/index.html) pour faire des graphiques. 
+```
 
-- [`tm`](https://cran.r-project.org/web/packages/tm/index.html) pour l'analyse statistique de textes. 
-
-- [`wordcloud`](https://cran.r-project.org/web/packages/wordcloud/) pour faire un nuage de mots.
-
-- [`leaflet`](https://cran.r-project.org/web/packages/leaflet/) pour faire une carte interactive.
+\
 
 
-### Présentation de la BD scrapée
-Notre base de données scrappées contient les 419 biens à vendre en Seine-Maritime avec les attributs suivants : 
 
-- `lien`, l'URL pour accèder en ligne au bien
+# Exploration de la BD scrappée 
 
-- `titrecourt`, le titre court de l'annonce
+Une fois les données collectées, nous pouvons démarrer leur exploration. Pour cela, nous utilisons plusieurs packages de manipulation et de représentation de données : 
 
-- `titrelong`, le titre long de l'annonce
+- [`ggplot2`](https://cran.r-project.org/web/packages/ggplot2/index.html) pour construire toute sorte de graphiques.     
+- [`tm`](https://cran.r-project.org/web/packages/tm/index.html) pour l'analyse statistique de textes.    
+- [`wordcloud`](https://cran.r-project.org/web/packages/wordcloud/) pour construire un nuage de mots.    
+- [`leaflet`](https://cran.r-project.org/web/packages/leaflet/) pour construire des cartes interactives.    
 
-- `description`, la description complète de l'annonce
+\
 
-- `type`, le type de bien (maison ou appartement)
+## Présentation de la BD scrapée
 
-- `nb_chambres`, le nombre de chambres
+Notre base de données liste les 419 biens à vendre (maisons et appartements) en Seine-Maritime, caractèrisés par plusieurs variables : 
 
-- `nb_sb`, le nombre de salles de bain 
+- **URL** : URL de la page d'annonce du bien en vente(*string*)       
+- **T_court** : titre court de l'annonce (*string*)       
+- **T_long** : titre long de l'annonce (*string*)       
+- **Description** : description complète de l'annonce (*string*)       
+- **Photo_1** : URL de la photo 1 (*string*)       
+- **Photo_2** : URL de la photo 2 (*string*)       
+- **Photo_3** : URL de la photo 3 (*string*)       
+- **Type** : type de bien (maison ou appartement) (*string*)       
+- **nb_ch** : nombre de chambres (*numeric*)       
+- **nb_sdb** : nombre de salles de bain (*numeric*)       
+- **surf_hab** : surface habitable (en m2) (*numeric*)       
+- **surf_jar** : surface de jardin (en m2) (*numeric*)       
+- **prix** : prix (en €) (*numeric*)       
+- **com** : Nom et code INSEE de la commune concernée (*string*)       
+- **dep** : Département et région de la commune concernée (*string*)       
+- **com_name** : Libellé de la commune (*string*)       
+- **com_insee** : Code INSEE de la commune (*string*)       
+- **dep_name** : Département d'appartenance de la commune  (*string*)       
+- **reg_name** : Région d'appartenance de la commune (*string*)       
+- **Lat** : Latitude - coordonnée géographique (*numeric*)       
+- **Long** : Longitude - coordonnée géographique (*numeric*)       
 
-- `surface_h`, la surface habitable (en m2)
 
-- `surface_j`, la surface de jardin (en m2)
+``` {r echo=FALSE, eval = TRUE}
 
-- `prix`, le prix (en €)
-
-- `departement`, le département dans lequel le bien se situe
-
-- `lien_img`, l'URL de la 1ère image de l'annonce
-
-- `latitude`, la latitude
-
-- `longitude`, la longitude
-
-- `identifiant`, un identifiant unique
-
-- `libcom`, le nom de la commune 
-
-- `code_insee`, le code insee
-
-```{r echo=FALSE}
-
-datatable(db_bien, options = list(columnDefs = list(list(
-  targets = c(2,3,4), # Index de la colonne avec le champ long
-  render = JS(
-    #Tool pour explorer les attributs raccourcis au survol de la souris
+datatable(
+    RESULT, 
+    rownames = FALSE,  
+    extensions = 'Buttons', options = list(
+    dom = 'Bfrtip',  pageLength = 5,
+    buttons = list(list(extend = 'colvis', columns = c(2:20))), 
+    columnDefs = list(list(
+    targets = c(1,2,3),
+    visible = TRUE, 
+    render = JS(
     "function(data, type, row, meta) {",
     "  if (type === 'display') {",
     "    return data.length < 15 ? data : ",
@@ -1291,14 +1399,28 @@ datatable(db_bien, options = list(columnDefs = list(list(
 ))))
 
 ```
-### Répartition par type
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE}
+\
+
+## Représentation graphique
+
+Le package de référence `ggplot2` nous permet de réaliser toutes sortes de représentation graphique.
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = TRUE}
 library(ggplot2)
-ggplot(db_bien) +
- aes(x = type) +
+```
+
+
+### Graphique univariée
+
+Graphique en barre représentant le nombre de biens en vente par type :
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = TRUE}
+
+ggplot(RESULT) +
+ aes(x = Type) +
  geom_bar(fill = "#4682B4") +
- labs(y = "Nombre de biens", title = "Répartition du nombre de biens selon le type") +
+ labs(y = "Nombre de biens", title = "Répartition du nombre de biens, par type") +
  coord_flip() +
  theme_gray() +
  theme(plot.title = element_text(size = 14L, face = "bold"))
@@ -1306,35 +1428,36 @@ ggplot(db_bien) +
 
 ```
 
-### Distribution par type/prix
+\
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE}
+### Graphique bivariée
 
-ggplot(db_bien) +
- aes(x = type, y = prix) +
- geom_boxplot(fill = "#4682B4") +
- geom_jitter() +
- labs(y = "Prix des biens", 
- title = "Répartition selon le prix des biens") +
- theme_gray() +
- theme(plot.title = element_text(size = 14L, 
- face = "bold"))
+Distribution des surfaces habitables par types de biens :
 
-
-
-
-```
-### Surface moyenne
-
-  
-  
-``` {r echo= TRUE, message=FALSE, warning=FALSE}
-ggplot(db_bien) +
- aes(x = type, y = surf_h, color=type) +
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = TRUE}
+ggplot(RESULT) +
+ aes(x = Type, y = surf_hab, color=Type) +
  geom_boxplot() +
  geom_jitter() +
  labs(y = "Surface en m2", 
- title = "Répartition selon le prix des biens") +
+ title = "Les surfaces habitables selon le type de bien") +
+ theme_gray() +
+ theme(plot.title = element_text(size = 14L, 
+ face = "bold"))
+```
+
+\
+
+Distribution des prix par types de biens :
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = TRUE}
+
+ggplot(RESULT) +
+ aes(x = Type, y = prix) +
+ geom_boxplot(fill = "#4682B4") +
+ geom_jitter() +
+ labs(y = "Prix des biens", 
+ title = "Le prix de vente (m2) selon le type de bien") +
  theme_gray() +
  theme(plot.title = element_text(size = 14L, 
  face = "bold"))
@@ -1342,71 +1465,213 @@ ggplot(db_bien) +
 
 ```
 
+\
 
-### Nuage de mot sur les description des biens
-``` {r echo= TRUE, message=FALSE, warning=FALSE}
+### Nuage de mot 
+
+Les packages `tm` et `wordcloud` sont efficaces pour construire aisément des nuages de mots.
+
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = TRUE}
 library(tm)
 library(wordcloud)
-# Création du corpus
-corpus <- Corpus(VectorSource(db_bien$description))
+```
 
-# Prétraitement du texte
+Nous commençons par créer un objet `list` de type corpus (fonctions `Corpus()` et `VectorSource()` du package `tm`), à partir de la variable "*Description*".
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = TRUE}
+
+# Création du corpus
+corpus <- Corpus(VectorSource(RESULT$Description))
+```
+
+La focntion `tm_map` permet ensuite de nettoyer notre corpus textuel. Après avoir converti tout le texte en minucscule, nous supprimons les *stopwords*, la ponctuation et les chiffres.
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = TRUE}
+# traitement du texte
 corpus <- tm_map(corpus, content_transformer(tolower))
+corpus <- tm_map(corpus, removeWords, stopwords("french"))
 corpus <- tm_map(corpus, removePunctuation)
 corpus <- tm_map(corpus, removeNumbers)
-corpus <- tm_map(corpus, removeWords, stopwords("french"))
 
-# Création du nuage de mots
-wordcloud(corpus, scale=c(3,0.5), max.words=50, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
+``` 
 
+Il ne reste plus qu'à utiliser la fonction `wordcloud` du package du même nom pour construire un nuage de mot à partir de ce corpus.
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = TRUE}
+
+wordcloud(corpus, 
+          scale = c(2.5,0.5), 
+          max.words = 50, 
+          min.freq = 2,
+          random.order = FALSE,
+          colors = rev(terrain.colors(8)))
 
 ```
 
 
+## Cartographie 
 
-### Carte !
+### Carte interactive
 
-``` {r echo= TRUE, message=FALSE, warning=FALSE}
+Le package `leaflet` (*binding* de la librairie javascript du même nom) nous permet de construire facilement de scarte interactives.
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = TRUE}
 library(leaflet)
-# Créer la carte Leaflet
-carte <- leaflet(db_bien) %>% 
-  addTiles() %>%
-  addCircleMarkers(lng = ~longitude, 
-                   lat = ~latitude, 
-                   popup = ~paste("<strong>", titrecourt, "</strong>", 
-                                  "<br><img src='",lien_img,"' style='width:200px;height:200px;'>",
-                                  "<br><strong>Type :</strong>", type, 
-                                  "<br><strong>Surface habitable :</strong>",surf_h,"m²",
-                                  "<br><strong>Nombre de chambres :</strong>",nb_chambres,                                   "</strong>", 
-                                  "<br><strong>Nombre de salles de bains :</strong>",                                       nb_sb,"</strong>",
-                                  "<br><strong>Prix :</strong>",prix,"€"
-                                  ),
-                   label = ~titrecourt, 
-                   radius = 1, 
-                   color = ~ifelse(type == "Appartement", "#0C3762", "#F0AA0C"),
-                   fillOpacity = 0.8)
+```
 
-#Afficher la carte
-carte
+Nous affichons la localisation de chaque bien mis en vente, colorés selon le type. Plusieurs informations sur les biens sont accessibles lorsque l'on clic sur un des points affiché :
 
-
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = TRUE}
+leaflet(RESULT) |> 
+           addTiles() |>
+           addCircleMarkers(lng = ~Long, 
+                            lat = ~Lat, 
+                             popup = ~paste("<strong>", T_court, "</strong>", 
+                                            "<br><img src='", url_absolute(Photo_1, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b") ,"' style='width:200px;height:200px;'>",
+                                            "<br><strong>Type :</strong>", Type, 
+                                            "<br><strong>Surface habitable :</strong>", surf_hab,"m²",
+                                            "<br><strong>Nombre de chambres :</strong>", nb_ch, "</strong>", 
+                                            "<br><strong>Nombre de salles de bains :</strong>", nb_sdb, "</strong>",
+                                            "<br><strong>Prix :</strong>", prix, "€"),
+                             label = ~T_court, 
+                             radius = 3, 
+                             color = ~ifelse(Type == "Appartement", "#0C3762", "#F0AA0C"),
+                             fillOpacity = 0.8)
 
 ```
 
-Géocodage adresse + carto 
-
-### Export
-
-#### csv
-
-#### Géopackage
+\
 
 
+### Carte de potentiel
+
+**Problèmatique car pas assez de points (24), des packages supplémentaires à installer de packages à installer et des notions à introduire (projection).**
+
+**Perso, je n'ajouterai pas cette partie**
+
+```{r eval = FALSE}
+
+library(sf)
+
+RESULT_sf2 <-st_transform(RESULT_sf, crs = "EPSG:3857")
+
+
+library(spatstat)
+p <- as.ppp(X = st_coordinates(RESULT_sf2), 
+            W = as.owin(st_bbox(RESULT_sf2)))
+
+# Calcul densité par lissage 
+ds <- density.ppp(x = p, sigma = 1500, weights = RESULT_sf$prix/RESULT_sf$surf_hab, eps = 100, positive = TRUE)
+
+# Affichage du résultat
+plot(ds)
+```
+
+\
+
+# Export des données collectées
+
+## Export de la BD en tableau 
+
+La fonction R-base `read.csv()` permet d'exporter le data.frame construit en fichier csv.
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = TRUE}
+write.csv(x = RESULT, file = "data/BD_ScrapImmob.csv", row.names = FALSE)
+```
+
+\
+
+## Export de couche géographique
+
+Le package `sf` permet la manipulation (de l'import et la représentation) de données géographiques vectorielles.
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = TRUE}
+
+# install.packages("sf")
+
+library(sf)
+
+```
+
+A laide de la fonction `st_as_sf` du package `sf`, il est possible de convertir notre tableau en couche géographique ponctuelle, à partir des latitudes et des longitudes stockées en colonne.
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = TRUE}
+
+# Transformation du tableau en objet sf
+RESULT_sf <- st_as_sf(RESULT, 
+                     coords = c("Long", "Lat"), 
+                     crs = 'EPSG:4326')
+
+
+# Affichage de la couche géographique générée
+plot(RESULT_sf["prix"])
+
+```
+
+Notre base de données est désormais un objet sf (couche géographique vectorielle). Nous pouvons l'exporter dans le format de fichier de notre choix (en geopackage dans l'exemple ci-dessous).
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = TRUE}
+
+st_write(obj = RESULT_sf, 
+         dsn = "data/BD_ScrapImmob.gpkg", 
+         layer = "Seine_Maritime", 
+         delete_layer = TRUE)
+
+```
+
+\
+
+## Téléchargement des photos
+
+Pour chaque annonce, nous avons collecté les liens vers les photos des biens mis en vente affichées sur le site web. A partir de ces liens stockées dans les colonnes "*Photo_1*", "*Photo_2*", et "*Photo_3*", nous pouvons télécharger l'ensemble de ces images de la manière suivante.
+
+1) Créatiopn d'un vecteur contenant toutes les URLs absolue vers les photos.
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = TRUE}
+
+# Reconstruction des URLs absolues
+photo_1 <- url_absolute(RESULT$Photo_1, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
+photo_2 <- url_absolute(RESULT$Photo_2, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
+photo_3 <- url_absolute(RESULT$Photo_3, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
+
+liens_photos <- c(photo_1, photo_2, photo_3)
+
+```
+
+2) Création d'un nouveau répertoire pour y stocker l'ensemble des images collectés. 
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = FALSE}
+
+dir.create("data/pictures")
+
+```
+
+3) En utilisant la fonction `download.file()`, nous pouvons construire une boucle pour enregistrer toutes les photos dans le répertoire "*photo*". 
+
+
+``` {r echo= TRUE, message=FALSE, warning=FALSE, eval = FALSE}
+
+for (i in 1:length(liens_photos)){
+
+# Récupération du nom de fichier
+name_file <- sub(".*/", "", liens_photos[i])
+
+# Téléchargement et enregistrament de la photo
+download.file(url = liens_photos[i], destfile = paste0("data/pictures/", name_file))
+
+}
+
+```
+
+
+![](figures/photos.png)
+
+\
 
 # Conclusion
 
-Ouverture Le bon coin ?
-
+Ouverture Le bon coin ? On laisse cette partie ?
 
 
 # Bibliographie {-}
@@ -1417,14 +1682,24 @@ Ouverture Le bon coin ?
 
 ## Info session  {-}
 
-```{r session_info, echo=FALSE}
+
+``` {r echo=FALSE, cache = FALSE, eval = TRUE}
+library(rvest)
+library(ggplot2)
+library(leaflet)
+library(tm)
+library(wordcloud)
+library(sf)
+```
+
+``` {r session_info, echo=FALSE, cache = FALSE}
 kableExtra::kable_styling(knitr::kable(rzine::sessionRzine()[[1]], row.names = F))
 kableExtra::kable_styling(knitr::kable(rzine::sessionRzine()[[2]], row.names = F))
 ```
 
 ## Citation {-}
 
-```{r Citation, echo=FALSE}
+``` {r Citation, echo=FALSE}
 rref <- bibentry(
    bibtype = "misc",
    title = "Titre de la fiche",
@@ -1444,7 +1719,7 @@ rref <- bibentry(
 
 ### BibTex : {-}
 
-```{r generateBibTex, echo=FALSE}
+``` {r generateBibTex, echo=FALSE}
 
 writeLines(toBibtex(rref), "cite.bib")
 toBibtex(rref)
@@ -1455,7 +1730,7 @@ toBibtex(rref)
 
 ## Glossaire {- #endnotes}
 
-```{js, echo=FALSE}
+``` {js, echo=FALSE}
 
 $(document).ready(function() {
   $('.footnotes ol').appendTo('#endnotes');

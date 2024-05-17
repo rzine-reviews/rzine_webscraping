@@ -10,3 +10,5 @@ RColorBrewer
 wordcloud
 leaflet
 DT
+xml2
+sf
