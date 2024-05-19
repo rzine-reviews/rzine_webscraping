@@ -1057,6 +1057,7 @@ head(links)
 \
 
 
+
 ## Collecte principale
 
 ### Scraping d'une page d'annonce
@@ -1581,6 +1582,24 @@ ggplot(scrapimmob) +
 
 ```
 
+
+\
+
+
+Graphique en barre représentant le nombre de biens en vente par commmune normande :
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE, fig.height=8}   
+ggplot(scrapimmob) +
+ aes(x = com_name) +
+ geom_bar(fill = "#4682B4") +
+ labs(y = "Nombre de biens en vente", title = "Répartition du nombre de biens par commune") +
+ ylab("") +
+ coord_flip() +
+ theme_gray() +
+ theme(plot.title = element_text(size = 11L, face = "bold"), axis.text=element_text(size=6.5))
+
+```
+
 \
 
 
@@ -1589,6 +1608,7 @@ ggplot(scrapimmob) +
 Distribution des surfaces habitables par types de biens :
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+
 ggplot(scrapimmob) +
  aes(x = Type, y = surf_hab, color=Type) +
  geom_boxplot() +
@@ -1601,6 +1621,16 @@ ggplot(scrapimmob) +
 
 ```
 
+Distribution des surfaces habitables en fonction du prix de mise en vente :
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+
+# changer le type, la couleur et la taille
+ggplot(scrapimmob, aes(x=prix, y=surf_hab, group=Type)) +
+  geom_point(aes( color=Type))
+
+```
+
 \
 
 
@@ -1609,10 +1639,11 @@ Distribution des prix par types de biens :
 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE, fig.height=8}   
+
 # Pour affichage de chiffre dans le graphique
 options(scipen = 999)
 
-# Séléction des maison uniquement
+# Sélection des maisons uniquement
 scrapimmobmaison <- scrapimmob[scrapimmob$Type == "Maison",]
 
 # Regroupement par commune
@@ -1638,7 +1669,7 @@ ggplot(data=table, aes(reorder(Group.1, -x), x)) +
 Les packages `tm` et `wordcloud` sont efficaces pour construire aisément des nuages de mots.
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE, cache = FALSE}
 
 library(tm)
 library(wordcloud)
@@ -1649,18 +1680,17 @@ library(wordcloud)
 Nous commençons par créer un objet `list` de type corpus (fonctions `Corpus()` et `VectorSource()` du package `tm`), à partir de la variable "*Description*".
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE, cache = FALSE}
 
 # Création du corpus
 corpus <- Corpus(VectorSource(scrapimmob$Description))
-
 ```
 
 
 La focntion `tm_map` permet ensuite de nettoyer notre corpus textuel. Après avoir converti tout le texte en minucscule, nous supprimons les *stopwords*, la ponctuation et les chiffres.
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE, cache = FALSE}
 
 # traitement du texte
 corpus <- tm_map(corpus, content_transformer(tolower))
@@ -1674,7 +1704,7 @@ corpus <- tm_map(corpus, removeNumbers)
 Il ne reste plus qu'à utiliser la fonction `wordcloud` du package du même nom pour construire un nuage de mot à partir de ce corpus.
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE, cache = FALSE}
 
 wordcloud(corpus, 
           scale = c(2.5,0.5), 
@@ -1839,6 +1869,7 @@ download.file(url = links_photos[i], destfile = paste0("data/pictures/", name_fi
 
 # Conclusion
 
+
 ChatGPT & scraping ? Ouverture Le bon coin ? On laisse cette partie ?
 
 
@@ -1846,7 +1877,9 @@ ChatGPT & scraping ? Ouverture Le bon coin ? On laisse cette partie ?
 
 # Bibliographie {-}
 
+
 <div id="refs"></div>
+
 
 \
 
@@ -1866,12 +1899,14 @@ library(sf)
 ```
 
 
+
 ```{r session_info, echo=FALSE, cache = FALSE}
 
 kableExtra::kable_styling(knitr::kable(rzine::sessionRzine()[[1]], row.names = F))
 kableExtra::kable_styling(knitr::kable(rzine::sessionRzine()[[2]], row.names = F))
 
 ```
+
 
 \
 
