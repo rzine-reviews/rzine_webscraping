@@ -24,7 +24,8 @@ link-citations: true
 # gitlab: "gitlab.huma-num.fr/author/repository"
 # doi: "xx.xxx/xxxx.xxxxxxx"
 # licence: "by-sa"
-
+params:
+  force_scraping: FALSE
 # Only Creative Commons Licence 
 # 5 possible choices : "by-nd", "by", "by-nc-sa", "by-nc","by-sa"
 ---
@@ -874,17 +875,36 @@ Notre objectif étant de collecter uniquement des données sur les biens (maison
 
 Nous commençons par récupérer le code source de ces deux pages avec la fonction `read_html()`. Cette fonction effectue une requête HTTP, puis en analyse le code HTML récupéré à l'aide du package `xml2`.
 
-```{r,  eval=TRUE, message=FALSE, warning=FALSE, cache=FALSE}
-
+```{r, eval=params$force_scraping, message=FALSE, warning=FALSE, cache=FALSE, echo = FALSE}
 url_appart <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/"
 url_maison <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/"
 
 code_appart <- read_html(url_appart)
 code_maison <- read_html(url_maison)
+xml2::write_xml(code_appart, "offline_data/code_appart.html")
+xml2::write_xml(code_appart, "offline_data/code_maison.html")
+```
 
+```{r, eval=TRUE, message=FALSE, warning=FALSE, cache=FALSE, echo = FALSE}
+url_appart <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/"
+url_maison <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/"
+code_appart <- read_html("offline_data/code_appart.html")
+code_maison <- read_html("offline_data/code_maison.html")
+```
+
+
+
+```{r,  eval=FALSE, message=FALSE, warning=FALSE, cache=FALSE}
+url_appart <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/"
+url_maison <- "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/"
+
+code_appart <- read_html(url_appart)
+code_maison <- read_html(url_maison)
+```
+
+```{r,  eval=TRUE, message=FALSE, warning=FALSE, cache=FALSE}
 # Affichage de l'objet code_appart
 code_appart
-
 ```
 
 \
@@ -1017,8 +1037,7 @@ Une autre solution aurait été de simuler le clic d'un utilisateur sur le bouto
 A partir de cette liste, nous pouvons collecter l'ensemble des URLs présentes sur ces pages, qui renvoient vers des pages d'annonces complètes. Pour cela, nous créons la boucle suivante : 
 
 
-```{r scrap_link, echo=TRUE, message=FALSE, warning=FALSE}
-
+```{r scrap_link_cache, echo=FALSE, eval = params$force_scraping, message=FALSE, warning=FALSE}
 # Création d'un vecteur vide
 links <- character()
 
@@ -1038,7 +1057,37 @@ for (i in 1:length(list_url)){
 
 # Affichage des 6 premières URLs récupérées
 head(links)
+saveRDS(links, "offline_data/links.rds")
+```
 
+```{r scrap_link_offline, echo=FALSE, eval = TRUE, message=FALSE, warning=FALSE}
+links <- readRDS('offline_data/links.rds')
+```
+
+```{r scrap_link, echo=TRUE, message=FALSE, warning=FALSE, eval = FALSE}
+
+# Création d'un vecteur vide
+links <- character()
+
+i<- 1
+# Boucle de récupération des URLs de page d'annonce
+for (i in 1:length(list_url)){
+
+  # Récupération du code source de la page i
+  page <- read_html(list_url[i])
+
+  # Récupération du lien dans les balises de la classe "stretched-link"
+  links_p <- page |> html_elements("a.stretched-link") |>  html_attr("href")
+
+  links <- c(links, links_p)
+
+ }
+```
+
+
+```{r scrap_link_print, echo=TRUE, message=FALSE, warning=FALSE, eval = TRUE}
+# Affichage des 6 premières URLs récupérées
+head(links)
 ```
 
 
@@ -1092,7 +1141,19 @@ library(rvest)
 
 ``` 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, eval =TRUE}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval =params$force_scraping}
+# Lecture du code source de la page 1
+code_annonce_1 <- read_html(links[1])
+xml2::write_xml(code_annonce_1, "offline_data/code_annonce_1.html")
+``` 
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, eval = TRUE}
+# Lecture du code source de la page 1
+code_annonce_1 <- read_html("offline_data/code_annonce_1.html")
+``` 
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, eval =FALSE}
 
 # Lecture du code source de la page 1
 code_annonce_1 <- read_html(links[1])
@@ -1198,7 +1259,69 @@ datatable(
 Nous pouvons désormais construire une boucle qui collecte toutes ses données et complète le tableau précédemment créée.
 
 
-```{r scraping, echo=TRUE, message=FALSE, warning=FALSE}
+
+```{r scraping_cached, echo=FALSE, message=FALSE, warning=FALSE, eval = params$force_scraping}
+
+for (i in 1:nrow(scrapimmob)){   
+
+code_annonce <- read_html(scrapimmob$URL[i])
+
+# Titre court
+scrapimmob$T_court[i] <- code_annonce |> html_element("h6.display-6") |> html_text2()
+
+# Titre long
+scrapimmob$T_long[i] <- code_annonce |> html_element("h5.card-title") |> html_text2()
+
+# Description
+scrapimmob$Description[i] <- code_annonce |> html_element("p.card-text") |> html_text2()
+
+# Photo 1 (lien relatif)
+scrapimmob$Photo_1[i] <- code_annonce |> html_element("a.col-sm-3:nth-child(1) > img") |>  html_attr("src")
+
+# Photo 2
+scrapimmob$Photo_2[i] <- code_annonce |> html_element("a.col-sm-3:nth-child(2) > img") |>  html_attr("src")
+
+# Photo 3
+scrapimmob$Photo_3[i] <- code_annonce |> html_element("a.col-sm-3:nth-child(3) > img") |>  html_attr("src")
+
+# Type, Nb de chambre, de salle de bain, surface, prix, commune et département
+infos <- code_annonce |> html_elements("li.list-group-item > strong") |> html_text2()
+
+scrapimmob$Type[i] <- infos[1]
+scrapimmob$nb_ch[i] <- infos[2]
+scrapimmob$nb_sdb[i] <- infos[3]
+scrapimmob$surf_hab[i] <- infos[4]
+
+if (length(infos)==7){
+
+scrapimmob$surf_jar[i] <- NA
+scrapimmob$prix[i] <- infos[5]
+scrapimmob$com[i] <- infos[6]
+scrapimmob$dep[i] <- infos[7]
+
+} else {
+
+scrapimmob$surf_jar[i] <- infos[5]
+scrapimmob$prix[i] <- infos[6]
+scrapimmob$com[i] <- infos[7]
+scrapimmob$dep[i] <- infos[8]
+
+}
+
+
+# print(paste0("Page ",i))
+
+}
+
+saveRDS(scrapimmob, "offline_data/scrapimmob.rds")
+```
+
+```{r, echo = FALSE, eval = TRUE}
+scrapimmob <- readRDS("offline_data/scrapimmob.rds")
+```
+
+
+```{r scraping, echo=TRUE, message=FALSE, warning=FALSE, eval = FALSE}
 
 for (i in 1:nrow(scrapimmob)){   
 
@@ -1388,7 +1511,24 @@ Il est possible de récupérer les coordonnées géographiques de la localisatio
 
 **Extraction des coordonées (x,y) pour une page d'annonce donnée :**
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, cache=TRUE, eval=params$force_scraping}
+
+# Récupération du code source d'une page d'annonce
+page <- read_html(scrapimmob$URL[1])
+
+# Récupère des balises de type script
+code_page <- page |> html_elements('script') |> html_text2()  
+
+saveRDS(code_page, "offline_data/code_page.rds")
+```
+
+```{r, eval = TRUE, echo = FALSE}
+code_page <- readRDS("offline_data/code_page.rds")
+```
+
+
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=FALSE}
 
 # Récupération du code source d'une page d'annonce
 page <- read_html(scrapimmob$URL[1])
@@ -1434,7 +1574,45 @@ unlist(strsplit(coords$coordinates, split = ", " ))
 Nous pouvons alors construire une boucle pour collecter toutes les coordonnées d'un seul coup.
 
 
-```{r map_scrap,  echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+```{r map_scrap_cache,  echo=FALSE, message=FALSE, warning=FALSE, eval=params$force_scraping}
+
+# Création de deux colonnes pour stocker les coordonnées
+scrapimmob$Lat <- ""
+scrapimmob$Long <- ""
+
+for (i in 1:nrow(scrapimmob)){
+
+# Lecture du code source
+page <- read_html(scrapimmob$URL[i])
+
+# Récupération du contenu des balises script
+code_page  <- page |> html_elements('script') |> html_text2()  
+
+# Extraction des cordonnées
+coords <- strcapture(x = code_page[2], 
+                     pattern = "var annonce_coords = \\[(\\d+\\.?\\d*\\, \\d+\\.?\\d*)\\]",
+                     proto = data.frame(coordinates = character(0)))
+
+# Ajout des coordonées dans le data.frame scrapimmo
+scrapimmob[ c("Lat","Long")][i,] <-  unlist(strsplit(coords$coordinates, split = ", " ))
+
+# print(paste0("Page ",i))
+
+}  
+
+# Conversion des coordonnées récupérées en format numeric
+scrapimmob$Lat <- as.numeric(scrapimmob$Lat)
+scrapimmob$Long <- as.numeric(scrapimmob$Long)
+
+saveRDS(scrapimmob, "offline_data/scrapimmob_withCoords.rds")
+```
+
+```{r, echo = FALSE, eval = TRUE}
+scrapimmob <- readRDS("offline_data/scrapimmob_withCoords.rds")
+```
+
+
+```{r map_scrap,  echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
 
 # Création de deux colonnes pour stocker les coordonnées
 scrapimmob$Lat <- ""
@@ -1855,7 +2033,7 @@ for (i in 1:length(links_photos)){
 # Récupération du nom de fichier
 name_file <- sub(".*/", "", links_photos[i])
 
-# Téléchargement et enregistrament de la photo
+# Téléchargement et enregistrement de la photo
 download.file(url = links_photos[i], destfile = paste0("data/pictures/", name_file))
 
 }
