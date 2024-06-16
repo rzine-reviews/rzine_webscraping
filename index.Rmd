@@ -1796,8 +1796,8 @@ datatable(tt,
 Avec la fonction `str_extract()` du package `stringr`, plus conviviale, nous pouvons ensuite extraire les coordonnées à l'aide d'une expression régulière qui permet de ne garder que les caractères situés entre crochets `[]`.
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
-
+```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=FALSE}
+library(stringr)
 coords <- str_extract(code_page_coord,"\\[(.*?)\\]", group = 1) %>%
   str_split(", ", simplify = TRUE) %>% # Séparation des 2 coordonnées
   as.numeric()# Conversion en numérique
@@ -2234,9 +2234,11 @@ leaflet(scrapimmob_sf) |>
 
 # Conclusion
 
+<!-- TODO -->
+<!-- Ajouter éléments conclusifs -->
+<!-- + Bonnes pratiques -->
 
 ChatGPT & scraping ? Ouverture Le bon coin ? On laisse cette partie ?
-
 
 \
 
