@@ -1804,8 +1804,9 @@ Distribution des surfaces habitables en fonction du prix de mise en vente :
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 
 # changer le type, la couleur et la taille
-ggplot(scrapimmob, aes(x=prix, y=surf_hab, group=Type)) +
-  geom_point(aes( color=Type))
+ggplot(scrapimmob) +
+  aes(x=prix, y=surf_hab, color = Type) +
+  geom_point()
 
 ```
 
@@ -1828,13 +1829,16 @@ scrapimmobmaison <- scrapimmob[scrapimmob$Type == "Maison",]
 table <- aggregate(x = scrapimmobmaison$prix, by = list(scrapimmobmaison$com_name), FUN=median)
 
 # Graphique 
-ggplot(data=table, aes(reorder(Group.1, -x), x)) +
- geom_bar(stat="identity", fill = "#4682B4")+ coord_flip() +  
- labs(title = "Le prix des maisons en vente par commune") +
- ylab("Prix médian")+
- xlab("")+
- theme_gray() +
- theme(plot.title = element_text(size = 12L, face = "bold"), axis.text=element_text(size=6.5))
+ggplot(data=table) +
+  aes(x = reorder(Group.1, -x), y = x) +
+  geom_col(fill = "#4682B4", colour = "white", linewidth = 0.05) +
+  coord_flip() +
+  labs(
+    title = "Le prix des maisons en vente par commune",
+    x = "Prix médian",
+    y = "") +
+  theme_gray() +
+  theme(plot.title = element_text(size = 12L, face = "bold"), axis.text=element_text(size=6.5))
 
 
 ```
