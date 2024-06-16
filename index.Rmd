@@ -1255,7 +1255,9 @@ datatable(
 
 \
 
-### Scraping de toutes les pages
+### Scraping de toutes les pages  {.tabset}
+
+#### Pas-à-pas
 
 Nous pouvons désormais construire une boucle qui collecte toutes ses données et complète le tableau précédemment créée.
 
@@ -1381,8 +1383,66 @@ scrapimmob$dep[i] <- infos[8]
 Dans la liste de puce (`<li>`) de la classe `list-group-item` se trouve plusieurs informations sur les biens. Cela permet de collecter plusieurs informations d'un coup. Cependant, certaines informations ne sont pas toujours renseignées. C'est le cas de "la surface de jardin". Pour cette raison, **nous utilisons un test `if` qui permet d'adapter la collecte en fonction du nombre d'éléménts récupérés**. 
 
 
-\
+#### En une fois
 
+
+Nous pouvons désormais interroger une par une chacune des URL des annonces et compléter le tableau précédemment créé : 
+
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, eval = FALSE}
+
+library(purrr)
+
+scrapimmob_results <- scrapimmob %>% slice(0) # Initialisation à 0 lignes du tableau de résultats
+
+for (i in 1:nrow(scrapimmob)){   
+
+code_annonce <- read_html(scrapimmob$URL[i])
+infos <- code_annonce |> html_elements("li.list-group-item > strong") |> html_text2()
+
+scrapimmob_page <- scrapimmob %>%
+  slice(i) %>%
+  mutate(T_court = html_element(code_annonce, "h6.display-6") |> html_text2()) %>% # Titre court
+  mutate(T_long =  html_element(code_annonce, "h5.card-title") |> html_text2()) %>% # Titre long
+  mutate(Description = html_element(code_annonce, "p.card-text") |> html_text2()) %>% #Description
+  mutate(Photo_1 =  html_elements(code_annonce, "img") |> html_attr('src') %>% pluck(1)) %>%
+  mutate(Photo_2 =  html_elements(code_annonce, "img") |> html_attr('src') %>% pluck(2)) %>%
+  mutate(Photo_3 =  html_elements(code_annonce, "img") |> html_attr('src') %>% pluck(3)) %>%
+  mutate(Type = pluck(infos, 1)) %>%
+  mutate(nb_ch = pluck(infos, 2)) %>%
+  mutate(nb_sdb = pluck(infos, 3)) %>%
+  mutate(surf_hab = pluck(infos, 4))
+
+if (length(infos)==7){
+  scrapimmob_page <- scrapimmob_page %>%
+    mutate(surf_jar = NA) %>%
+    mutate(prix = pluck(infos, 5)) %>%
+    mutate(com = pluck(infos, 6)) %>%
+    mutate(dep = pluck(infos, 7))
+} else {
+  scrapimmob_page <- scrapimmob_page %>%
+    mutate(surf_jar = pluck(infos, 5)) %>%
+    mutate(prix = pluck(infos, 6)) %>%
+    mutate(com = pluck(infos, 7)) %>%
+    mutate(dep = pluck(infos, 8))
+}
+
+scrapimmob_results <- scrapimmob_results %>%
+  bind_rows(scrapimmob_page)
+
+print(paste0(i, " / ", nrow(scrapimmob)))
+
+}
+
+scrapimmob <- scrapimmob_results
+
+```
+
+
+Dans la liste de puce (`<li>`) de la classe `list-group-item` se trouve plusieurs informations sur les biens. Cela permet de collecter plusieurs informations d'un coup. Cependant, certaines informations ne sont pas toujours renseignées. C'est le cas de "la surface de jardin". Pour cette raison, **nous utilisons un test `if` qui permet d'adapter la collecte en fonction du nombre d'éléments récupérés**. 
+
+
+### {-}
 
 Cette boucle a permis de renseigner le `data.frame` *scrapimmob* de la manière suivante :
 
@@ -1412,12 +1472,14 @@ datatable(
 
 \
 
-## Nettoyage des données
+## Nettoyage des données {.tabset}
+
 
 **En *web scraping*, le plus compliqué n'est pas forcément la collecte des données. Un prétraitement des données collectées est souvent nécessaire pour obtenir une base de données propre et optimisée.**
 
 Dans notre démonstration, certaines des informations collectées ont besoin d'être nettoyées. C'est par exemple le cas de la variable "prix", qui affiche l'unité de mesure (€), ou le cas de la variable "com" qui contient le nom de la commune et son code INSEE. Nous procédons donc à des traitements pour améliorer les données collectées. 
 
+### En R-base
 
 1) **Suppression des unités de mesure** pour les prix et les surfaces collectés.
 
@@ -1483,7 +1545,46 @@ scrapimmob$reg_name <- gsub(x= scrapimmob$reg_name, pattern = ")", replacement =
 
 ```
 
-\
+**Résultats des traitements réalisés sur les différentes variables :**
+
+
+```{r, echo=FALSE, warning=FALSE, eval=TRUE}
+
+scrapimmob2 <- scrapimmob[, c(9,10,11,12,13,16,17,18,19)]
+
+datatable(scrapimmob2, 
+    rownames = FALSE, filter = 'top',  extensions = 'Buttons',options = list(pageLength = 5, 
+    buttons = list(list(extend = 'colvis', columns = c(1:3)))))
+
+```
+
+
+### Avec dplyr et le tidyverse
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=FALSE}
+library(dplyr)
+library(stringr)
+library(tidyr)
+scrapimmob <- scrapimmob %>%
+  # 1) **Suppression des unités de mesure** pour les prix et les surfaces collectés.
+  mutate(surf_hab = str_remove(surf_hab, " m²") %>% as.numeric()) %>% # Suppression du symbol " m²"
+  mutate(surf_jar = str_remove(surf_jar, " m²") %>% as.numeric()) %>% # Suppression du symbol " m²"
+  mutate(prix = str_remove(prix, "€") %>% str_remove(., " ")) %>% # Suppression du symbole "€" et des espaces
+  # 2) **Conversion des nombres** stockés en `string` en format `numeric`.
+  mutate(across(
+    .cols = c(starts_with("nb_"), starts_with("surf_"), prix),
+    .fns = as.numeric
+  )) %>%
+  # 3) **Ventilation de la variable "com"** en deux colonnes : "com_name" et "com_insee" et Idem pour variable "dep"
+  separate_wider_delim(com, delim = "(", names = c("com_name", "com_insee")) %>% # Division en deux colonnes
+  separate_wider_delim(dep, delim = "(", names = c("dep_name", "reg_name")) %>% # Division en deux colonnes
+  mutate(com_insee = str_remove(com_insee, fixed(")"))) %>% # Suppression des parenthèses fermantes restantes
+  mutate(reg_name = str_remove(reg_name, fixed(")"))) %>% # Suppression des parenthèses fermantes restantes
+  mutate(reg_name = paste0("    ", reg_name)) %>%
+  mutate(across(  # Suppression des espaces en début et fin
+    .cols = c(com_name, com_insee, dep_name, reg_name),
+    .fns = str_trim))
+```
 
 
 **Résultats des traitements réalisés sur les différentes variables :**
@@ -1502,7 +1603,7 @@ datatable(scrapimmob2,
 \
 
 
-## Collecte de coordonnées
+## Collecte de coordonnées {.tabset}
 
 Il est possible de récupérer les coordonnées géographiques de la localisation des biens en vente indiquées sur la carte interactive, qui sont stockées dans une balise `<script>` dans le code source des pages. Cette collecte nécessite de la manipulation de chaîne de caractères.
 
@@ -1542,6 +1643,11 @@ code_page
 
 ```
 
+```{r, echo = FALSE, eval = TRUE}
+code_page
+```
+
+
 
 Les coordonnées sont stockées dans la seconde balise `<script>` récupérée.
 
@@ -1554,8 +1660,9 @@ code_page_coord <- code_page[2]
 ```
 
 
-Avec la fonction `strcapture()`, nous pouvons ensuite extraire les coordonées à l'aide d'une expression régulière qui permet de ne garder que les caractères situés entre crochets `[]`.
+### Récupération avec R-Base
 
+Avec la fonction `strcapture()`, nous pouvons ensuite extraire les coordonnées à l'aide d'une expression régulière qui permet de ne garder que les caractères situés entre crochets `[]`.
 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
@@ -1645,8 +1752,65 @@ scrapimmob$Long <- as.numeric(scrapimmob$Long)
 ```
 
 
-\
+**Les colonnes "Lat" et "Long" sont désormais renseignées pour chaque bien en vente.**
 
+
+```{r, echo=FALSE, warning=FALSE, eval=TRUE}
+
+tt <- scrapimmob[,c("URL", "Lat", "Long")]
+
+datatable(tt, 
+          rownames = FALSE,  
+          extensions = 'Buttons',
+          options = list(pageLength = 5))
+
+```
+
+### Récupération avec le tidyverse
+
+
+
+Avec la fonction `str_extract()` du package `stringr`, plus conviviale, nous pouvons ensuite extraire les coordonnées à l'aide d'une expression régulière qui permet de ne garder que les caractères situés entre crochets `[]`.
+
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
+
+coords <- str_extract(code_page_coord,"\\[(.*?)\\]", group = 1) %>%
+  str_split(", ", simplify = TRUE) %>% # Séparation des 2 coordonnées
+  as.numeric()# Conversion en numérique
+# Les coordonnées du marqueur affiché sur la carte sont récupérés
+coords
+```
+Nous pouvons alors itérer pour récupérer tous les couples de coordonnées
+
+```{r,  echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
+scrapimmob_results <- scrapimmob %>% slice(0)
+for (i in 1:nrow(scrapimmob)){
+
+# Lecture du code source
+scrapimmob_page <- scrapimmob %>% slice(i)
+coords <- read_html(scrapimmob_page %>% pull(URL)) %>%
+  html_elements('script') %>% # Récupération de la balise script
+  html_text2() %>% # Conversion en texte
+  pluck(2) %>% # Seule la deuxième balise script contient les coordonnées
+  str_extract("\\[(.*?)\\]", group = 1) %>% # Extraction des coordonnées entre crochets
+  str_split(", ", simplify = TRUE) %>% # Séparation des 2 coordonnées
+  as.numeric()# Conversion en numérique
+
+scrapimmob_results <- scrapimmob_results %>%
+  bind_rows(
+    scrapimmob_page %>%
+      mutate(Lat = coords[1]) %>%
+      mutate(Long = coords[2])
+  )
+print(paste0(i, " / ", nrow(scrapimmob)))
+}
+
+scrapimmob <- scrapimmob_results
+```
+
+
+\
 
 **Les colonnes "Lat" et "Long" sont désormais renseignées pour chaque bien en vente.**
 
