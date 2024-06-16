@@ -1851,11 +1851,108 @@ datatable(tt,
 
 
 \
+# Export des données
+
+## Export de la BD en tableau 
+
+La fonction R-base `write.csv()` permet d'exporter le `data.frame` *scrapimmob* qui contient les données collectées.
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+
+write.csv(x = scrapimmob, file = "data/BD_ScrapImmob.csv", row.names = FALSE)
+
+```
+
+\
+
+## Export de couche géographique
+
+Le package `sf` pour la manipulation de données géographiques vectorielles permet, avec sa fonction `st_as_sf`, de convertir le `data.frame` *scrapimmob* en couche géographique ponctuelle (objet `sf`), à partir des latitudes et des longitudes stockées en colonne.
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+
+library(sf)
+
+# Transformation du tableau en objet sf
+scrapimmob_sf <- st_as_sf(scrapimmob, 
+                          coords = c("Long", "Lat"), 
+                          crs = 'EPSG:4326')
+
+
+# Affichage de la couche géographique générée
+plot(scrapimmob_sf["prix"])
+
+```
+
+
+Notre base de données est désormais un objet `sf` (couche géographique vectorielle). Nous pouvons l'exporter dans le format de fichier de notre choix. Par exemple en format geopackage (.gpkg) :
+
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+
+st_write(obj = scrapimmob_sf, 
+         dsn = "data/BD_ScrapImmob.gpkg", 
+         layer = "Seine_Maritime", 
+         delete_layer = TRUE)
+
+```
+
+\
+
+## Téléchargement des photos
+
+Pour chaque annonce, nous avons collecté les liens vers les photos des biens mis en vente affichées sur le site *web*. A partir de ces liens stockées dans les colonnes "*Photo_1*", "*Photo_2*", et "*Photo_3*", nous pouvons télécharger l'ensemble de ces images de la manière suivante.
+
+
+1) Créatiopn d'un vecteur contenant toutes les URLs absolues vers les photos.
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
+
+# Reconstruction des URLs absolues
+photo_1 <- url_absolute(scrapimmob$Photo_1, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
+photo_2 <- url_absolute(scrapimmob$Photo_2, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
+photo_3 <- url_absolute(scrapimmob$Photo_3, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
+
+links_photos <- c(photo_1, photo_2, photo_3)
+
+```
+
+
+2) Création d'un nouveau répertoire pour y stocker l'ensemble des images collectés. 
+
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
+
+dir.create("data/pictures")
+
+```
+
+
+3) En utilisant la fonction `download.file()`, nous pouvons construire une boucle pour enregistrer toutes les photos dans le répertoire "*photo*". 
+
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
+
+for (i in 1:length(links_photos)){
+
+# Récupération du nom de fichier
+name_file <- sub(".*/", "", links_photos[i])
+
+# Téléchargement et enregistrement de la photo
+download.file(url = links_photos[i], destfile = paste0("data/pictures/", name_file))
+
+}
+```
+
+
+![](figures/photos.png)
+
+\
 
 
 # Exploration des données
 
-Une fois les données collectées, nous pouvons démarrer leur exploration. Pour cela, nous utilisons plusieurs packages de manipulation et de représentation de données : 
+Une fois les données collectées et exportées, nous pouvons démarrer leur exploration. Pour cela, nous utilisons plusieurs packages de manipulation et de représentation de données : 
 
 - [`ggplot2`](https://cran.r-project.org/web/packages/ggplot2/index.html) pour construire toute sorte de graphiques.     
 - [`tm`](https://cran.r-project.org/web/packages/tm/index.html) pour l'analyse statistique de textes.    
@@ -2094,7 +2191,7 @@ wordcloud(corpus,
 ### Carte interactive
 
 
-Le package `leaflet` (*binding* de la librairie javascript du même nom) nous permet de construire de cartes interactives.
+Le package `leaflet` (*binding* de la librairie javascript du même nom) nous permet de construire de cartes interactives, et nous allons ici mobiliser la variable `scrapimmob_sf` qui correspond à la conversion en objet spatial vactoriel (sf) de la base de données.
 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
@@ -2111,21 +2208,20 @@ Nous affichons la localisation de chaque bien mis en vente, colorés selon le ty
 
 scrapimmob$Photo_1 <- url_absolute(scrapimmob$Photo_1, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
 
-leaflet(scrapimmob) |> 
-           addTiles() |>
-           addCircleMarkers(lng = ~Long , 
-                            lat = ~Lat , 
-                             popup = ~paste("<strong>", T_court, "</strong>", 
-                                            "<br><img src='", Photo_1 ,"' style='width:200px;height:200px;'>",
-                                            "<br><strong>Type :</strong>", Type, 
-                                            "<br><strong>Surface habitable :</strong>", surf_hab,"m²",
-                                            "<br><strong>Nombre de chambres :</strong>", nb_ch, "</strong>", 
-                                            "<br><strong>Nombre de salles de bains :</strong>", nb_sdb, "</strong>",
-                                            "<br><strong>Prix :</strong>", prix, "€"),
-                             label = ~T_court, 
-                             radius = 2, 
-                             color = ~ifelse(Type == "Appartement", "#0C3762", "#F0AA0C"),
-                             fillOpacity = 0.8)
+leaflet(scrapimmob_sf) |>
+  addTiles() |>
+  addCircleMarkers(
+  popup = ~paste("<strong>", T_court, "</strong>",
+                 "<br><img src='", Photo_1 ,"' style='width:200px;height:200px;'>",
+                 "<br><strong>Type :</strong>", Type, 
+                 "<br><strong>Surface habitable :</strong>", surf_hab,"m²",
+                 "<br><strong>Nombre de chambres :</strong>", nb_ch, "</strong>", 
+                 "<br><strong>Nombre de salles de bains :</strong>", nb_sdb, "</strong>",
+                 "<br><strong>Prix :</strong>", prix, "€"),
+  label = ~T_court, 
+  radius = 2,
+  color = ~ifelse(Type == "Appartement", "#0C3762", "#F0AA0C"),
+  fillOpacity = 0.8)
 
 ```
 
@@ -2134,107 +2230,6 @@ leaflet(scrapimmob) |>
 
 
 
-# Export des données
-
-## Export de la BD en tableau 
-
-
-La fonction R-base `write.csv()` permet d'exporter le `data.frame` *scrapimmob* qui contient les données collectées.
-
-
-```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-
-write.csv(x = scrapimmob, file = "data/BD_ScrapImmob.csv", row.names = FALSE)
-
-```
-
-\
-
-
-## Export de couche géographique
-
-Le package `sf` pour la manipulation de données géographiques vectorielles permet, avec sa fonction `st_as_sf`, de convertir le `data.frame` *scrapimmob* en couche géographique ponctuelle (objet `sf`), à partir des latitudes et des longitudes stockées en colonne.
-
-```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-
-library(sf)
-
-# Transformation du tableau en objet sf
-scrapimmob_sf <- st_as_sf(scrapimmob, 
-                          coords = c("Long", "Lat"), 
-                          crs = 'EPSG:4326')
-
-
-# Affichage de la couche géographique générée
-plot(scrapimmob_sf["prix"])
-
-```
-
-
-Notre base de données est désormais un objet `sf` (couche géographique vectorielle). Nous pouvons l'exporter dans le format de fichier de notre choix. Par exemple en format geopackage (.gpkg) :
-
-
-```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-
-st_write(obj = scrapimmob_sf, 
-         dsn = "data/BD_ScrapImmob.gpkg", 
-         layer = "Seine_Maritime", 
-         delete_layer = TRUE)
-
-```
-
-\
-
-
-## Téléchargement des photos
-
-Pour chaque annonce, nous avons collecté les liens vers les photos des biens mis en vente affichées sur le site *web*. A partir de ces liens stockées dans les colonnes "*Photo_1*", "*Photo_2*", et "*Photo_3*", nous pouvons télécharger l'ensemble de ces images de la manière suivante.
-
-
-1) Créatiopn d'un vecteur contenant toutes les URLs absolues vers les photos.
-
-```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-
-# Reconstruction des URLs absolues
-photo_1 <- url_absolute(scrapimmob$Photo_1, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
-photo_2 <- url_absolute(scrapimmob$Photo_2, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
-photo_3 <- url_absolute(scrapimmob$Photo_3, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
-
-links_photos <- c(photo_1, photo_2, photo_3)
-
-```
-
-
-2) Création d'un nouveau répertoire pour y stocker l'ensemble des images collectés. 
-
-
-```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
-
-dir.create("data/pictures")
-
-```
-
-
-3) En utilisant la fonction `download.file()`, nous pouvons construire une boucle pour enregistrer toutes les photos dans le répertoire "*photo*". 
-
-
-```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
-
-for (i in 1:length(links_photos)){
-
-# Récupération du nom de fichier
-name_file <- sub(".*/", "", links_photos[i])
-
-# Téléchargement et enregistrement de la photo
-download.file(url = links_photos[i], destfile = paste0("data/pictures/", name_file))
-
-}
-```
-
-
-![](figures/photos.png)
-
-\
 
 
 # Conclusion
