@@ -8,11 +8,11 @@ author:
  - name: Hugues Pecout
    affiliation: CNRS, UMR Géographie-cités
  - name: Robin Cura
-   affiliation: CNRS, UMR PRODIG
+   affiliation: Université Paris 1 Panthéon-Sorbonne, UMR PRODIG
 image: "featured.png"   
 logo: "figures/rzine.png"  
 output:
-  rzine::readrzine:
+  rzine::readrzine: # remotes::install_gitlab("rzine/package", host = "https://gitlab.huma-num.fr/", force = TRUE)
     highlight: kate
     number_sections: true
 csl: Rzine_citation.csl
@@ -71,7 +71,7 @@ Le *Web scraping* regroupe différentes techniques plus ou moins complexes. Cet 
 
 # Bases techniques
 
-L’extraction automatisée de données du *web* requiert des prérequis indispensables : certaines connaissances spécifiques liées à la structure d’une page *web* et une compréhension des principes techniques sous-jacents. Vous devez ainsi acquérir une connaissance du langage HTML (balises) et une familiarité avec le CSS (sélecteurs) pour identifier, cibler et extraire les éléments d’une page *web*.
+L'extraction automatisée de données du *web* requiert des prérequis indispensables : certaines connaissances spécifiques liées à la structure d'une page *web* et une compréhension des principes techniques sous-jacents. Vous devez ainsi acquérir une connaissance du langage HTML (balises) et une familiarité avec le CSS (sélecteurs) pour identifier, cibler et extraire les éléments d'une page *web*.
 
 ## Le langage HTML
 
@@ -94,7 +94,7 @@ Le langage HTML, sous-langage du XML, partage de nombreuses caractéristiques av
 
 Il n'y a pas de nombre fixe de balises HTML, car de nouvelles balises peuvent être introduites avec les versions futures du langage HTML. Cependant, il existe un ensemble de balises HTML standard définies dans les spécifications du W3C (*World Wide Web Consortium*^[Le *World Wide Web* Consortium, abrégé par le sigle W3C, est un organisme de standardisation à but non lucratif, fondé en octobre 1994 chargé de promouvoir la compatibilité des technologies du *World Wide Web* telles que HTML5, HTML, XHTML, XML, RDF, SPARQL, CSS, XSL, PNG, SVG, MathML et SOAP.]). Pour obtenir la liste la plus à jour des balises HTML, vous pouvez consulter la [documentation officielle du W3C](https://www.w3.org/){target="_blank"}.
 
-Chaque balise est entourée des symboles **`<`** et **`>`** et peut contenir des attributs qui spécifient des propriétés supplémentaires pour l’élément. Si aucune balise n'est obligatoire dans une page HTML, il est de convention d'avoir la structure de base suivante :
+Chaque balise est entourée des symboles **`<`** et **`>`** et peut contenir des attributs qui spécifient des propriétés supplémentaires pour l'élément. Si aucune balise n'est obligatoire dans une page HTML, il est de convention d'avoir la structure de base suivante :
 
 ```{html, eval = FALSE, class.source='bg-info'}     
 <!DOCTYPE html>
@@ -110,7 +110,7 @@ Chaque balise est entourée des symboles **`<`** et **`>`** et peut contenir des
 </html>     
 ```
 
-- **`<!DOCTYPE html>`** : En début du document, indique au navigateur qu’il s’agit d’une page HTML5^[HTML5 (*HyperText Markup Language 5*) est la dernière révision majeure du HTML (format de données conçu pour représenter les pages *web*). Cette version a été finalisée le 28 octobre 2014. HTML5 spécifie deux syntaxes d'un modèle abstrait défini en termes de DOM : HTML5 et XHTML5.].
+- **`<!DOCTYPE html>`** : En début du document, indique au navigateur qu'il s'agit d'une page HTML5^[HTML5 (*HyperText Markup Language 5*) est la dernière révision majeure du HTML (format de données conçu pour représenter les pages *web*). Cette version a été finalisée le 28 octobre 2014. HTML5 spécifie deux syntaxes d'un modèle abstrait défini en termes de DOM : HTML5 et XHTML5.].
 - **`<html>`** : Englobe tout le contenu de la page HTML. Définit le début et la fin du document HTML.
 - **`<head>`** : Contient les métadonnées de la page, des liens vers des fichiers annexes (CSS, javascript…), etc.
 - **`<title>`** : Définit le titre de la page qui apparaîtra dans la barre de titre du navigateur.
@@ -167,7 +167,7 @@ Les différentes balises permettent ainsi de structurer, hierarchiser et organis
 ```
 
 
-Voici le rendu graphique du code HTMl ci-dessus dans un naviguateur *web* :
+Voici le rendu graphique du code HTML ci-dessus dans un navigateur *web* :
 
 ![](figures/para_html.png)
 
@@ -213,7 +213,7 @@ Dans l'exemple ci-dessus, il est ainsi possible de récupérer toutes les URLs (
 
 ## Le langage CSS
 
-Le CSS, ou *Cascading Style Sheets* (feuilles de style en cascade), est un langage de programmation utilisé pour décrire l’apparence et la mise en forme des documents HTML et XML. Il permet de contrôler l’apparence visuelle des différents éléments de pages *web* (taille, position, couleur, police, marges, etc.) via les sélecteurs CSS.
+Le CSS, ou *Cascading Style Sheets* (feuilles de style en cascade), est un langage de programmation utilisé pour décrire l'apparence et la mise en forme des documents HTML et XML. Il permet de contrôler l'apparence visuelle des différents éléments de pages *web* (taille, position, couleur, police, marges, etc.) via les sélecteurs CSS.
 
 Le CSS peut être incorporé de différentes manières :
 
@@ -278,7 +278,7 @@ text-align: center;
 ::: {.column width="39%"}
 <center><b>style.css</b></center>
 
-```{r, eval = FALSE, class.source='bg-warning'}    
+```{css, eval = FALSE, class.source='bg-warning'}    
 body {
 background-color: lightblue;
 }
@@ -297,7 +297,7 @@ font-size: 20px;
 :::
 ::::
 
-Dans les trois cas, le rendu graphique dans un naviguateur *web* sera le suivant :
+Dans les trois cas, le rendu graphique dans un navigateur *web* sera le suivant :
 
 ![](figures/h1.png){fig-align="center"}
 
@@ -309,7 +309,7 @@ Dans les trois cas, le rendu graphique dans un naviguateur *web* sera le suivant
 
 Plusieurs sélecteurs CSS permettent de cibler et styliser les différentes balises HTML :
 
-**1. Les sélecteurs d’éléments** permettent de cibler tous les éléments d’un même type.
+**1. Les sélecteurs d'éléments** permettent de cibler tous les éléments d'un même type.
 
 :::: {style="display: flex;"}
 ::: {.column width="49%"}
@@ -497,7 +497,7 @@ Pour mieux comprendre l'utilisation et le fonctionnement du HTML et du CSS, **vo
 
 Une fois téléchargé, décompressez le répertoire qui contient deux fichiers : *page.hmtl* et *style.CSS*.
 
-1. Un fichier HTML peut être interprété (mis en page) par n'importe quel navigateur (Firefox, Google Chrome, Microsoft Edge, ect.). Ouvrez le fichier page.html avec un naviguateur. Aucune connexion internet n'est nécessaire. 
+1. Un fichier HTML peut être interprété (mis en page) par n'importe quel navigateur (Firefox, Google Chrome, Microsoft Edge, ect.). Ouvrez le fichier page.html avec un navigateur. Aucune connexion internet n'est nécessaire. 
 
 ![](figures/exo_html.png)
 
@@ -550,20 +550,20 @@ text-align:center;
 
 :::
 
-3. Ajoutez et/ou modifiez du contenu (balise) dans le code source du fichier page.html. Enregistrez le fichier et réaffichez (ou raffraichissez avec la touche `F5`) la page HTML dans le naviguateur pour apprécier la nouvelle mise en page. 
+3. Ajoutez et/ou modifiez du contenu (balise) dans le code source du fichier page.html. Enregistrez le fichier et réaffichez (ou raffraichissez avec la touche `F5`) la page HTML dans le navigateur pour apprécier la nouvelle mise en page. 
 
-4. Ajoutez et/ou modifiez du contenu dans le code source du fichier style.css. Enregistrez le fichier et réaffichez la page HTML (ou raffraichissez la avec la touche `F5`) dans le naviguateur pour apprécier la nouvelle mise en page.
+4. Ajoutez et/ou modifiez du contenu dans le code source du fichier style.css. Enregistrez le fichier et réaffichez la page HTML (ou raffraichissez la avec la touche `F5`) dans le navigateur pour apprécier la nouvelle mise en page.
 
 \
 
 ## Le code source d'une page 
 
-La connaissance du HTML et du CSS vous permettra de comprendre et de naviguer dans le code source du page *web*. L’ensemble des navigateurs *web* modernes proposent des outils d’inspection du code source des pages internet. 
+La connaissance du HTML et du CSS vous permettra de comprendre et de naviguer dans le code source du page *web*. L'ensemble des navigateurs *web* modernes proposent des outils d'inspection du code source des pages internet. 
 
-**L’inspecteur de code source permet d’explorer le code source d’une page *web*. Il permet l’identification des balises, des classes, des identifiants, des styles associés aux éléments et ainsi de procéder à une extraction ciblée de données**. En utilisant l’inspecteur de code source, vous accédez à toutes les informations nécessaires pour concevoir un script de collecte automatisée. 
+**L'inspecteur de code source permet d'explorer le code source d'une page *web*. Il permet l'identification des balises, des classes, des identifiants, des styles associés aux éléments et ainsi de procéder à une extraction ciblée de données**. En utilisant l'inspecteur de code source, vous accédez à toutes les informations nécessaires pour concevoir un script de collecte automatisée. 
 
 
-Pour y accéder, cliquez-droit n’importe où sur la page *web* ouverte dans un naviguateur, puis cliquez sur “Inspecter” :
+Pour y accéder, cliquez-droit n'importe où sur la page *web* ouverte dans un navigateur, puis cliquez sur “Inspecter” :
 
 :::: {style="display: flex;"}
 
@@ -743,7 +743,7 @@ Comme pour toutes les opérations et manipulations de données, plusieurs soluti
 
 - [**`rvest`**](https://rvest.tidyverse.org/) : développé par Hadley Wickham (Rstudio), ce package facilite le scraping en utilisant les sélecteurs CSS et XPath pour extraire les données formatées en HTML ou en XML. Ce package s'insprire de bibliothèques python déjà existantes : [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/) et [RoboBrowser](https://robobrowser.readthedocs.io/en/latest/readme.html). **`rvest`** fait partie de l'écosystème **`tidyverse`**, les fonctions peuvent s'utiliser avec le(s) pipe(s). Ce package est simple d'utilisation mais également limité en matière de fonctionnalité. Il ne permet pas de simuler des actions d'un utilisateur (clic, scroll, ect.). On l'utilisera essentiellement pour l'extraction de données de sites *web* statiques bien structurée. (FAUX ?! A MODIFIER)
 
-- [**`Rselenium`**](https://cran.r-project.org/web/packages/RSelenium/index.html) : ce package est ce qu l'on appelle un *binding* de langage ("liaison") qui permet d'utiliser les fonctionnalités de **`Selenium 2.0 WebDriver`**. Ce framework *web* permet d'automatiser les tests d’applications *web* en simulant des utilisateurs. **`Selenium 2.0 WebDriver`** peut aussi être utilisé pour la collecte automatisée de données sur des sites *web* dynamiques, nécessitant une interaction utilisateur (exécution de code javascript généré par clic, survol, scroll, ect.).
+- [**`Rselenium`**](https://cran.r-project.org/web/packages/RSelenium/index.html) : ce package est ce qu l'on appelle un *binding* de langage ("liaison") qui permet d'utiliser les fonctionnalités de **`Selenium 2.0 WebDriver`**. Ce framework *web* permet d'automatiser les tests d'applications *web* en simulant des utilisateurs. **`Selenium 2.0 WebDriver`** peut aussi être utilisé pour la collecte automatisée de données sur des sites *web* dynamiques, nécessitant une interaction utilisateur (exécution de code javascript généré par clic, survol, scroll, ect.).
 
 
 Le site *web* [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html) est un site *web* statique. Il n'existe pas de base de données, toutes les informations affichées sont présentes dans le code source de la page. Il n'est donc pas nécessaire de simuler le comportement d'un utilisateur pour accéder aux données ciblées. **Dans ce cas, il sera plus simple d'utiliser le package [**`rvest`**](https://rvest.tidyverse.org/)**.
@@ -919,7 +919,7 @@ En explorant le code source, on remarque que les URLs de pages d'annonces compl�
 
 \
 
-Ainsi, pour récuperer l'a liste de ces'ensemble des URLs, nous devons donc collecter les valeurs (URL en chaîne de caractère) de l'attribut `href` dans toutes les balises `<a>` de la classe `stretched-link` :
+Ainsi, pour récuperer la liste de ces ensembles d'URLs, nous devons donc collecter les valeurs (URL en chaîne de caractère) de l'attribut `href` dans toutes les balises `<a>` de la classe `stretched-link` :
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 
@@ -1091,7 +1091,7 @@ head(links)
 ```
 
 
-**Les URLs récupérées sont relatives**, c'est à dire qu'elles n’incluent que le nom d’une page spécifique. Le chemin courant n'est pas indiqué. Nous pouvons le rajouter avec la fonction `url_absolute()`.
+**Les URLs récupérées sont relatives**, c'est à dire qu'elles n'incluent que le nom d'une page spécifique. Le chemin courant n'est pas indiqué. Nous pouvons le rajouter avec la fonction `url_absolute()`.
 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
@@ -1160,7 +1160,8 @@ code_annonce_1 <- read_html(links[1])
 
 ``` 
 
-A partir de l'exploration du code source, nous pouvons essayer d'extraire chaque élement séparément.
+A partir de l'exploration du code source, nous pouvons essayer d'extraire chaque élément séparément.
+
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 
@@ -1547,7 +1548,7 @@ Les coordonnées sont stockées dans la seconde balise `<script>` récupérée.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
 
-# Séléction du 2e élément qui stocke les coordonées
+# Sélection du 2e élément qui stocke les coordonées
 code_page_coord <- code_page[2]
 
 ```
@@ -1735,7 +1736,7 @@ datatable(
 
 ## Représentation graphique
 
-Le package de référence `ggplot2` nous permet de réaliser toutes sortes de représentation graphique.
+Le package de référence `ggplot2` nous permet de réaliser toutes sortes de représentations graphiques.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 
@@ -1764,7 +1765,7 @@ ggplot(scrapimmob) +
 \
 
 
-Graphique en barre représentant le nombre de biens en vente par commmune normande :
+Graphique en barre représentant le nombre de biens en vente par commune normande :
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE, fig.height=8}   
 ggplot(scrapimmob) +
@@ -1865,7 +1866,7 @@ corpus <- Corpus(VectorSource(scrapimmob$Description))
 ```
 
 
-La focntion `tm_map` permet ensuite de nettoyer notre corpus textuel. Après avoir converti tout le texte en minucscule, nous supprimons les *stopwords*, la ponctuation et les chiffres.
+La fonction `tm_map` permet ensuite de nettoyer notre corpus textuel. Après avoir converti tout le texte en minusccule, nous supprimons les *stopwords*, la ponctuation et les chiffres.
 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE, cache = FALSE}
@@ -1947,7 +1948,7 @@ leaflet(scrapimmob) |>
 ## Export de la BD en tableau 
 
 
-La fonction R-base `read.csv()` permet d'exporter le `data.frame` *scrapimmob* qui contient les données collectées.
+La fonction R-base `write.csv()` permet d'exporter le `data.frame` *scrapimmob* qui contient les données collectées.
 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
@@ -2095,15 +2096,15 @@ kableExtra::kable_styling(knitr::kable(rzine::sessionRzine()[[2]], row.names = F
 
 rref <- bibentry(
    bibtype = "misc",
-   title = "Titre de la fiche",
-   subtitle = "Sous-Titre de la fiche",
-   author = c("Premier Auteur.e", "Second Auteur.e"),
+   title = "Premiers pas en web scraping",
+   subtitle = "Introduction à la collecte automatique de données du web",
+   author = c("Léa Christophe", "Hugues Pécout", "Robin Cura"),
    doi = "10.48645/xxxxxx",
    url = "https://rzine.fr/publication_rzine/xxxxxxx/",
    keywords ="FOS: Other social sciences",
    language = "fr",
    publisher = "FR2007 CIST",
-   year = 2021,
+   year = 2024,
    copyright = "Creative Commons Attribution Share Alike 4.0 International")
 
 ``` 
@@ -2115,9 +2116,9 @@ rref <- bibentry(
 
 ### BibTex : {-}
 
-```{r generateBibTex, echo=FALSE}
+```{r generateBibTex, echo=FALSE, eval = TRUE}
 
-writeLines(toBibtex(rref), "cite.bib")
+#writeLines(toBibtex(rref), "cite.bib")
 toBibtex(rref)
 
 ``` 
