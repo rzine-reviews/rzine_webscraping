@@ -1557,13 +1557,12 @@ code_page_coord <- code_page[2]
 Avec la fonction `strcapture()`, nous pouvons ensuite extraire les coordonées à l'aide d'une expression régulière qui permet de ne garder que les caractères situés entre crochets `[]`.
 
 
+
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
-
 coords <- strcapture(x = code_page_coord, 
-                     pattern = "var annonce_coords = \\[(\\d+\\.?\\d*\\, \\d+\\.?\\d*)\\]", 
+                     pattern = "\\[(.*?)\\]", 
                      proto = data.frame(coordinates = character(0)))
-
-# Les coordonées du marqueur affiché sur la carte sont récupérés
+# Les coordonnées du marqueur affiché sur la carte sont récupérés
 coords
 
 # Split de la chaîne de caractère 
@@ -1591,7 +1590,7 @@ code_page  <- page |> html_elements('script') |> html_text2()
 
 # Extraction des cordonnées
 coords <- strcapture(x = code_page[2], 
-                     pattern = "var annonce_coords = \\[(\\d+\\.?\\d*\\, \\d+\\.?\\d*)\\]",
+                     pattern = "\\[(.*?)\\]", 
                      proto = data.frame(coordinates = character(0)))
 
 # Ajout des coordonées dans le data.frame scrapimmo
