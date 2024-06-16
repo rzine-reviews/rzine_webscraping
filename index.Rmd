@@ -2157,10 +2157,11 @@ La fonction `tm_map` permet ensuite de nettoyer notre corpus textuel. Après avo
 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE, cache = FALSE}
-stopwords_wordcloud <- c(stopwords("french"), "m²")
+stopwords_wordcloud <- c(stopwords("french"), "m2", "€")
 
 # traitement du texte
 corpus <- tm_map(corpus, content_transformer(tolower))
+corpus <- tm_map(corpus, content_transformer(function(x) iconv(enc2utf8(x), sub = "byte")))
 corpus <- tm_map(corpus, removeWords, stopwords_wordcloud)
 corpus <- tm_map(corpus, removePunctuation)
 corpus <- tm_map(corpus, removeNumbers)
@@ -2206,7 +2207,7 @@ Nous affichons la localisation de chaque bien mis en vente, colorés selon le ty
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 
-scrapimmob$Photo_1 <- url_absolute(scrapimmob$Photo_1, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
+scrapimmob_sf$Photo_1 <- url_absolute(scrapimmob_sf$Photo_1, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
 
 leaflet(scrapimmob_sf) |>
   addTiles() |>
