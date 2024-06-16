@@ -817,7 +817,7 @@ class(basic_html)
 
 ```
 
-- Les fonctions **`read_element()`** ou **`read_elements()`** permettent respectivement la récupération du 1er ou de tous les élements d'un document HTML, en précisant un sélécteur CSS ou un Xpath.
+- Les fonctions **`read_element()`** ou **`read_elements()`** permettent respectivement la récupération du 1er ou de tous les éléments d'un document HTML, en précisant un sélecteur CSS ou un Xpath.
 
 ```{r, echo = TRUE, message=FALSE, warning=FALSE}
 
@@ -875,7 +875,7 @@ basic_html |> html_elements("p") |> html_text2()
   
 ::: {.column width="70%"}
 
-Sur la page d'acceuil du site [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), un ensemble de boutons situé à gauche permet de filtrer les biens par département et par type de biens. **Lorsque l'on clique sur l'un de ces boutons, les biens affichés sur la page sont filtrés en fonction du choix réalisé**. L'URL de la page est alors modifiée de la manière suivante :
+Sur la page d’accueil du site [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), un ensemble de boutons situé à gauche permet de filtrer les biens par département et par type de biens. **Lorsque l'on clique sur l'un de ces boutons, les biens affichés sur la page sont filtrés en fonction du choix réalisé**. L'URL de la page est alors modifiée de la manière suivante :
 
 URL principale :       
 [https://analytics.huma-num.fr/Robin.Cura/**ScrapImmob/index.html**]{style="font-size: 90%;"}    
@@ -891,7 +891,7 @@ URL du filtre "Val-d'Oise (95) - Maison" :
 ::::
 
 
-Notre objectif étant de collecter uniquement des données sur les biens (maisons et appartemments) de la Seine-Maritime, nous allons orienter notre collecte sur les deux URLs suivantes :
+Notre objectif étant de collecter uniquement des données sur les biens (maisons et appartements) de la Seine-Maritime, nous allons orienter notre collecte sur les deux URLs suivantes :
 
 - https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/**76_maison/index.html**   
 - https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/**76_appartement/index.html**
@@ -942,7 +942,7 @@ En explorant le code source, on remarque que les URLs de pages d'annonces compl�
 
 \
 
-Ainsi, pour récuperer la liste de ces ensembles d'URLs, nous devons donc collecter les valeurs (URL en chaîne de caractère) de l'attribut `href` dans toutes les balises `<a>` de la classe `stretched-link` :
+Ainsi, pour récupérer la liste de ces ensembles d'URLs, nous devons donc collecter les valeurs (URL en chaîne de caractère) de l'attribut `href` dans toutes les balises `<a>` de la classe `stretched-link` :
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 
@@ -958,13 +958,13 @@ code_maison |> html_elements("a.stretched-link") |>  html_attr("href")
 
 ```
 
-Cela permet de récupérer les URls des annonces affichées sur la première page. Pour collecter l'ensemble des biens ciblés, nous devons comprendre comment fonctionne le système d'URL qui permet d'afficher toutes les annonces de bien en vente en Seine-Maritime.
+Cela permet de récupérer les URLs des annonces affichées sur la première page. Pour collecter l'ensemble des biens ciblés, nous devons comprendre comment fonctionne le système d'URL qui permet d'afficher toutes les annonces de bien en vente en Seine-Maritime.
 
 \
 
 ### Récupérer toutes les URLs
 
-Nous avons pu collecter les URLs des biens affichés sur la première page. Pour reproduire la collecte d'URLs sur l'ensemble des pages des appartements et des maisons de Seine-Maritime, il est necéssaire de connaitre le nombre total de pages à afficher pour voir tous les biens et de comprendre le système d'URLs.
+Nous avons pu collecter les URLs des biens affichés sur la première page. Pour reproduire la collecte d'URLs sur l'ensemble des pages des appartements et des maisons de Seine-Maritime, il est nécessaire de connaitre le nombre total de pages à afficher pour voir tous les biens et de comprendre le système d'URLs.
 
 \
 
@@ -1134,7 +1134,7 @@ head(links)
 
 ### Scraping d'une page d'annonce
 
-Notre liste de page *web* à scrapper est prête. Nous pouvons maintenant explorer les pages de chaque annonce pour comprendre comment sont structurées les données en HTML pour afin de les extraire automatiquement. Après une exploration avec l'inspecteur de code, nous observons que les éléments ciblés sont stockés dans les balises suivantes :
+Notre liste de page *web* à scraper est prête. Nous pouvons maintenant explorer les pages de chaque annonce pour comprendre comment sont structurées les données en HTML pour afin de les extraire automatiquement. Après une exploration avec l'inspecteur de code, nous observons que les éléments ciblés sont stockés dans les balises suivantes :
 
 - **Titre court** : balise `<h6>` de classe `display-6`
 - **Titre long** : balise `<h5>` de classe `card-title`
@@ -1403,7 +1403,7 @@ scrapimmob$dep[i] <- infos[8]
 ```
 
 
-Dans la liste de puce (`<li>`) de la classe `list-group-item` se trouve plusieurs informations sur les biens. Cela permet de collecter plusieurs informations d'un coup. Cependant, certaines informations ne sont pas toujours renseignées. C'est le cas de "la surface de jardin". Pour cette raison, **nous utilisons un test `if` qui permet d'adapter la collecte en fonction du nombre d'éléménts récupérés**. 
+Dans la liste de puce (`<li>`) de la classe `list-group-item` se trouve plusieurs informations sur les biens. Cela permet de collecter plusieurs informations d'un coup. Cependant, certaines informations ne sont pas toujours renseignées. C'est le cas de "la surface de jardin". Pour cette raison, **nous utilisons un test `if` qui permet d'adapter la collecte en fonction du nombre d'éléments récupérés**. 
 
 
 #### En une fois
@@ -1870,18 +1870,18 @@ Une fois les données collectées, nous pouvons démarrer leur exploration. Pour
 Notre base de données liste les 419 biens à vendre (maisons et appartements) en Seine-Maritime, caractèrisés par plusieurs variables : 
 
 - **URL** : URL de la page d'annonce du bien en vente(*string*)       
-- **T_court** : titre court de l'annonce (*string*)       
-- **T_long** : titre long de l'annonce (*string*)       
-- **Description** : description complète de l'annonce (*string*)       
+- **T_court** : Titre court de l'annonce (*string*)       
+- **T_long** : Titre long de l'annonce (*string*)       
+- **Description** : Description complète de l'annonce (*string*)       
 - **Photo_1** : URL de la photo 1 (*string*)       
 - **Photo_2** : URL de la photo 2 (*string*)       
 - **Photo_3** : URL de la photo 3 (*string*)       
-- **Type** : type de bien (maison ou appartement) (*string*)       
-- **nb_ch** : nombre de chambres (*numeric*)       
-- **nb_sdb** : nombre de salles de bain (*numeric*)       
-- **surf_hab** : surface habitable (en m2) (*numeric*)       
-- **surf_jar** : surface de jardin (en m2) (*numeric*)       
-- **prix** : prix (en €) (*numeric*)       
+- **Type** : Type de bien (maison ou appartement) (*string*)       
+- **nb_ch** : Nombre de chambres (*numeric*)       
+- **nb_sdb** : Nombre de salles de bain (*numeric*)       
+- **surf_hab** : Surface habitable (en m2) (*numeric*)       
+- **surf_jar** : Surface de jardin (en m2) (*numeric*)       
+- **prix** : Prix (en €) (*numeric*)       
 - **com** : Nom et code INSEE de la commune concernée (*string*)       
 - **dep** : Département et région de la commune concernée (*string*)       
 - **com_name** : Libellé de la commune (*string*)       
@@ -2056,7 +2056,7 @@ corpus <- Corpus(VectorSource(scrapimmob$Description))
 ```
 
 
-La fonction `tm_map` permet ensuite de nettoyer notre corpus textuel. Après avoir converti tout le texte en minusccule, nous supprimons les *stopwords*, la ponctuation et les chiffres.
+La fonction `tm_map` permet ensuite de nettoyer notre corpus textuel. Après avoir converti tout le texte en minuscule, nous supprimons les *stopwords*, la ponctuation et les chiffres.
 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE, cache = FALSE}
