@@ -26,8 +26,9 @@ link-citations: true
 # licence: "by-sa"
 params:
   force_scraping: FALSE
-# Only Creative Commons Licence 
 # 5 possible choices : "by-nd", "by", "by-nc-sa", "by-nc","by-sa"
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -75,7 +76,7 @@ L'extraction automatisée de données du *web* requiert des prérequis indispens
 
 ## Le langage HTML
 
-Le langage HTML (***H****yperText* ***M****arkup* ***L****anguage*) est un dérivé du XML (*e****X****tensible* ***M****arkup* ***L****anguage*). Le XML est un langage de balisage flexible qui permet de définir des règles spécifiques pour structurer et stocker des données. Il est utilisé dans une variété de domaines, notamment pour l'échange de données entre applications. Par exemple, voici un document XML simple représentant des informations sur un livre :
+Le langage HTML (***H****yper***T***ext* ***M****arkup* ***L****anguage*) est un dérivé du XML (*e****X****tensible* ***M****arkup* ***L****anguage*). Le XML est un langage de balisage flexible qui permet de définir des règles spécifiques pour structurer et stocker des données. Il est utilisé dans une variété de domaines, notamment pour l'échange de données entre applications. Par exemple, voici un document XML simple représentant des informations sur un livre :
 
 ```
 <Book>
@@ -560,7 +561,29 @@ text-align:center;
 
 La connaissance du HTML et du CSS vous permettra de comprendre et de naviguer dans le code source du page *web*. L'ensemble des navigateurs *web* modernes proposent des outils d'inspection du code source des pages internet. 
 
-**L'inspecteur de code source permet d'explorer le code source d'une page *web*. Il permet l'identification des balises, des classes, des identifiants, des styles associés aux éléments et ainsi de procéder à une extraction ciblée de données**. En utilisant l'inspecteur de code source, vous accédez à toutes les informations nécessaires pour concevoir un script de collecte automatisée. 
+L'outil le plus universel, mais peu convivial, est l'affichage brut du code-source d'une page. C'est une extraction complète du code-source, c'est-à-dire du code que le navigateur web reçoit et met en forme.
+On y accède via le raccourci `Ctrl-U` ou via clic-droit sur la page puis `(Afficher le) code source de la page`.
+
+::::: {style="display: flex;"}
+:::: {.column width="49%"}
+::: {style="text-align: center;"}
+Avec *Google Chrome* :
+![](figures/view_source_chrome.png){fig-align="center"}
+::: 
+:::: 
+:::: {.column width="2%"}
+::::
+:::: {.column width="49%"}
+::: {style="text-align: center;"}
+Avec *Mozilla FireFox* :
+![](figures/view_source_firefox.png)
+:::
+::::
+:::::
+
+
+
+**L'inspecteur de code source est un autre moyen d'afficher le code source d'une page *web*, mais il est plus convivial et permet plus facilement de l'explorer (possibilités de filtrage, de recherche, de liens dynamiques etc.). Il permet l'identification des balises, des classes, des identifiants, des styles associés aux éléments et ainsi de procéder à une extraction ciblée de données**. En utilisant l'inspecteur de code source, vous accédez à toutes les informations nécessaires pour concevoir un script de collecte automatisée. 
 
 
 Pour y accéder, cliquez-droit n'importe où sur la page *web* ouverte dans un navigateur, puis cliquez sur “Inspecter” :
@@ -741,9 +764,9 @@ Pour répondre a cet objectif, le processus de collecte va se dérouler en plusi
 
 Comme pour toutes les opérations et manipulations de données, plusieurs solutions existent pour le scraping avec le langage R. Si plusieurs fonctions R-base peuvent être utilisées, il existe surtout deux packages R de référence en matière de collecte automatisée :
 
-- [**`rvest`**](https://rvest.tidyverse.org/) : développé par Hadley Wickham (Rstudio), ce package facilite le scraping en utilisant les sélecteurs CSS et XPath pour extraire les données formatées en HTML ou en XML. Ce package s'insprire de bibliothèques python déjà existantes : [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/) et [RoboBrowser](https://robobrowser.readthedocs.io/en/latest/readme.html). **`rvest`** fait partie de l'écosystème **`tidyverse`**, les fonctions peuvent s'utiliser avec le(s) pipe(s). Ce package est simple d'utilisation mais également limité en matière de fonctionnalité. Il ne permet pas de simuler des actions d'un utilisateur (clic, scroll, ect.). On l'utilisera essentiellement pour l'extraction de données de sites *web* statiques bien structurée. (FAUX ?! A MODIFIER)
+- [**`rvest`**](https://rvest.tidyverse.org/) : développé par Hadley Wickham (Rstudio), ce package facilite le scraping en utilisant les sélecteurs CSS et XPath pour extraire les données formatées en HTML ou en XML. Ce package s'insprire de bibliothèques python déjà existantes : [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/) et [RoboBrowser](https://robobrowser.readthedocs.io/en/latest/readme.html). **`rvest`** fait partie de l'écosystème **`tidyverse`**, les fonctions peuvent s'utiliser avec le(s) pipe(s). Ce package est simple d'utilisation mais également limité en matière de fonctionnalité. Il ne permet que depuis peu, et de manière limitée, de simuler les actions d'un utilisateur (clic, scroll, ect.). On l'utilisera essentiellement pour l'extraction de données de sites *web* statiques.
 
-- [**`Rselenium`**](https://cran.r-project.org/web/packages/RSelenium/index.html) : ce package est ce qu l'on appelle un *binding* de langage ("liaison") qui permet d'utiliser les fonctionnalités de **`Selenium 2.0 WebDriver`**. Ce framework *web* permet d'automatiser les tests d'applications *web* en simulant des utilisateurs. **`Selenium 2.0 WebDriver`** peut aussi être utilisé pour la collecte automatisée de données sur des sites *web* dynamiques, nécessitant une interaction utilisateur (exécution de code javascript généré par clic, survol, scroll, ect.).
+- [**`Rselenium`**](https://cran.r-project.org/web/packages/RSelenium/index.html) : ce package est ce que l'on appelle un *binding* de langage ("liaison") qui permet d'utiliser les fonctionnalités de **`Selenium 2.0 WebDriver`**. Ce *framework* *web* permet d'automatiser les tests d'applications *web* en simulant des utilisateurs. **`Selenium 2.0 WebDriver`** peut aussi être utilisé pour la collecte automatisée de données sur des sites *web* dynamiques, nécessitant une interaction utilisateur (exécution de code javascript généré par clic, survol, scroll, ect.). Il s'agit concrètement d'un outil qui simule la navigation sur un site web plutôt que d'un outil comme `rvest` qui en extrait simplement le contenu.
 
 
 Le site *web* [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html) est un site *web* statique. Il n'existe pas de base de données, toutes les informations affichées sont présentes dans le code source de la page. Il n'est donc pas nécessaire de simuler le comportement d'un utilisateur pour accéder aux données ciblées. **Dans ce cas, il sera plus simple d'utiliser le package [**`rvest`**](https://rvest.tidyverse.org/)**.
