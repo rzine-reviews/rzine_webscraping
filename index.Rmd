@@ -9,6 +9,10 @@ author:
    affiliation: CNRS, UMR Géographie-cités
  - name: Robin Cura
    affiliation: Université Paris 1 Panthéon-Sorbonne, UMR PRODIG
+ - name: Alexandre Cebeillac
+   affiliation: Université de Rouen, UMR IDEES
+ - name: Sébastien Rey-Coyrehourcq
+   affiliation: Université de Rouen, UMR IDEES
 image: "featured.png"   
 logo: "figures/rzine.png"  
 output:
@@ -744,7 +748,7 @@ Avant de se lancer dans une collecte automatisée, **il est primordiale de bien 
 
 Pour répondre a cet objectif, le processus de collecte va se dérouler en plusieurs étapes :
 
-1. **Comprendre la structure de la page centrale** (ou page d'acceuil).
+1. **Comprendre la structure de la page centrale** (ou page d'accueil).
 
 2. **Comprendre le système d'URL du site** afin de pouvoir cibler la collecte sur une catégorie (département et type).
 
@@ -1779,7 +1783,7 @@ code_page  <- page |> html_elements('script') |> html_text2()
 
 # Extraction des cordonnées
 coords <- strcapture(x = code_page[2], 
-                     pattern = "var annonce_coords = \\[(\\d+\\.?\\d*\\, \\d+\\.?\\d*)\\]",
+                     pattern = "\\[(.*?)\\]",
                      proto = data.frame(coordinates = character(0)))
 
 # Ajout des coordonées dans le data.frame scrapimmo
@@ -2259,6 +2263,15 @@ leaflet(scrapimmob_sf) |>
 <!-- TODO -->
 <!-- Ajouter éléments conclusifs -->
 <!-- + Bonnes pratiques -->
+
+0) Ouverture le bon coin thématique : même logique dans ce faux site et dans le site réel, collection d'annonces individuelles : on peut récuperer des résumés de plusieurs annonces (pages résultats) ou les détails de chaque annonce (page annonce)
+1) Questions ethiques + exemple le bon coin ethique
+2) Questions bonnes pratiques
+  -> commencer par chercher les données avant de les scraper
+  -> puis les demander
+  -> si pas moyen, scraping
+3) Ouverture vers sites dynamiques, renvoi au site
+4) ne pas hésiter à demander à ChatGPT ou à Hugues de l'aide
 
 ChatGPT & scraping ? Ouverture Le bon coin ? On laisse cette partie ?
 
