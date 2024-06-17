@@ -1685,8 +1685,24 @@ code_page_coord <- code_page[2]
 
 ### Récupération avec R-Base
 
-Avec la fonction `strcapture()`, nous pouvons ensuite extraire les coordonnées à l'aide d'une expression régulière qui permet de ne garder que les caractères situés entre crochets `[]`.
+Avec la fonction `strcapture()`, nous pouvons ensuite extraire les coordonnées à l'aide d'une **expression régulière** qui permet de ne garder que les caractères situés entre crochets `[]`.
 
+<style>
+div.notice { background-color:#ECFFDC; border-radius: 5px; padding: 20px;}
+</style>
+<div class="notice">
+<strong> Expressions régulières </strong>
+Les expressions régulières (ou <strong>reg</strong>ular <strong>ex</strong>pressions) sont des formules informatiques standardisées, relativement universelles, qui permettent de décrire un *motif* à rechercher dans une chaîne de caractères.
+Leur syntaxe est assez obscure, mais extrêmement puissante.
+Elles permettent d'extraire des informations structurées dans du texte, mais également de valider des expressions lors de la saisie.
+Par exemple, l'expression régulière `(0|(\\+33)|(0033))[1-9][0-9]{8}` permet de valider un numéro de téléphone français.
+</div>
+
+Pour isoler les caractères situés entre crochet dans la balise `script`, on utilise l'expression régulière "`\\[(.*?)\\]`", qui peut se décomposer ainsi :  
+
+* `\\[` : recherche d'un crochet ouvrant (avec utilisation de '\\\\' pour indiquer qu'il s'agit bien du caractère, et non du rôle syntaxique "crochet");  
+* `(.*?)` : extraction (parenthèses) de ce qui correspond au motif `.*?`, c'est-à-dire n'importe quel caractère (`.`), dans n'importe quelle quantité positive (`*`) ou nulle (`?`);  
+* `\\]` : suivi par un crochet fermant
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
 coords <- strcapture(x = code_page_coord, 
@@ -1694,7 +1710,12 @@ coords <- strcapture(x = code_page_coord,
                      proto = data.frame(coordinates = character(0)))
 # Les coordonnées du marqueur affiché sur la carte sont récupérés
 coords
+```
 
+La réponse est une unique chaîne de caractères, que l'on peut donc découper avec la fonction `strsplit` là où l'on détecte une virgule suivi d'un espace.
+Cela génère une liste de deux éléments, que l'on peut ensuite délister pour obtenir un vecteur textuel contenant les deux coordonnées.
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
 # Split de la chaîne de caractère 
 unlist(strsplit(coords$coordinates, split = ", " ))
 
