@@ -14,5 +14,5 @@ Pour la consulter, cliquez [**ici**](https://webscraping.gitpages.huma-num.fr/rz
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](http://creativecommons.org/licenses/by-sa/4.0/)
 
 
-Lien vers slides intro : https://slides.com/sebastienreycoyrehourcq/element-r-webscraping-2024
-Lien court vers site deployé : https://page.hn/4zrbg3
+- Lien vers slides intro : https://slides.com/sebastienreycoyrehourcq/element-r-webscraping-2024  
+- Lien court vers site deployé : https://page.hn/4zrbg3
