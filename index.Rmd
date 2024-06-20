@@ -310,9 +310,11 @@ Dans les trois cas, le rendu graphique dans un navigateur *web* sera le suivant 
 
 ### Les sélecteurs CSS simples
 
-<div class="alert alert-danger">**Bien qu'une connaissance approfondie du CSS ne soit pas nécessaire le *web scraping*, il est important de connaître les sélecteurs CSS.** **Leur utilisation est précieuse pour cibler des données de manière détaillée et ainsi optimiser la collecte.**</div>
+<div class="alert alert-danger">**Bien qu'une connaissance approfondie du CSS ne soit pas nécessaire pour le *web scraping*, il est important de connaître les sélecteurs CSS.** **Leur utilisation est précieuse pour cibler des données de manière détaillée et ainsi optimiser la collecte.**</div>
 
-Plusieurs sélecteurs CSS permettent de cibler et styliser les différentes balises HTML :
+Comme une page HTML est un ensemble **structuré** de balises, ce qui revient à dire qu'une page HTML est un ensemble organisé de données, il est possible d'interroger la structure de cette page pour en cibler des éléments. En HTML, on utilise un langage d'interrogation propre, basé sur des **sélecteurs**, c'est-à-dire des expressions qui permettent de définir précisément un sous-ensemble des balises HTML (et CSS) d'une page web.
+
+Si on peut utiliser ces sélecteurs pour extraire de l'information, leur usage le plus courant consiste à mettre en forme des éléments HTML, c'est-à-dire à appliquer un style spécifique à un sous-ensemble de balises.
 
 **1. Les sélecteurs d'éléments** permettent de cibler tous les éléments d'un même type.
 
@@ -488,7 +490,7 @@ Le CSS met également à disposition des sélecteurs complexes et combinateurs q
 
 \
 
-### Exemple pratique
+### Exemple pratique - Utilisation de selecteurs CSS pour mettre en forme une page web.
 
 Pour mieux comprendre l'utilisation et le fonctionnement du HTML et du CSS, **vous pouvez vous exercer à la pratique de ces deux langages à partir de cet exemple simple mis à disposition en téléchargement** :
 
@@ -663,6 +665,45 @@ Ces trois derniers éléments pourront vous être précieux pour automatiser vot
 Par exemple, le sélecteur CSS `#bases-techniques h2` permet de cibler tous les titres de niveau 2 présents dans l'élément `div` ayant pour identifiant "*bases-techniques*".
 
 \
+
+### Exemple pratique - Utilisation de selecteurs CSS dans la console du navigateur pour isoler des éléments
+
+Pour tester un sélecteur CSS, c'est-à-dire vérifier qu'il isole bien un sous-ensemble des éléments structurés d'une page web, on peut l’exécuter directement dans le navigateur, dans l'onglet `Console` des outils de développement que l'inspecteur ouvre.
+
+
+:::: {style="display: flex;"}
+::: {.column width="49%"}
+::: {style="text-align: center;"}
+Avec *Google Chrome* :
+![](figures/browser_console_chrome.png){fig-align="center"}
+::: 
+::: 
+::: {.column width="2%"}
+:::
+::: {.column width="49%"}
+::: {style="text-align: center;"}
+Avec *Mozilla FireFox* :
+![](figures/browser_console_firefox.png){fig-align="center"}
+:::
+::: 
+::::
+
+Dans la console, on peut tester un sélecteur CSS en utilisant une syntaxe spécifique : `$('SelecteurCSS')`.
+
+Par exemple, pour sélectionner tous les liens de cette page web, on peut exécuter la requête `$('a')` (un lien HTML correspondant à une balise `<a>...</a>`) :
+
+![](figures/browser_console_firefox_selectA.png){fig-align="center"}
+
+Cela renvoie une liste d'objets HTML que l'on peut explorer interactivement (déplier les flèches), et permet ainsi de tester le bon fonctionnement d'une requête via sélecteurs CSS, par exemple avant de l'automatiser dans un script de web scraping.
+De plus, chacun des éléments isolés peut être localisé dans l'inspecteur (Firefox : clic sur l'icône ![](figures/browser_console_firefox_iconLocate.png) ; Chrome : clic sur le nom de l'élément), et on peut donc contrôler ces résultats.
+
+#### Quelques exercices  
+
+1. Combien y-a-t-il de liens sur cette page web ?  
+
+2. Combien y-a-t-il d'éléments en gras sur cette page (balise `<strong>...</strong>`) ? Parmi ces derniers, combien sont également en italique (balise `<em>...</em>`) ?  
+
+3. En utilisant l'inspecteur HTML et la console, trouvez combien cette page web contient d'extraits de code-source.  
 
 
 ## Les appels réseaux d'une page
