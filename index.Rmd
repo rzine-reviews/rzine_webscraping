@@ -694,7 +694,7 @@ Par exemple, pour sélectionner tous les liens de cette page web, on peut exécu
 
 ![](figures/browser_console_firefox_selectA.png){fig-align="center"}
 
-Cela renvoie une liste d'objets HTML que l'on peut explorer interactivement (déplier les flèches), et permet ainsi de tester le bon fonctionnement d'une requête via sélecteurs CSS, par exemple avant de l'automatiser dans un script de web scraping.
+Cela renvoie une liste d'objets HTML que l'on peut explorer interactivement (déplier les flèches), et permet ainsi de tester le bon fonctionnement d'une requête via sélecteurs CSS, par exemple avant de l'automatiser dans un script de *web scraping*.
 De plus, chacun des éléments isolés peut être localisé dans l'inspecteur (Firefox : clic sur l'icône ![](figures/browser_console_firefox_iconLocate.png) ; Chrome : clic sur le nom de l'élément), et on peut donc contrôler ces résultats.
 
 #### Quelques exercices  
@@ -809,7 +809,7 @@ Pour répondre à cet objectif, le processus de collecte va se dérouler en plus
 
 ## Les packages de scraping
 
-Comme pour toutes les opérations et manipulations de données, plusieurs solutions existent pour le scraping avec le langage R. Si plusieurs fonctions R-base peuvent être utilisées, il existe surtout deux packages R de référence en matière de collecte automatisée :
+Comme pour toutes les opérations et manipulations de données, plusieurs solutions existent pour le *web scraping* avec le langage R. Si plusieurs fonctions R-base peuvent être utilisées, il existe surtout deux packages R de référence en matière de collecte automatisée :
 
 - [**`rvest`**](https://rvest.tidyverse.org/) : développé par Hadley Wickham (Rstudio), ce package facilite le scraping en utilisant les sélecteurs CSS et XPath pour extraire les données formatées en HTML ou en XML. Ce package s'insprire de bibliothèques python déjà existantes : [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/) et [RoboBrowser](https://robobrowser.readthedocs.io/en/latest/readme.html). **`rvest`** fait partie de l'écosystème **`tidyverse`**, les fonctions peuvent s'utiliser avec le(s) pipe(s). Ce package est simple d'utilisation mais également limité en matière de fonctionnalité. Il ne permet que depuis peu, et de manière limitée, de simuler les actions d'un utilisateur (clic, scroll, etc.). On l'utilisera essentiellement pour l'extraction de données de sites *web* statiques.
 
@@ -2314,25 +2314,58 @@ leaflet(scrapimmob_sf) |>
 <!-- Ajouter éléments conclusifs -->
 <!-- + Bonnes pratiques -->
 
-0) Ouverture le bon coin thématique : même logique dans ce faux site et dans le site réel, collection d'annonces individuelles : on peut récupérer des résumés de plusieurs annonces (pages résultats) ou les détails de chaque annonce (page annonce)
-1) Questions éthiques + exemple le bon coin éthique
-2) Questions bonnes pratiques
-  -> commencer par chercher les données avant de les scraper
-  -> puis les demander
-  -> si pas moyen, scraping
-3) Ouverture vers sites dynamiques, renvoi au site
-4) ne pas hésiter à demander à ChatGPT ou à Hugues de l'aide
+## Généralisation de l'exemple
 
-ChatGPT & scraping ? Ouverture Le bon coin ? On laisse cette partie ?
+L'exemple développé dans cet article est certes entièrement fictif, généré par un savant mélange de données *data-driven* et d'appel à des outils d'IA (*Large Language Model* pour les descriptions des annonces, *Text-to-Image Model* pour les "photos"), mais n'en reste pas moins complètement plausible.
 
-\
+La plupart des sites d'annonces, immobilières ou généralistes, comme leboncoin, adoptent en effet une structure similaire, où des pages de catalogages d'annonces, correspondant à des filtres sur la base de données globale, permettent d'accéder à des vignettes des annonces individuelles, que l'on peut ensuite parcourir individuellement.
 
+A ce titre, la méthode didactique de *web scraping* présentée dans cette formation peut tout à fait être répliquée pour un ensemble assez large de sites, les étapes restant similaires.
+
+## Éthique du scraping
+
+Pour autant, la création d'un site dédié comme ici permet certes une maîtrise totale du contenu, mais vise surtout à ne pas lancer de processus de *web scraping* sur un site pour lequel nous n'aurions pas les droits.
+Le *web scraping* constitue ainsi une procédure assez agressive pour un site, le principe étant qu'on lui envoi en peu de temps de très multiples requêtes, ce qui engendre un coût certain pour le site visé.
+De plus, l'extraction par *web scraping* de l'ensemble du contenu d'un site peut être condamné, comme dans l'exemple du site leboncoin sus-cité qui avait obtenu réparation légale après avoir été scrapé de manière systématique par un concurrent.
+
+## Quelques bonnes pratiques
+
+Dans un but de recherche, le *web scraping* est le plus souvent légal, mais cela n'empêche pas qu'il s'agit d'un procédé agressif dont il vaut mieux autant que possible limiter l'impact, au moyen de quelques bonnes pratiques.
+
+1. En premier lieu, avant de se lancer dans du *web scraping*, il est indispensable de mener des recherches approfondies pour voir si les données que l'on cherche à collecter ne sont pas déjà disponibles, sous une forme ou une autre, de manière publique ou non. Cela peut prendre la forme de fichiers complets disponibles en open-data, de "*dumps*" de données mis à disposition par les plateformes (*challenges* Kaggle, *datasets* HuggingFace, etc.), ou encore d'interfaces dédiées à l'extraction des données mises à disposition par les sites (les ***API***).
+
+2. Quand vraiment les données ne sont pas disponibles, et elles le sont souvent, alors on peut chercher à contacter les sociétés ou institutions derrière les sites visés, via les contacts listés en fin de page, pour demander des extractions de données.
+
+3. Quand rien de cela n'est concluant, alors seulement on peut se lancer dans le *web scraping* d'un site, en respectant toutefois un principe important de parcimonie : chaque requête envoyée à un site web (`read_html` dans le présent exemple) simule ainsi la requête d'un utilisateur désireux d'accéder au site, et en les démultipliant, on peut engendrer un trafic important vers le site, ce qui a des répercussions financières voire matérielles pour lui.
+
+
+## Scraping parcimonieux appliqué à cet exemple
+
+Dans l'exemple de cet article, chaque exécution de l'ensemble du code émet une vingtaine de requêtes pour extraire les pages d'annonces, puis 419 requêtes pour récupérer les informations de chaque annonce individuelle, puis à nouveau 419 requêtes pour extraire les coordonnées, et enfin 419 $\times$ 3 requêtes pour récupérer les 3 photos de chaque annonce.
+
+Chaque utilisateur unique de cet article aura donc émis **plus de 2 000 requêtes** vers notre site exemple, en téléchargeant **plus de 500 Mo de données** (majoritairement les photos). C'est de plusieurs ordres de grandeur supérieur au comportement d'un utilisateur "naturel" du site, et cela pourrait tout à fait entraîner des erreurs dans le serveur physique qui héberge ce site, d'autant plus si une vingtaine de personnes exécute ces mêmes requêtes simultanément.
+
+Avant de se lancer dans le *web scraping* de ce site, il aurait ainsi fallu en premier lieu réfléchir aux informations dont on a réellement besoin et à la manière de minimiser le nombre de requêtes effectuées.
+Les coordonnées auraient pu être récupérées en même temps que le reste du contenu de chaque annonce par exemple.
+Avons-nous vraiment besoin de la localisation précise des annonces ? Si la commune suffit, de même que le prix et la surface du bien, alors on peut récupérer toutes les annonces avec simplement une vingtaine de requêtes, en extrayant les informations déjà disponibles sur les pages des catégories d'annonces.
+Dans cet exemple, avec une faible perte de qualité de données spatiales (passage de l'adresse à la commune), on passe donc de l'émission de près de 1000 requêtes (sans considérer les photos) à seulement une vingtaine.
+
+## Pour aller plus loin
+
+Si l'exemple développé dans cet article est thématiquement plausible, la plupart des sites actuels reposent sur des bases technologiques bien plus complexes qu'un simple enchaînement de pages HTML (on parle ici de site "statique"), en générant à la volée le contenu affiché par le navigateur (ce sont les sites "dynamiques").
+
+Chaque technologie sous-jacente à un site implique des choix techniques et des logiques de *web scraping* très différents, et on pourrait presque dire que le *web scraping* de chaque site demande de développer un processus unique, ce qui est le cas de l'ensemble des exemples présentés en début de séance.
+
+Pour vous aider à mettre en place des processus de *web scraping* plus complexes, nous vous renvoyons vers le site bien plus complet qui accompagne cette formation : https://webscraping.gitpages.huma-num.fr/website/
+
+
+<!--
 # Bibliographie {-}
 
 
 <div id="refs"></div>
 
-
+-->
 \
 
 # Annexes {-}
@@ -2371,7 +2404,7 @@ rref <- bibentry(
    bibtype = "misc",
    title = "Premiers pas en web scraping",
    subtitle = "Introduction à la collecte automatique de données du web",
-   author = c("Léa Christophe", "Hugues Pécout", "Robin Cura"),
+   author = c("Léa Christophe", "Hugues Pécout", "Robin Cura", "Alexandre Cebeillac", "Sébastien Rey-Coyrehourcq"),
    doi = "10.48645/xxxxxx",
    url = "https://rzine.fr/publication_rzine/xxxxxxx/",
    keywords ="FOS: Other social sciences",
