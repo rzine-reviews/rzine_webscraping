@@ -10,9 +10,9 @@ author:
  - name: Robin Cura
    affiliation: Université Paris 1 Panthéon-Sorbonne, UMR PRODIG
  - name: Alexandre Cebeillac
-   affiliation: Université de Rouen, UMR IDEES
+   affiliation: Université de Rouen Normandie, UMR IDEES
  - name: Sébastien Rey-Coyrehourcq
-   affiliation: Université de Rouen, UMR IDEES
+   affiliation: Université de Rouen Normandie, UMR IDEES
 image: "featured.png"   
 logo: "figures/rzine.png"  
 output:
@@ -61,7 +61,7 @@ En sciences humaines et sociales, le *web scraping* peut être utilisé pour col
 
 Le *Web scraping* permet d'extraire des informations spécifiques d'une page *web* en analysant sa structure HTML et en extrayant uniquement les éléments pertinents. Cette pratique demande ainsi quelques connaissances techniques en matière de *web*, de langage de balisage HTML et de langage CSS, qui permettent respectivement de structurer une page *web* et de définir l'apparence et la mise en forme des différents éléments du document.
 
-Au-delà de présenter le *web scraping* avec R, cet article aborde dans un premier temps les connaissances indispensables à la mise en place d'une collecte de données automatisée.
+Au-delà d'initier au *web scraping* avec R, cet article aborde dans un premier temps les connaissances indispensables à la mise en place d'une collecte de données automatisée.
 
 Le *Web scraping* regroupe différentes techniques plus ou moins complexes. Cet article, qui est une initiation à la pratique de la collecte automatique de données, présente le cas d'utilisation le plus simple. Pour aller plus loin et se former à des techniques plus avancées, vous pouvez consulter ce support de formation plus détaillé :
 
@@ -75,7 +75,7 @@ Le *Web scraping* regroupe différentes techniques plus ou moins complexes. Cet 
 
 
 
-# Site, objectifs et prérequis
+# Objectifs et prérequis
 
 ## Le site web [***ScrapImmob***](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html)
 
@@ -83,16 +83,16 @@ Pour cette introduction à la collecte automatisée de données du *web* avec R,
 
 <center>
 
-![Source : https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html](figures/ScrapImmob_Visuel.png)
+![Source : [https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html)](figures/ScrapImmob_Visuel.png)
 
 </center>
 
 \
 
-<div class="alert alert-danger"> <b>L'intégralité des biens présentés ainsi que les images associées ont été générés par différents modèles d'intelligence artificielle. Toutes les informations affichées sont donc complètement fictives. Toute ressemblance avec une annonce existante ou ayant existé serait purement fortuite et ne pourrait être que le fruit d'une pure coïncidence.</b> </div>
+<div class="alert alert-danger"> <b>L'intégralité des biens présentés, ainsi que les images associées ont été générés par différents modèles d'intelligence artificielle. Toutes les informations affichées sont donc complètement fictives. Toute ressemblance avec une annonce existante ou ayant existé serait purement fortuite et ne pourrait être que le fruit d'une pure coïncidence.</b> </div>
 
 
-Les annonces de ventes de maisons ou d'appartements affichées sur le site ScrapImmob sont localisées dans dix départements français : l'Essonne, l'Eure, les Hauts-de-Seine, Paris, la Seine-Maritime, la Seine-Saint-Denis, la Seine-et-Marne, le Val d'Oise, le Val de Marne et les Yvelines. 
+Les annonces de ventes de maisons ou d'appartements affichées sur le site [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html) sont localisées dans dix départements français : l'Essonne, l'Eure, les Hauts-de-Seine, Paris, la Seine-Maritime, la Seine-Saint-Denis, la Seine-et-Marne, le Val d'Oise, le Val de Marne et les Yvelines. 
 
 Une exploration rapide du site nous permet d'observer que chaque annonce contient les informations suivantes : 
 
@@ -104,7 +104,7 @@ Une exploration rapide du site nous permet d'observer que chaque annonce contien
 
 <center>
 
-![Source : https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/annonces/IDF_0078.html](figures/ScrapImmob_annonce.png)
+![Source : [https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/annonces/IDF_0078.html](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/annonces/IDF_0078.html)](figures/ScrapImmob_annonce.png)
 
 </center>
 
@@ -114,37 +114,36 @@ Une exploration rapide du site nous permet d'observer que chaque annonce contien
 
 ## Les objectifs de collecte
 
-Avant de se lancer dans une collecte automatisée, **il est primordial de bien définir ses objectifs et de déterminer précisément quelles informations on souhaite récupérer. L'exploration du code source du site** (cf. [partie 2.3](#le-code-source-dune-page)) **permet ensuite d'estimer le niveau de difficulté et de choisir une méthode de collecte optimale.**
+Avant de se lancer dans une collecte automatisée, **il est primordial de bien définir ses objectifs et de déterminer précisément quelles informations on souhaite récupérer. L'exploration du code source du site** (cf. [partie 2.3](#explorer-le-code-source)) **permet ensuite d'estimer le niveau de difficulté et de choisir une méthode de collecte optimale.**
 
 <div class="alert alert-info">
-Pour cette démonstration, **notre objectif est de récupérer une partie de la base de données (un département) des biens mis en vente sur** [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), incluant l'ensemble des caractéristiques de description. La récupération des coordonnées géographiques affichées dans la carte interactive est également souhaitée.
+Pour cette démonstration, **notre objectif est de récupérer la liste des biens mis en vente (maisons et appartements) en Seine-Maritime sur le site** [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), **incluant l'ensemble des caractéristiques de description. La récupération des coordonnées géographiques affichées dans la carte interactive est également souhaitée**.
 </div>
 
-**Voici l'ensemble des caractéristiques que nous souhaitons récupérer, pour tous les biens de Seine-Maritime :** 
+**Voici l'ensemble des caractéristiques que nous souhaitons récupérer :** 
 
 :::{.bold}
-- Titre
-- Description
-- Type de bien
-- Nombre de chambres
-- Nombre de salles de bain
-- Surface habitable
-- Surface de jardin
-- Prix
-- Commune
-- Coordonnées géographiques
-- Photographies (URL et téléchargement)
+- **Titre**
+- **Description**
+- **Type de bien**
+- **Nombre de chambres**
+- **Nombre de salles de bain**
+- **Surface habitable**
+- **Surface de jardin**
+- **Prix**
+- **Commune**
+- **Coordonnées géographiques**
+- **Photographies** (URL et téléchargement)
 :::
 
 
 
-
-**Pour répondre à cet objectif, nous allons alterner exploration, collecte et traitement de données :**
+Pour répondre à cet objectif, nous allons alterner exploration, collecte et traitement de données :
 
 
 1. Exploration du système de filtrage des biens (fonctionnement du système d'URL) ([Partie 3.2.1](#le-système-durl))
 
-2. Récupération de la liste de toutes les pages (URLs) que l'on souhaite *scraper* ([Partie 3.2.2](#récupérer-les-urls-des-pages-dannonces))
+2. Récupération de la liste de toutes les pages (URLs) que l'on souhaite *scraper* ([Partie 3.2.2](#localiser-les-urls-des-pages-dannonces))
 
 3. Exploration du code source du site afin de localiser les informations à récupérer ([Partie 3.3.1](#collecte-principale))
 
@@ -163,20 +162,20 @@ Pour cette démonstration, **notre objectif est de récupérer une partie de la 
 
 ## Comprendre le code source 
 
-**Le scraping d'un site web démarre toujours par la même chose : l'exploration du code source du site ciblé**. En effet, pour automatiser la collecte d'information, il est nécessaire d'inspecter le code source afin de déterminer la localisation précise des différentes informations ciblées. 
+**Le scraping d'un site web démarre toujours par l'exploration du code source du site ciblé**. En effet, pour automatiser la collecte d'informations, il est nécessaire d'inspecter le code source afin de déterminer la localisation précise des différentes informations ciblées. 
 
 
-Extrait du code source de la page d'acceuil du site web [ScrapImmob](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html) :
+**Extrait du code source de la page d'acceuil du site web** [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html) :
 
 <center>
 
-![Source : view-source:https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html](figures/code_source_extarct.png)
+![Source : [view-source:https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html](view-source:https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html)](figures/code_source_extarct.png)
 
 </center>
 
 \
 
-Pour comprendre la structure d'une page web, plusieurs prérequis sont nécessaires. **Il est indispensable d'avoir certaines connaissances spécifiques liées à la structure d'une page *web* et une compréhension des principes techniques sous-jacents. Vous devez ainsi acquérir une connaissance minimum du langage HTML (balises) et une familiarité avec le CSS (sélecteurs)** pour identifier, cibler et extraire les éléments d'une page *web*. **Pour cette raison, la partie suivante introduit les connaissances techniques indispensables** à la mise en place du collecte automatisée.
+Pour comprendre la structure d'une page web, plusieurs prérequis sont nécessaires. **Il est indispensable d'avoir certaines connaissances spécifiques liées à la structure d'une page *web* et une compréhension des principes techniques sous-jacents. Vous devez ainsi acquérir une connaissance minimum du langage HTML (balises) et une familiarité avec le CSS (sélecteurs) pour identifier, cibler et extraire les éléments d'une page** ***web***. Pour cette raison, la partie suivante introduit les connaissances techniques indispensables à la mise en place du collecte automatisée.
 
 \
 
@@ -197,7 +196,7 @@ Le langage HTML (***H****yper***T***ext* ***M****arkup* ***L****anguage*) est un
 </Book>
 ```
 
-Le langage HTML, sous-langage du XML, partage de nombreuses caractéristiques avec ce langage, mais il est spécifiquement conçu pour structurer et organiser le contenu des pages *web*. Le HTML utilise une série de balises (*tags*) pour définir la structure et le contenu d'une page *web*, ce qui permet aux navigateurs *web* de l'afficher correctement pour les utilisateurs.
+Le langage HTML, sous-langage du XML, partage de nombreuses caractéristiques avec ce langage, mais il est spécifiquement conçu pour structurer et organiser le contenu des pages *web*. Le HTML utilise une série de balises (`<tags>`) pour définir la structure et le contenu d'une page *web*, ce qui permet aux navigateurs *web* de l'afficher correctement pour les utilisateurs.
 
 \
 
@@ -211,7 +210,11 @@ Chaque balise est entourée des symboles **`<`** et **`>`** et peut contenir des
 <!DOCTYPE html>
 <html>
 <head>
+  
+    <!-- Métadonnées de la page -->
+  
     <title>Titre de la page</title>
+  
 </head>
 <body>
 
@@ -227,7 +230,7 @@ Chaque balise est entourée des symboles **`<`** et **`>`** et peut contenir des
 - **`<body>`** : Contient tout le contenu visible de la page, tel que le texte, les images, les liens, les tableaux, etc.    
 - **`<title>`** : Définit le titre de la page qui apparaîtra dans la barre de titre du navigateur.  
 
-Dans la majorité des cas, on utilise une balise de fermeture pour indiquer la fin de l’élément. Une balise de fermeture présente un **`/`** avant le nom de la balise :
+Dans la majorité des cas, on utilise une balise de fermeture pour indiquer la fin de l’élément. Une balise de fermeture présente le symbole **`/`** avant le nom de la balise :
 
 ```{html, eval = FALSE, class.source='bg-info'}    
 <body>
@@ -238,7 +241,7 @@ Dans la majorité des cas, on utilise une balise de fermeture pour indiquer la f
 ```    
 
 
-Le body peut contenir toute une variété de balises prédéfinies pour structurer et ajouter différents types de contenu dans la page *web*. Voici quelques balises indispensables à connaitre :
+Le body peut englober toute une variété de balises prédéfinies pour structurer et ajouter différents types de contenu dans la page *web*. Voici quelques balises indispensables à connaitre :
 
 - **`<h1>`**, **`<h2>`**, …, **`<h6>`** : **titres** de différents niveaux,    
 - **`<p>`** : **paragraphe**,    
@@ -247,7 +250,7 @@ Le body peut contenir toute une variété de balises prédéfinies pour structur
 - **`<ul>`**, **`<ol>`**, **`<li>`** : **listes** non ordonnées et ordonnées,    
 - **`<table>`**, **`<tr>`**, **`<td>`** : **tableau** avec des lignes et des cellules,    
 - **`<div>`** : **section** (type bloc),    
-- **`<span>`** : **section** (type "inline").
+- **`<span>`** : **section** (type "*inline*").
 
 
 Exemple d'utilisation de la balise **`p`** (paragraphe) :
@@ -285,14 +288,14 @@ Voici le rendu graphique du code HTML ci-dessus dans un navigateur *web* :
 
 ### Les attributs
 
-Ces balises hiérarchisées et potentiellement regroupées, peuvent être renseignées d'attributs qui permettent de spécifier des informations supplémentaires et jouer sur leur mise en forme. Par exemple :
+Ces balises hiérarchisées et potentiellement regroupées, peuvent être renseignées d'attributs qui permettent de spécifier des informations supplémentaires et jouer sur leur mise en forme. Exemples d'attributs :
 
-- **`id`** : identifiants,    
-- **`class`** : classes,    
-- **`href`** : liens,    
+- **`id`** : identifiant de la balise,    
+- **`class`** : classe de la balise,    
+- **`href`** : lien,    
 - etc.    
 
-Ces attributs sont **à spécifier dans les balises ouvrantes** :
+**Ces attributs sont à spécifier dans les balises ouvrantes** :
 
 ```{html, eval = FALSE, class.source='bg-info'}    
 <body>
@@ -314,9 +317,9 @@ Ces attributs sont **à spécifier dans les balises ouvrantes** :
 </body>    
 ```
 
-L'organisation segmentée du contenu via les balises **`div`** ou **`span`** ainsi que les différents attributs spécifiés permettent la mise en forme et le paramétrage des éléments. Les attributs des balises peuvent être associés à une mise en forme (couleur, taille, position, etc.) à l'aide du langage CSS (cf. [partie suivante](#le-langage-css)). Mais **il s'agit également d'éléments cruciaux pour la collecte automatisée de données sur le** ***web***, car ils permettent de cibler précisément des éléments. 
+L'organisation segmentée du contenu via les balises **`div`** ou **`span`** ainsi que les différents attributs spécifiés permettent la mise en forme et le paramétrage des éléments. **Les attributs des balises peuvent être associés à une mise en forme (couleur, taille, position, etc.) à l'aide du langage CSS** (cf. [partie suivante](#le-langage-css)). **Mais il s'agit également d'éléments cruciaux pour la collecte automatisée de données sur le** ***web***, **car ils permettent de cibler précisément des éléments**. 
 
-Dans l'exemple ci-dessus, il est ainsi possible de récupérer toutes les URLs (***U****niform* ***R****esource* ***L****ocator*) des articles, en ciblant le contenu de tous les attributs **`href`** des balises **`<a>`** situés dans les **`<div>`** ayant pour identifiant "*Liste_ref*".
+Dans l'exemple de code source ci-dessus, il est ainsi possible de récupérer toutes les URLs (***U****niform* ***R****esource* ***L****ocator*) des articles, en ciblant le contenu de tous les attributs **`href`** des balises **`<a>`** situés dans les **`<div>`** ayant pour identifiant "*Liste_ref*".
 
 
 \
@@ -329,7 +332,6 @@ Le CSS peut être incorporé de différentes manières :
 
 **1. Directement dans les balises** à l'aide de l'attribut **`style`** :
 
-<center><b>page.html</b></center>
 
 ```{html, eval = FALSE, class.source='bg-info'}    
 <h1 style ="font-size:40px;color:#f03b35;text-align:center;">Titre principal</h1>    
@@ -338,7 +340,6 @@ Le CSS peut être incorporé de différentes manières :
 
 **2. Dans le document HTML**, inclut dans une balise **`<style>`** adaptée à cet effet :
 
-<center><b>page.html</b></center>
 
 ```{html, eval = FALSE, class.source='bg-info'}    
 <html>
@@ -409,7 +410,7 @@ font-size: 20px;
 :::
 ::::
 
-Dans les trois cas, le rendu graphique dans un navigateur *web* sera le suivant :
+**Dans les trois cas présentés ci dessus, le rendu graphique dans un navigateur** ***web*** **sera le suivant :**
 
 ![](figures/h1.png){fig-align="center"}
 
@@ -423,7 +424,7 @@ Comme une page HTML est un ensemble **structuré** de balises, ce qui revient à
 
 Si on peut utiliser ces sélecteurs pour extraire de l'information, leur usage le plus courant consiste à mettre en forme des éléments HTML, c'est-à-dire à appliquer un style spécifique à un sous-ensemble de balises.
 
-**1. Les sélecteurs d'éléments** permettent de cibler tous les éléments d'un même type.
+**1. Les sélecteurs d'éléments** permettent de cibler tous les éléments d'un même type. Exemple pour les balises `h2`:
 
 :::: {style="display: flex;"}
 ::: {.column width="49%"}
@@ -591,7 +592,7 @@ Le CSS met également à disposition des sélecteurs complexes et combinateurs q
 
 \
 
-<div class="alert alert-danger">Cible uniquement la première balise `h2` de l'élément ayant pour identifiant `liste_ref`.</div>
+<div class="alert alert-danger">L'utilisation du symbole `+` permet de cibler uniquement la première balise `h2` de la balise ayant pour identifiant `liste_ref`.</div>
 :::
 ::::
 
@@ -609,7 +610,7 @@ Pour mieux comprendre l'utilisation et le fonctionnement du HTML et du CSS, **vo
 
 <br>
 
-Une fois téléchargé, décompressez le répertoire qui contient deux fichiers : *page.hmtl* et *style.CSS*.
+Une fois téléchargé, décompressez le répertoire qui contient deux fichiers : page.hmtl et style.CSS.
 
 1. Un fichier HTML peut être interprété (mis en page) par n'importe quel navigateur (Firefox, Google Chrome, Microsoft Edge, ect.). Ouvrez le fichier page.html avec un navigateur. Aucune connexion internet n'est nécessaire. 
 
@@ -664,7 +665,7 @@ text-align:center;
 
 :::
 
-3. Ajoutez et/ou modifiez du contenu (balise) dans le code source du fichier page.html. Enregistrez le fichier et ré-affichez (ou rafraichissez avec la touche `F5`) la page HTML dans le navigateur pour découvrir la nouvelle mise en page. 
+3. Ajoutez et/ou modifiez du contenu (balise) dans le code source du fichier page.html. Enregistrez le fichier et ré-affichez (ou rafraichissez avec la touche `F5`) la page HTML dans le navigateur pour découvrir le rendu.
 
 4. Ajoutez et/ou modifiez du contenu dans le code source du fichier style.css. Enregistrez le fichier et ré-affichez la page HTML (ou rafraichissez-la avec la touche `F5`) dans le navigateur pour apprécier la nouvelle mise en page.
 
@@ -674,12 +675,12 @@ text-align:center;
 ## Explorer le code source  
 
 
-Maintenant que vous avez les bases des langages HTML et CSS, vous êtes armé pour consulter le code source du site [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), comprendre sa structure et localiser les informations que vous souhaitez extraires.
+Maintenant que vous avez les bases des langages HTML et CSS, vous êtes armé·e pour consulter le code source du site [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), comprendre sa structure et localiser les informations que vous souhaitez extraires.
 
 
 ### Affichage brut
 
-Il est très simple d'afficher de manière brut le code source d'une page *web*. Réalisez un clic-droit sur la page ciblée, puis sélectionnez le menu "*(Affichez-le) code source de la page*". Le code source que le navigateur reçoit et met en forme est alors affiché dans un nouvel onglet. Cette fonctionnalité est également accessible avec le raccourci `Ctrl + U`.
+Il est très simple d'afficher le code source d'une page *web*. Réalisez un clic-droit sur la page ciblée, puis sélectionnez le menu "*(Affichez-le) code source de la page*". Le code source que le navigateur reçoit et met en forme est alors affiché dans un nouvel onglet. Cette fonctionnalité est également accessible avec le raccourci `Ctrl + U`.
 
 
 
@@ -709,7 +710,7 @@ Avec *Mozilla FireFox* :
 ### L'inspecteur de code
 
 
-Un outil proposé par l'ensemble des navigateurs simplifie l'exploration du code source d'une page : **l'inspecteur de code**. En s'appuyant sur différentes fonctionnalités (survol, filtrage, recherche, etc.) **l'inspecteur de code facilite l'identification des balises, des classes, des identifiants, des styles associés aux éléments** et permet ainsi de procéder à une extraction ciblée de données. En utilisant l'inspecteur de code source, vous accédez à toutes les informations nécessaires pour concevoir un script de collecte automatisée. 
+**L'inspecteur de code**, un outil proposé par l'ensemble des navigateurs, simplifie l'exploration du code source d'une page. En s'appuyant sur différentes fonctionnalités (survol, filtrage, recherche, etc.), **l'inspecteur de code facilite l'identification des balises, des classes, des identifiants, des styles associés aux éléments** et permet ainsi de procéder à une extraction ciblée de données. En utilisant l'inspecteur de code source, vous accédez à toutes les informations nécessaires pour concevoir un script de collecte automatisée. 
 
 
 Pour y accéder, cliquez-droit n'importe où sur la page *web* ouverte dans un navigateur, puis cliquez sur “Inspecter” :
@@ -750,13 +751,15 @@ Avec *Mozilla FireFox* :
 
 \
 
-L'inspecteur s'ouvre et en utilisant l'outil de sélection (entouré en <font style="color:#FF0000;">**rouge**</font>), il donne la possibilité de naviguer dans le code source en survolant les différents éléments de la page, et vice versa.
+Une fois l'inspecteur ouvert, l'outil de sélection (entouré en <font style="color:#FF0000;">**rouge**</font>) donne la possibilité de naviguer dans le code source en survolant les différents éléments de la page, et vice versa.
 
 ![](figures/inspecteur_capture2.png)
 
 \
 
-Vous pouvez déplier le code source pour l'explorer en profondeur. Sur la page d'acceuil de [ScrapImmob](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), le lien vers les page d'annonces listées sur la page d’accueil semblent stockés dans des balises `<a>` de la classe `stretched-link`.
+Vous pouvez déplier le code source pour l'explorer en profondeur.     
+
+Sur la page d'acceuil de [ScrapImmob](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), **les liens vers les pages d'annonces listées sur la page d’accueil semblent stockés dans l'attribut `href` des balises `<a>` de la classe `stretched-link`**.
 
 ![](figures/inspecteur_capture.png)
 
@@ -774,9 +777,9 @@ Il est ainsi possible de récupérer aisément :
 
 - **l'intérieur du HTML** : contenu de la balise sélectionnée. Par exemple, l'intérieur du HTML de `<div id="abc" class="foo"><strong>TEXTE</strong></div>` est  `<strong>TEXTE</strong>`)
 - **l'exterieur du HTML** : ensemble de la balise sélectionnée. Par exemple, l'extérieur du HTML de `<div id="abc" class="foo"><strong>TEXTE</strong></div>` est  `<div id="abc" class="foo"><strong>TEXTE</strong></div>`)
-- **Le sélecteur CSS** : exemple pour le titre du site "ScrapImmob" : `header.col-12 > h1:nth-child(1)`
-- **Le chemin CSS** : exemple pour le titre du site "ScrapImmob" : `html body div.container-fluid div.row header.col-12.text-center.p-3 h1`
-- **Le Xpath** : exemple pour le titre du site "ScrapImmob" : `/html/body/div/div[1]/header/h1`
+- **Le sélecteur CSS**. Exemple pour le titre du site "ScrapImmob" : `header.col-12 > h1:nth-child(1)`
+- **Le chemin CSS**. Exemple pour le titre du site "ScrapImmob" : `html body div.container-fluid div.row header.col-12.text-center.p-3 h1`
+- **Le Xpath**. Exemple pour le titre du site "ScrapImmob" : `/html/body/div/div[1]/header/h1`
 
 <div class="alert alert-info">
 XPath est un acronyme qui signifie "*XML Path Language*". Il s'agit d'un langage de requête utilisé pour naviguer et interroger des documents XML ou HTML. XPath est ainsi utilisé pour sélectionner des éléments spécifiques d'une page *web*.</div>
@@ -789,44 +792,33 @@ Par exemple, le sélecteur CSS des balises `<a>` de la classe `stretched-link` e
 
 \
 
-<!-- ### Exemple pratique - Utilisation de selecteurs CSS dans la console du navigateur pour isoler des éléments -->
+### La console de l'inspecteur de code
 
-<!-- Pour tester un sélecteur CSS, c'est-à-dire vérifier qu'il isole bien un sous-ensemble des éléments structurés d'une page web, on peut l’exécuter directement dans le navigateur, dans l'onglet `Console` des outils de développement que l'inspecteur ouvre. -->
+Pour tester un sélecteur CSS, c'est-à-dire vérifier qu'il isole bien un sous-ensemble des éléments structurés d'une page web, on peut l’exécuter directement dans la `Console` de l'inspecteur de code.
 
 
-<!-- :::: {style="display: flex;"} -->
-<!-- ::: {.column width="49%"} -->
-<!-- ::: {style="text-align: center;"} -->
-<!-- Avec *Google Chrome* : -->
-<!-- ![](figures/browser_console_chrome.png){fig-align="center"} -->
-<!-- :::  -->
-<!-- :::  -->
-<!-- ::: {.column width="2%"} -->
-<!-- ::: -->
-<!-- ::: {.column width="49%"} -->
-<!-- ::: {style="text-align: center;"} -->
-<!-- Avec *Mozilla FireFox* : -->
-<!-- ![](figures/browser_console_firefox.png){fig-align="center"} -->
-<!-- ::: -->
-<!-- :::  -->
-<!-- :::: -->
 
-<!-- Dans la console, on peut tester un sélecteur CSS en utilisant une syntaxe spécifique : `$('SelecteurCSS')`. -->
+::: {style="text-align: center;"}
+Avec *Mozilla FireFox* :
+![](figures/browser_console_firefox.png){fig-align="center"}
+:::
 
-<!-- Par exemple, pour sélectionner tous les liens de cette page web, on peut exécuter la requête `$('a')` (un lien HTML correspondant à une balise `<a>...</a>`) : -->
 
-<!-- ![](figures/browser_console_firefox_selectA.png){fig-align="center"} -->
+Dans la console, on peut tester un sélecteur CSS en utilisant la syntaxe spécifique suivante : `$$('selecteur')`. Par exemple, pour sélectionner tous les liens (balises `<a>...</a>`) de cette page web, on peut exécuter la requête `$$('a')` dans la console de l'inspecteur. Exemple avec *Mozilla FireFox* :
 
-<!-- Cela renvoie une liste d'objets HTML que l'on peut explorer interactivement (déplier les flèches), et permet ainsi de tester le bon fonctionnement d'une requête via sélecteurs CSS, par exemple avant de l'automatiser dans un script de *web scraping*. -->
-<!-- De plus, chacun des éléments isolés peut être localisé dans l'inspecteur (Firefox : clic sur l'icône ![](figures/browser_console_firefox_iconLocate.png) ; Chrome : clic sur le nom de l'élément), et on peut donc contrôler ces résultats. -->
+![](figures/browser_console_firefox_selectA.png){fig-align="center"}
 
-<!-- #### Quelques exercices   -->
+Cela renvoie une liste d'objets HTML que l'on peut explorer interactivement (code dépliable), et permet ainsi de tester le bon fonctionnement d'une requête via sélecteurs CSS, avant de l'automatiser dans un script de *scraping*.
 
-<!-- 1. Combien y-a-t-il de liens sur cette page web ?   -->
+Chacun des éléments isolés peut être localisé dans l'inspecteur (clic sur l'icône ![](figures/browser_console_firefox_iconLocate.png) avec *Mozilla*, et clic sur le nom de l'élément avec le naviguateur *Chrome*).
 
-<!-- 2. Combien y-a-t-il d'éléments en gras sur cette page (balise `<strong>...</strong>`) ? Parmi ces derniers, combien sont également en italique (balise `<em>...</em>`) ?   -->
+#### Exercice
 
-<!-- 3. En utilisant l'inspecteur HTML et la console, trouvez combien cette page web contient d'extraits de code-source.   -->
+1. Combien y-a-t-il de liens sur cette page web ?
+
+2. Combien y-a-t-il d'éléments en gras sur cette page (balise `<strong>...</strong>`) ? Parmi ces derniers, combien sont également en italique (balise `<em>...</em>`) ?
+
+3. En utilisant l'inspecteur HTML et la console, trouvez combien cette page web contient d'extraits de code-source.
 
 
 <!-- ## Les appels réseaux d'une page -->
@@ -1033,7 +1025,7 @@ code_appart
 
 \
 
-### Récupérer les URLs des pages d'annonces
+### Localiser les URLs des pages d'annonces
 
 A partir de ces deux URLs, nous allons pouvoir récupérer la liste des URLs de toutes les pages des annonces affichées. Cela nous permettra dans un second temps, de collecter l'ensemble des informations de description de chaque bien en vente. 
 
@@ -1156,7 +1148,7 @@ Une autre solution aurait été de simuler le clic d'un utilisateur sur le bouto
 \
 
 
-### Scraper toutes les URLs
+### Collecter toutes les URLs
 
 A partir de cette liste, nous allons pouvoir collecter l'ensemble des URLs présentes sur ces pages, qui renvoient vers des pages d'annonces complètes. Pour cela, nous créons la boucle suivante : 
 
