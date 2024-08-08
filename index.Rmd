@@ -77,13 +77,13 @@ Le *Web scraping* regroupe différentes techniques plus ou moins complexes. Cet 
 
 # Objectifs et prérequis
 
-## Le site web [***ScrapImmob***](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html)
+## Le site web [***ScrapImmob***](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}
 
-Pour cette introduction à la collecte automatisée de données du *web* avec R, nous proposons une mise en pratique sur un site internet de démonstration crée pour l'occasion : [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html). **Ce site compile 1000 annonces fictives de ventes immobilières de maisons et d'appartements.**  
+Pour cette introduction à la collecte automatisée de données du *web* avec R, nous proposons une mise en pratique sur un site internet de démonstration crée pour l'occasion : [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}. **Ce site compile 1000 annonces fictives de ventes immobilières de maisons et d'appartements.**  
 
 <center>
 
-![Source : [https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html)](figures/ScrapImmob_Visuel.png)
+![Source : [https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}](figures/ScrapImmob_Visuel.png)
 
 </center>
 
@@ -92,7 +92,7 @@ Pour cette introduction à la collecte automatisée de données du *web* avec R,
 <div class="alert alert-danger"> <b>L'intégralité des biens présentés, ainsi que les images associées ont été générés par différents modèles d'intelligence artificielle. Toutes les informations affichées sont donc complètement fictives. Toute ressemblance avec une annonce existante ou ayant existé serait purement fortuite et ne pourrait être que le fruit d'une pure coïncidence.</b> </div>
 
 
-Les annonces de ventes de maisons ou d'appartements affichées sur le site [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html) sont localisées dans dix départements français : l'Essonne, l'Eure, les Hauts-de-Seine, Paris, la Seine-Maritime, la Seine-Saint-Denis, la Seine-et-Marne, le Val d'Oise, le Val de Marne et les Yvelines. 
+Les annonces de ventes de maisons ou d'appartements affichées sur le site [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"} sont localisées dans dix départements français : l'Essonne, l'Eure, les Hauts-de-Seine, Paris, la Seine-Maritime, la Seine-Saint-Denis, la Seine-et-Marne, le Val d'Oise, le Val de Marne et les Yvelines. 
 
 Une exploration rapide du site nous permet d'observer que chaque annonce contient les informations suivantes : 
 
@@ -104,7 +104,7 @@ Une exploration rapide du site nous permet d'observer que chaque annonce contien
 
 <center>
 
-![Source : [https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/annonces/IDF_0078.html](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/annonces/IDF_0078.html)](figures/ScrapImmob_annonce.png)
+![Source : [https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/annonces/IDF_0078.html](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/annonces/IDF_0078.html){target="_blank"}](figures/ScrapImmob_annonce.png)
 
 </center>
 
@@ -117,7 +117,7 @@ Une exploration rapide du site nous permet d'observer que chaque annonce contien
 Avant de se lancer dans une collecte automatisée, **il est primordial de bien définir ses objectifs et de déterminer précisément quelles informations on souhaite récupérer. L'exploration du code source du site** (cf. [partie 2.3](#explorer-le-code-source)) **permet ensuite d'estimer le niveau de difficulté et de choisir une méthode de collecte optimale.**
 
 <div class="alert alert-info">
-Pour cette démonstration, **notre objectif est de récupérer la liste des biens mis en vente (maisons et appartements) en Seine-Maritime sur le site** [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), **incluant l'ensemble des caractéristiques de description. La récupération des coordonnées géographiques affichées dans la carte interactive est également souhaitée**.
+Pour cette démonstration, **notre objectif est de récupérer la liste des biens mis en vente (maisons et appartements) en Seine-Maritime sur le site** [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}, **incluant l'ensemble des caractéristiques de description. La récupération des coordonnées géographiques affichées dans la carte interactive est également souhaitée**.
 </div>
 
 **Voici l'ensemble des caractéristiques que nous souhaitons récupérer :** 
@@ -165,11 +165,11 @@ Pour répondre à cet objectif, nous allons alterner exploration, collecte et tr
 **Le scraping d'un site web démarre toujours par l'exploration du code source du site ciblé**. En effet, pour automatiser la collecte d'informations, il est nécessaire d'inspecter le code source afin de déterminer la localisation précise des différentes informations ciblées. 
 
 
-**Extrait du code source de la page d'acceuil du site web** [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html) :
+**Extrait du code source de la page d'acceuil du site web** [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"} :
 
 <center>
 
-![Source : [view-source:https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html](view-source:https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html)](figures/code_source_extarct.png)
+![Source : [view-source:https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html](view-source:https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}](figures/code_source_extarct.png)
 
 </center>
 
@@ -598,7 +598,7 @@ Le CSS met également à disposition des sélecteurs complexes et combinateurs q
 
 \
 
-### Exemple pratique - Utilisation de selecteurs CSS pour mettre en forme une page web.
+### Exercice
 
 Pour mieux comprendre l'utilisation et le fonctionnement du HTML et du CSS, **vous pouvez vous exercer à la pratique de ces deux langages à partir de cet exemple simple mis à disposition en téléchargement** :
 
@@ -675,7 +675,7 @@ text-align:center;
 ## Explorer le code source  
 
 
-Maintenant que vous avez les bases des langages HTML et CSS, vous êtes armé·e pour consulter le code source du site [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), comprendre sa structure et localiser les informations que vous souhaitez extraires.
+Maintenant que vous avez les bases des langages HTML et CSS, vous êtes armé·e pour consulter le code source du site [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}, comprendre sa structure et localiser les informations que vous souhaitez extraires.
 
 
 ### Affichage brut
@@ -759,7 +759,7 @@ Une fois l'inspecteur ouvert, l'outil de sélection (entouré en <font style="co
 
 Vous pouvez déplier le code source pour l'explorer en profondeur.     
 
-Sur la page d'acceuil de [ScrapImmob](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), **les liens vers les pages d'annonces listées sur la page d’accueil semblent stockés dans l'attribut `href` des balises `<a>` de la classe `stretched-link`**.
+Sur la page d'acceuil de [ScrapImmob](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}, **les liens vers les pages d'annonces listées sur la page d’accueil semblent stockés dans l'attribut `href` des balises `<a>` de la classe `stretched-link`**.
 
 ![](figures/inspecteur_capture.png)
 
@@ -812,13 +812,20 @@ Cela renvoie une liste d'objets HTML que l'on peut explorer interactivement (cod
 
 Chacun des éléments isolés peut être localisé dans l'inspecteur (clic sur l'icône ![](figures/browser_console_firefox_iconLocate.png) avec *Mozilla*, et clic sur le nom de l'élément avec le naviguateur *Chrome*).
 
-#### Exercice
+\
 
-1. Combien y-a-t-il de liens sur cette page web ?
+### Exercice
 
-2. Combien y-a-t-il d'éléments en gras sur cette page (balise `<strong>...</strong>`) ? Parmi ces derniers, combien sont également en italique (balise `<em>...</em>`) ?
+1. Combien y-a-t-il de liens (balises `<a>...</a>`) sur [cette page web](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"} ?
 
-3. En utilisant l'inspecteur HTML et la console, trouvez combien cette page web contient d'extraits de code-source.
+2. Combien y-a-t-il de liens (balises `<a>...</a>`) de la classe `.stretched-link` ? Vous pouvez utiliser la syntaxe suivante : `$$('element.class')`
+
+3. Combien y-a-t-il d'éléments en gras (balise `<strong>...</strong>`) sur [une page d'annonce](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/annonces/IDF_0049.html){target="_blank"} ? 
+
+4. Combien y-a-t-il de balises `<script>...</script>` qui permettent d'intégrer ou de faire référence à un script javascript exécutable ? Dans quelle balise `<script>` sont stockées les coordonnées géographiques du marqueur affiché sur la carte intéractive des [pages d'annonces](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/annonces/IDF_0049.html){target="_blank"}  ?
+
+
+
 
 
 <!-- ## Les appels réseaux d'une page -->
@@ -849,26 +856,26 @@ Chacun des éléments isolés peut être localisé dans l'inspecteur (clic sur l
 <!-- <b>La première étape du *web scraping* consiste ainsi à analyser le code source de la page et du site *web* ciblé, afin de trouver le chemin ou l'emplacement exact des informations que l'on souhaite récupérer. Plus le code HTML d'un site est structuré et optimisé, plus la collecte automatisée sera facilitée.</b></div> -->
 
 
-<!-- \ -->
+\
 
 # Mise en pratique
 
 ## Les packages de scraping
 
-Comme pour toutes les opérations et manipulations de données, plusieurs solutions existent pour le *web scraping* avec le langage R. Si plusieurs fonctions R-base peuvent être utilisées, il existe surtout deux packages de référence en matière de collecte automatisée :
+Comme pour toutes les opérations et manipulations de données, plusieurs solutions existent pour le *web scraping* avec R. Si plusieurs fonctions R-base peuvent être utilisées, il existe surtout deux packages de référence en matière de collecte automatisée :
 
-- [**`rvest`**](https://rvest.tidyverse.org/) : développé par Hadley Wickham (Rstudio), ce package facilite le scraping en utilisant les sélecteurs CSS et XPath pour extraire les données formatées en HTML ou en XML. Ce package s'insprire de bibliothèques python déjà existantes : [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/) et [RoboBrowser](https://robobrowser.readthedocs.io/en/latest/readme.html). **`rvest`** fait partie de l'écosystème **`tidyverse`**, les fonctions peuvent s'utiliser avec le(s) pipe(s). Ce package est simple d'utilisation mais également limité en matière de fonctionnalité. Il ne permet que depuis peu, et de manière limitée, de simuler les actions d'un utilisateur (clic, scroll, etc.). On l'utilisera essentiellement pour l'extraction de données de sites *web* statiques.
+- [**`rvest`**](https://rvest.tidyverse.org/){target="_blank"} : développé par Hadley Wickham (Posit), ce package facilite le scraping en utilisant les sélecteurs CSS et XPath pour extraire les données formatées en HTML ou en XML. Ce package s'insprire de bibliothèques python déjà existantes : [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/){target="_blank"} et [RoboBrowser](https://robobrowser.readthedocs.io/en/latest/readme.html){target="_blank"}. **`rvest`** fait partie de l'écosystème **`tidyverse`**, les fonctions peuvent s'utiliser avec le(s) pipe(s). Ce package est simple d'utilisation mais également limité en matière de fonctionnalité. Il ne permet que depuis peu, et de manière limitée, de simuler les actions d'un utilisateur (clic, scroll, etc.). On l'utilisera essentiellement pour l'extraction de données de sites *web* statiques.
 
-- [**`Rselenium`**](https://cran.r-project.org/web/packages/RSelenium/index.html) : ce package est ce que l'on appelle un *binding* de langage ("liaison") qui permet d'utiliser les fonctionnalités de **`Selenium 2.0 WebDriver`**. Ce *framework* *web* permet d'automatiser les tests d'applications *web* en simulant des utilisateurs. **`Selenium 2.0 WebDriver`** peut aussi être utilisé pour la collecte automatisée de données sur des sites *web* dynamiques, nécessitant une interaction utilisateur (exécution de code javascript généré par clic, survol, scroll, etc.). Il s'agit concrètement d'un outil qui simule la navigation sur un site web plutôt que d'un outil comme `rvest` qui en extrait simplement le contenu.
+- [**`Rselenium`**](https://cran.r-project.org/web/packages/RSelenium/index.html){target="_blank"} : ce package est ce que l'on appelle un *binding* de langage ("liaison") qui permet d'utiliser les fonctionnalités de **`Selenium 2.0 WebDriver`**. Ce *framework* *web* permet d'automatiser les tests d'applications *web* en simulant des utilisateurs. **`Selenium 2.0 WebDriver`** peut aussi être utilisé pour la collecte automatisée de données sur des sites *web* dynamiques, nécessitant une interaction utilisateur (exécution de code javascript généré par clic, survol, scroll, etc.). Il s'agit concrètement d'un outil qui simule la navigation sur un site web plutôt que d'un outil comme `rvest` qui en extrait simplement le contenu.
 
 
-**Le site *web* [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html) est un site *web* statique. Il n'existe pas de base de données, toutes les informations affichées sont présentes dans le code source de la page. Il n'est donc pas nécessaire de simuler le comportement d'un utilisateur pour accéder aux données ciblées. Dans ce cas, il sera plus simple d'utiliser le package [**`rvest`**](https://rvest.tidyverse.org/)**.
+**Le site *web* [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"} est un site *web* statique. Il n'existe pas de base de données, toutes les informations affichées par le naviguateur sont stockées dans le code source de la page. Ainsi, il n'est pas nécessaire de simuler le comportement d'un utilisateur pour accéder aux données ciblées. Dans ce cas, il est plus simple d'utiliser le package [**`rvest`**](https://rvest.tidyverse.org/){target="_blank"}**.
 
 \
 
 ### Installation de `rvest`
 
-Le package [**`rvest`**](https://rvest.tidyverse.org/) permet de naviguer à travers la structure HTML des pages *web*, d'extraire du texte, des tableaux, des images et d'autres éléments, et de les convertir en données structurées directement exploitables dans R. 
+Le package [**`rvest`**](https://rvest.tidyverse.org/){target="_blank"} permet de naviguer à travers la structure HTML des pages *web*, d'extraire du texte, des tableaux, des images et d'autres éléments, et de les convertir en données structurées directement exploitables dans R. 
 
 Commencez par installer le package, puis chargez la librairie.
 
@@ -891,8 +898,8 @@ library(rvest)
 
 ### Fonctionnement de **`rvest`**
 
-Commençons par explorer les principales fonctions du package [**`rvest`**](https://rvest.tidyverse.org/) à partir d'un extrait du code source du site *web* [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html).
-Pour cela, nous pouvons utiliser la fonction **`minimal_html()`** qui permet de créer un contenu HTML (XML) requêtable à partir d'un contenu HTML fourni dans une chaîne de caractères.
+Commençons par explorer les principales fonctions du package [**`rvest`**](https://rvest.tidyverse.org/){target="_blank"} à partir d'un extrait du code source du site *web* [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}.
+Pour cela, nous pouvons utiliser la fonction **`minimal_html()`** qui permet de créer un contenu HTML (XML) requêtable à partir de code HTML fourni dans une chaîne de caractères.
 
 ```{r, message=FALSE, warning=FALSE}
 
@@ -910,7 +917,7 @@ class(basic_html)
 
 ```
 
-- Les fonctions **`read_element()`** ou **`read_elements()`** permettent respectivement la récupération du 1er ou de tous les éléments d'un document HTML, en précisant un sélecteur CSS ou un Xpath.
+- Les fonctions **`html_element()`** ou **`html_elements()`** permettent respectivement la récupération du 1er ou de tous les éléments d'un document HTML, en précisant un sélecteur CSS ou un Xpath. Par exemple,  `html_elements("p")` appliqué au code source d'une page permet de récupérer tous les paragraphes : 
 
 ```{r, echo = TRUE, message=FALSE, warning=FALSE}
 
@@ -938,7 +945,6 @@ basic_html |> html_elements("p") |> html_text2()
 
 ```
 
-\
 
 <div class="alert alert-danger">**Les fonctions du package `rvest` sont conçues pour être utilisées en *pipe*. Elles fonctionnent aussi bien avec le *pipe* natif du R-base (`|>`), qu'avec celui du package `magrittr` (`%>%`), utilisé par le `tidyverse`**</div>
 
@@ -968,7 +974,7 @@ basic_html |> html_elements("p") |> html_text2()
   
 ::: {.column width="70%"}
 
-Sur la page d’accueil du site [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html), un ensemble de boutons situé à gauche permet de filtrer les biens par département et par type de biens. **Lorsque l'on clique sur l'un de ces boutons, les biens affichés sur la page sont filtrés en fonction du choix réalisé. L'URL de la page est alors modifiée** de la manière suivante :
+Sur la page d’accueil du site [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}, un ensemble de boutons situé à gauche permet de filtrer les biens par département et par type de biens. **Lorsque l'on clique sur l'un de ces boutons, les biens affichés sur la page sont filtrés en fonction du choix réalisé. L'URL de la page est alors modifiée** de la manière suivante :
 
 **URL principale** :       
 [https://analytics.huma-num.fr/Robin.Cura/**ScrapImmob/index.html**]{style="font-size: 90%;"}    
@@ -1027,7 +1033,7 @@ code_appart
 
 ### Localiser les URLs des pages d'annonces
 
-A partir de ces deux URLs, nous allons pouvoir récupérer la liste des URLs de toutes les pages des annonces affichées. Cela nous permettra dans un second temps, de collecter l'ensemble des informations de description de chaque bien en vente. 
+A partir de ces deux pages et de leur code source, nous allons récupérer la liste des URLs de toutes les pages des annonces affichées. Cela nous permettra dans un second temps, de collecter l'ensemble des informations de description de chaque bien en vente. 
 
 En explorant le code source, on remarque que les URLs des pages d'annonces complètes sont stockées dans des balises `<a>` de la classe `stretched-link` :
 
@@ -1035,7 +1041,7 @@ En explorant le code source, on remarque que les URLs des pages d'annonces compl
 
 \
 
-Ainsi, pour récupérer la liste de ces ensembles d'URLs, nous devons collecter les valeurs (URL en chaîne de caractères) de l'attribut `href` dans toutes les balises `<a>` de la classe `stretched-link` :
+Pour récupérer l'ensemble de ces URLs, nous devons collecter les valeurs (URL en chaîne de caractères) de l'attribut `href` dans toutes les balises `<a>` de la classe `stretched-link` :
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 
@@ -1051,13 +1057,13 @@ code_maison |> html_elements("a.stretched-link") |>  html_attr("href")
 
 ```
 
-Cela permet de récupérer les URLs des annonces affichées sur la première page. Pour collecter l'ensemble des biens ciblés, nous devons comprendre comment fonctionne le système d'URL qui permet d'afficher toutes les annonces de biens en vente en Seine-Maritime.
+Cela permet de récupérer les URLs des annonces affichées sur la première page. Pour collecter l'ensemble des biens ciblés, nous devons comprendre comment fonctionne le système d'URL qui permet d'afficher toutes les annonces de biens en vente en Seine-Maritime (cf. [partie suivante](#récupérer-toutes-les-urls)).
 
 \
 
 ### Récupérer toutes les URLs
 
-Nous avons pu collecter les URLs des biens affichés sur la première page. Pour reproduire la collecte d'URLs sur l'ensemble des pages des appartements et des maisons de Seine-Maritime, il est nécessaire de connaitre le nombre total de pages à afficher pour voir tous les biens et de comprendre le système d'URLs.
+Dans la partie précédente, nous avons pu collecter les URLs des biens affichés sur les premières pages. Pour reproduire la collecte d'URLs sur l'ensemble des pages des appartements et des maisons de Seine-Maritime, il est nécessaire de connaitre le nombre total de pages à afficher pour consulter tous les biens et de comprendre le système d'URLs utiliser par [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}.
 
 \
 
@@ -1067,7 +1073,7 @@ Nous avons pu collecter les URLs des biens affichés sur la première page. Pour
 
 <center>
 
-<b>[**../76_appartement/index.html**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/index.html)</b>
+<b>[**../76_appartement/index.html**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/index.html){target="_blank"}</b>
 
 </center>
 
@@ -1089,7 +1095,7 @@ Dans cette section, il y a 156 biens en vente, et chaque page en affiche jusqu'�
 
 <center>
 
-<b>[**../76_maison/index.html**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/index.html)</b>
+<b>[**../76_maison/index.html**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/index.html){target="_blank"}</b>
 
 </center>
 
@@ -1105,7 +1111,7 @@ Dans cette section, il y a 263 biens en vente, et chaque page en affiche jusqu'�
 ::::
 
 
-Lorsque l'on observe le comportement de l'URL à chaque chargement d'une nouvelle page, il est facile de comprendre le système d'URLs utilisé par [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html) :
+Lorsque l'on observe le comportement de l'URL à chaque chargement d'une nouvelle page, il est facile de comprendre le système d'URLs utilisé par [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"} :
 
 **Page 1** = https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/**index.html**   
 **Page 2** = https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/**page_2.html**   
@@ -1115,7 +1121,7 @@ Lorsque l'on observe le comportement de l'URL à chaque chargement d'une nouvell
 ...     
 
 
-Ainsi, il est aisé de reconstituer la liste des URLs des pages ciblées :
+**Il est alors aisé de reconstituer la liste des URLs des pages ciblées de la manière suivante :**
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 
@@ -1140,24 +1146,22 @@ head(list_url)
 
 ```
 
-\
 
 <div class="alert alert-danger"> <b>
-Une autre solution aurait été de simuler le clic d'un utilisateur sur le bouton "page suivante". Cela aurait permis de  collecter des données sans avoir à lister les URLs des pages ciblées, mais le script de collecte aurait été plus complexe.</b></div>
+Une autre solution aurait été de simuler le clic d'un utilisateur sur le bouton "page suivante". Cela aurait permis de  collecter des données sans avoir à lister les URLs des pages ciblées, mais cela aurait nécessité un script plus complexe alors que le système d'URLs s'avére extrêmement simple !</b></div>
 
 \
 
 
 ### Collecter toutes les URLs
 
-A partir de cette liste, nous allons pouvoir collecter l'ensemble des URLs présentes sur ces pages, qui renvoient vers des pages d'annonces complètes. Pour cela, nous créons la boucle suivante : 
+A partir de cette liste d'URLs, nous allons pouvoir collecter l'ensemble des liens qui renvoient vers des pages d'annonces complètes. Pour cela, nous créons la boucle suivante : 
 
 
 ```{r scrap_link_cache, echo=FALSE, eval = params$force_scraping, message=FALSE, warning=FALSE}
 # Création d'un vecteur vide
 links <- character()
 
-i<- 1
 # Boucle de récupération des URLs de page d'annonce
 for (i in 1:length(list_url)){
 
@@ -1185,25 +1189,30 @@ links <- readRDS('offline_data/links.rds')
 # Création d'un vecteur vide
 links <- character()
 
-i<- 1
-# Boucle de récupération des URLs de page d'annonce
+# Boucle de récupération des URLs des pages d'annonces
 for (i in 1:length(list_url)){
 
   # Récupération du code source de la page i
   page <- read_html(list_url[i])
 
-  # Récupération du lien dans les balises de la classe "stretched-link"
+  # Récupération des liens dans les balises de la classe "stretched-link"
   links_p <- page |> html_elements("a.stretched-link") |>  html_attr("href")
 
+  # Concaténation des URLs récupérées
   links <- c(links, links_p)
 
- }
+}
 ```
 
+Total du nombre de liens de page d'annonce récupéré :
 
 ```{r scrap_link_print, echo=TRUE, message=FALSE, warning=FALSE, eval = TRUE}
-# Affichage des 6 premières URLs récupérées
+
+length(links)
+
+# Affichage des 6 premiers liens récupérés
 head(links)
+
 ```
 
 
@@ -1214,7 +1223,7 @@ head(links)
 
 links <- url_absolute(links, "https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/a/b")
 
-# Affichage des 6 premières URLs absolues
+# Affichage des 6 premières URLs absolues reconstruites
 head(links)
 
 ``` 
@@ -1245,18 +1254,17 @@ Les autres informations sont stockées dans une balise `<ul>` (ou `<div>`) de cl
 - **Commune** : balise `<li>` de classe `list-group-item` - élément 6 ou 7
 -  **Département** : balise `<li>` de classe `list-group-item` - élément 7 ou 8
 
-**Les informations que l'on souhaite récupérer dans les balises `<li>` sont affichées en gras**. Cette caractéristique s'avère très précieuse pour optimiser la collecte. 
+<div class="alert alert-info">**Les informations que l'on souhaite récupérer dans les balises `<li>` sont affichées en gras (balise `<strong>`). Cette caractéristique s'avère très précieuse pour optimiser la collecte.**</div>
 
 \
 
-Dans un premier temps, nous essayons d'extraire ces informations pour une seule page d'annonce :
+Dans un premier temps, nous essayons d'extraire ces informations pour la première page d'annonce :
 
 ```{r, echo= FALSE, message=FALSE, warning=FALSE, eval =TRUE}
 
 library(rvest)
 
 ``` 
-
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, eval =params$force_scraping}
 # Lecture du code source de la page 1
@@ -1276,8 +1284,7 @@ code_annonce_1 <- read_html(links[1])
 
 ``` 
 
-À partir de l'exploration du code source, nous pouvons essayer d'extraire chaque élément séparément.
-
+Nous pouvons essayer d'extraire chaque élément séparément :
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 
@@ -1309,15 +1316,13 @@ code_annonce_1 |> html_elements("li.list-group-item > strong") |> html_text2()
 ```
  
 
-\
-
 <div class="alert alert-info">**La récupération des coordonnées du marqueur affiché dans la carte interactive est légèrement plus complexe. Leur collecte automatisée est expliquée dans la [partie 3.5](#collecte-de-coordonnées).**</div>
 
 \
 
 ### Construction d'un tableau de collecte
 
-Nous pouvons démarrer la collecte automatisée des informations sur l'ensemble des page ciblées. Nous commençons par créer un tableau contenant les URLs ciblés dans la première colonne puis plusieurs colonne vides qui nous permettront de stocker l'ensemble des données collectées.
+Nous pouvons démarrer la collecte automatisée des informations sur l'ensemble des page ciblées. Nous commençons par créer un tableau contenant les URLs des pages ciblées dans la première colonne, puis plusieurs colonnes vides qui nous permettront de stocker l'ensemble des données collectées.
 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=FALSE}
@@ -1364,37 +1369,36 @@ datatable(
 
 ### Scraping de toutes les pages  {.tabset}
 
-#### Pas-à-pas {-}
-
-Nous pouvons désormais construire une boucle qui collecte toutes ses données et complète le tableau précédemment créé.
 
 
+Nous pouvons maintenant construire une boucle qui collecte toutes les données ciblées et complète le tableau précédemment créé.
 
 ```{r scraping_cached, echo=FALSE, message=FALSE, warning=FALSE, eval = params$force_scraping}
 
 for (i in 1:nrow(scrapimmob)){   
 
+# Récupération du code source  
 code_annonce <- read_html(scrapimmob$URL[i])
 
-# Titre court
+# Récupération Titre court
 scrapimmob$T_court[i] <- code_annonce |> html_element("h6.display-6") |> html_text2()
 
-# Titre long
+# Récupération Titre long
 scrapimmob$T_long[i] <- code_annonce |> html_element("h5.card-title") |> html_text2()
 
-# Description
+# Récupération Description
 scrapimmob$Description[i] <- code_annonce |> html_element("p.card-text") |> html_text2()
 
-# Photo 1 (lien relatif)
+# Récupération Photo 1 (lien relatif)
 scrapimmob$Photo_1[i] <- code_annonce |> html_element("a.col-sm-3:nth-child(1) > img") |>  html_attr("src")
 
-# Photo 2
+# Récupération Photo 2
 scrapimmob$Photo_2[i] <- code_annonce |> html_element("a.col-sm-3:nth-child(2) > img") |>  html_attr("src")
 
-# Photo 3
+# Récupération Photo 3
 scrapimmob$Photo_3[i] <- code_annonce |> html_element("a.col-sm-3:nth-child(3) > img") |>  html_attr("src")
 
-# Type, Nb de chambre, de salle de bain, surface, prix, commune et département
+# Récupération Type, Nb de chambre, de salle de bain, surface, prix, commune et département
 infos <- code_annonce |> html_elements("li.list-group-item > strong") |> html_text2()
 
 scrapimmob$Type[i] <- infos[1]
@@ -1417,7 +1421,6 @@ scrapimmob$com[i] <- infos[7]
 scrapimmob$dep[i] <- infos[8]
 
 }
-
 
 # print(paste0("Page ",i))
 
@@ -1435,27 +1438,28 @@ scrapimmob <- readRDS("offline_data/scrapimmob.rds")
 
 for (i in 1:nrow(scrapimmob)){   
 
+# Récupération du code source de chaque page
 code_annonce <- read_html(scrapimmob$URL[i])
 
-# Titre court
+# Récupération Titre court
 scrapimmob$T_court[i] <- code_annonce |> html_element("h6.display-6") |> html_text2()
 
-# Titre long
+# Récupération Titre long
 scrapimmob$T_long[i] <- code_annonce |> html_element("h5.card-title") |> html_text2()
 
-# Description
+# Récupération Description
 scrapimmob$Description[i] <- code_annonce |> html_element("p.card-text") |> html_text2()
 
-# Photo 1 (lien relatif)
+# Récupération Photo 1 (lien relatif)
 scrapimmob$Photo_1[i] <- code_annonce |> html_element("a.col-sm-3:nth-child(1) > img") |>  html_attr("src")
 
-# Photo 2
+# Récupération Photo 2
 scrapimmob$Photo_2[i] <- code_annonce |> html_element("a.col-sm-3:nth-child(2) > img") |>  html_attr("src")
 
-# Photo 3
+# Récupération Photo 3
 scrapimmob$Photo_3[i] <- code_annonce |> html_element("a.col-sm-3:nth-child(3) > img") |>  html_attr("src")
 
-# Type, Nb de chambre, de salle de bain, surface, prix, commune et département
+# Récupération Type, nombre de chambres, de salles de bain, surface, prix, commune et département
 infos <- code_annonce |> html_elements("li.list-group-item > strong") |> html_text2()
 
 scrapimmob$Type[i] <- infos[1]
@@ -1479,7 +1483,6 @@ scrapimmob$dep[i] <- infos[8]
 
 }
 
-
 # print(paste0("Page ",i))
 
 }
@@ -1487,71 +1490,62 @@ scrapimmob$dep[i] <- infos[8]
 ```
 
 <div class="alert alert-danger">
-Dans la liste de puce (`<li>`) de la classe `list-group-item` se trouvent plusieurs informations sur les biens. Cela permet de collecter plusieurs informations d'un coup. Cependant, certaines informations ne sont pas toujours renseignées. C'est le cas de "la surface de jardin". Pour cette raison, **nous utilisons un test `if` qui permet d'adapter la collecte en fonction du nombre d'éléments récupérés**.</div> 
+**Dans la liste à puce (balise `<li>` de la classe `list-group-item`) se trouvent plusieurs informations sur les biens. Cela permet de collecter plusieurs informations d'un coup. Cependant, certaines informations ne sont pas toujours renseignées.** C'est le cas de "la surface de jardin". Pour cette raison, **nous utilisons un test `if` qui permet d'adapter la collecte en fonction du nombre d'éléments récupérés**.</div> 
+
+<!-- En Tidyverse :  -->
+
+<!-- ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval = FALSE} -->
+
+<!-- library(purrr) -->
+
+<!-- scrapimmob_results <- scrapimmob %>% slice(0) # Initialisation à 0 lignes du tableau de résultats -->
+
+<!-- for (i in 1:nrow(scrapimmob)){    -->
+
+<!-- code_annonce <- read_html(scrapimmob$URL[i]) -->
+<!-- infos <- code_annonce |> html_elements("li.list-group-item > strong") |> html_text2() -->
+
+<!-- scrapimmob_page <- scrapimmob %>% -->
+<!--   slice(i) %>% -->
+<!--   mutate(T_court = html_element(code_annonce, "h6.display-6") |> html_text2()) %>% # Titre court -->
+<!--   mutate(T_long =  html_element(code_annonce, "h5.card-title") |> html_text2()) %>% # Titre long -->
+<!--   mutate(Description = html_element(code_annonce, "p.card-text") |> html_text2()) %>% #Description -->
+<!--   mutate(Photo_1 =  html_elements(code_annonce, "img") |> html_attr('src') %>% pluck(1)) %>% -->
+<!--   mutate(Photo_2 =  html_elements(code_annonce, "img") |> html_attr('src') %>% pluck(2)) %>% -->
+<!--   mutate(Photo_3 =  html_elements(code_annonce, "img") |> html_attr('src') %>% pluck(3)) %>% -->
+<!--   mutate(Type = pluck(infos, 1)) %>% -->
+<!--   mutate(nb_ch = pluck(infos, 2)) %>% -->
+<!--   mutate(nb_sdb = pluck(infos, 3)) %>% -->
+<!--   mutate(surf_hab = pluck(infos, 4)) -->
+
+<!-- if (length(infos)==7){ -->
+<!--   scrapimmob_page <- scrapimmob_page %>% -->
+<!--     mutate(surf_jar = NA) %>% -->
+<!--     mutate(prix = pluck(infos, 5)) %>% -->
+<!--     mutate(com = pluck(infos, 6)) %>% -->
+<!--     mutate(dep = pluck(infos, 7)) -->
+<!-- } else { -->
+<!--   scrapimmob_page <- scrapimmob_page %>% -->
+<!--     mutate(surf_jar = pluck(infos, 5)) %>% -->
+<!--     mutate(prix = pluck(infos, 6)) %>% -->
+<!--     mutate(com = pluck(infos, 7)) %>% -->
+<!--     mutate(dep = pluck(infos, 8)) -->
+<!-- } -->
+
+<!-- scrapimmob_results <- scrapimmob_results %>% -->
+<!--   bind_rows(scrapimmob_page) -->
+
+<!-- print(paste0(i, " / ", nrow(scrapimmob))) -->
+
+<!-- } -->
+
+<!-- scrapimmob <- scrapimmob_results -->
+
+<!-- ``` -->
 
 
-#### En une fois {-}
+Cette boucle permet de compléter le `data.frame` *scrapimmob* :
 
-
-Nous pouvons désormais interroger une par une chacune des URL des annonces et compléter le tableau précédemment créé : 
-
-
-```{r, echo=TRUE, message=FALSE, warning=FALSE, eval = FALSE}
-
-library(purrr)
-
-scrapimmob_results <- scrapimmob %>% slice(0) # Initialisation à 0 lignes du tableau de résultats
-
-for (i in 1:nrow(scrapimmob)){   
-
-code_annonce <- read_html(scrapimmob$URL[i])
-infos <- code_annonce |> html_elements("li.list-group-item > strong") |> html_text2()
-
-scrapimmob_page <- scrapimmob %>%
-  slice(i) %>%
-  mutate(T_court = html_element(code_annonce, "h6.display-6") |> html_text2()) %>% # Titre court
-  mutate(T_long =  html_element(code_annonce, "h5.card-title") |> html_text2()) %>% # Titre long
-  mutate(Description = html_element(code_annonce, "p.card-text") |> html_text2()) %>% #Description
-  mutate(Photo_1 =  html_elements(code_annonce, "img") |> html_attr('src') %>% pluck(1)) %>%
-  mutate(Photo_2 =  html_elements(code_annonce, "img") |> html_attr('src') %>% pluck(2)) %>%
-  mutate(Photo_3 =  html_elements(code_annonce, "img") |> html_attr('src') %>% pluck(3)) %>%
-  mutate(Type = pluck(infos, 1)) %>%
-  mutate(nb_ch = pluck(infos, 2)) %>%
-  mutate(nb_sdb = pluck(infos, 3)) %>%
-  mutate(surf_hab = pluck(infos, 4))
-
-if (length(infos)==7){
-  scrapimmob_page <- scrapimmob_page %>%
-    mutate(surf_jar = NA) %>%
-    mutate(prix = pluck(infos, 5)) %>%
-    mutate(com = pluck(infos, 6)) %>%
-    mutate(dep = pluck(infos, 7))
-} else {
-  scrapimmob_page <- scrapimmob_page %>%
-    mutate(surf_jar = pluck(infos, 5)) %>%
-    mutate(prix = pluck(infos, 6)) %>%
-    mutate(com = pluck(infos, 7)) %>%
-    mutate(dep = pluck(infos, 8))
-}
-
-scrapimmob_results <- scrapimmob_results %>%
-  bind_rows(scrapimmob_page)
-
-print(paste0(i, " / ", nrow(scrapimmob)))
-
-}
-
-scrapimmob <- scrapimmob_results
-
-```
-
-
-Dans la liste de puce (`<li>`) de la classe `list-group-item` se trouvent plusieurs informations sur les biens. Cela permet de collecter plusieurs informations d'un coup. Cependant, certaines informations ne sont pas toujours renseignées. C'est le cas de "la surface de jardin". Pour cette raison, **nous utilisons un test `if` qui permet d'adapter la collecte en fonction du nombre d'éléments récupérés**. 
-
-
-### {-}
-
-Cette boucle a permis de compléter le `data.frame` *scrapimmob* de la manière suivante :
 
 ```{r, echo=FALSE, warning=FALSE, eval=TRUE}
 
@@ -1586,10 +1580,8 @@ datatable(
 
 Dans notre démonstration, certaines des informations collectées ont besoin d'être nettoyées. C'est par exemple le cas de la variable "prix", qui affiche l'unité de mesure (€), ou le cas de la variable "com" qui contient le nom de la commune et son code INSEE. Nous procédons donc à des traitements pour nettoyer les informations collectées. 
 
-### En R-base  {-}
 
-1) **Suppression des unités de mesure** pour les prix et les surfaces collectés.
-
+1) **Suppression des unités de mesure** pour les prix et les surfaces collectés :
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
 
@@ -1597,23 +1589,20 @@ Dans notre démonstration, certaines des informations collectées ont besoin d'�
 scrapimmob$surf_hab <- gsub(x = scrapimmob$surf_hab, pattern = " m²", replacement = "")
 scrapimmob$surf_jar <- gsub(x = scrapimmob$surf_jar, pattern = " m²", replacement = "")
 
-# Suppression du symbole "€" 
-scrapimmob$prix <- gsub(x = scrapimmob$prix, pattern = "€", replacement = "")
-# Suppression des espaces
-scrapimmob$prix <- gsub(x = scrapimmob$prix, pattern = " ", replacement = "")
+# Suppression du symbole "€" et des espaces
+scrapimmob$prix <- gsub(x = scrapimmob$prix, pattern = "€| ", replacement = "")
 
 ```
 
 
 2) **Conversion des nombres** stockés en `string` en format `numeric`.
 
-
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
 
-# Vecteur des colonnes à convertir
+# Vecteur des noms de colonnes à convertir
 col <- c("nb_ch", "nb_sdb", "surf_hab", "surf_jar", "prix")
 
-# Conversion des colonnes ciblées en numeric
+# Conversion en numeric des colonnes ciblées 
 scrapimmob[col] <- as.data.frame(lapply(scrapimmob[col], as.numeric))
 
 ```
@@ -1621,13 +1610,12 @@ scrapimmob[col] <- as.data.frame(lapply(scrapimmob[col], as.numeric))
 
 3) **Ventilation de la variable "com"** en deux colonnes : "com_name" et "com_insee".
 
-
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
 
-# Division de la valeur de la variable "com" avec le symbole "("
+# Séparation de la valeur de la variable "com" à partir du symbole "("
 Name_and_code <- unlist(strsplit(scrapimmob$com, split = " \\(" ))
 
-# Transformation du vecteur en matrice + insertion dans le data.frame
+# Transformation du vecteur récupéré en matrice, puis insertion dans le data.frame
 scrapimmob[ c("com_name","com_insee")] <- matrix(Name_and_code, ncol = 2, byrow = TRUE)
 
 # Supression de la paranthèse restante dans le nouveau champ "com_insee"
@@ -1636,12 +1624,12 @@ scrapimmob$com_insee <- gsub(x= scrapimmob$com_insee, pattern = ")", replacement
 ```
 
 
-4) **Même opération sur la variable "dep"** qui contient le nom du département et celui de la région et que l'on ventile en deux colonnes : "dep_name" et "reg_name".
+4) **Même opération sur la variable "dep"**, ventilée en deux colonnes : "dep_name" et "reg_name".
 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
 
-# Division de la valeur de la variable "dep" avec le symbole "("
+# Séparation de la valeur de la variable "dep" à partir du symbole "("
 dep_and_reg <- unlist(strsplit(scrapimmob$dep, split = " \\(" ))
 
 # Transformation du vecteur en matrice + insertion dans le data.frame
@@ -1652,54 +1640,7 @@ scrapimmob$reg_name <- gsub(x= scrapimmob$reg_name, pattern = ")", replacement =
 
 ```
 
-**Résultats des traitements réalisés sur les différentes variables :**
-
-
-```{r, echo=FALSE, warning=FALSE, eval=TRUE}
-
-scrapimmob2 <- scrapimmob[, c(9,10,11,12,13,16,17,18,19)]
-
-datatable(scrapimmob2, 
-    rownames = FALSE, filter = 'top',  extensions = 'Buttons',options = list(pageLength = 5, 
-    buttons = list(list(extend = 'colvis', columns = c(1:3)))))
-
-```
-
-
-
-\
-
- 
-### Avec dplyr et le tidyverse {-}
-
-```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=FALSE}
-library(dplyr)
-library(stringr)
-library(tidyr)
-scrapimmob <- scrapimmob %>%
-  # 1) **Suppression des unités de mesure** pour les prix et les surfaces collectés.
-  mutate(surf_hab = str_remove(surf_hab, " m²") %>% as.numeric()) %>% # Suppression du symbol " m²"
-  mutate(surf_jar = str_remove(surf_jar, " m²") %>% as.numeric()) %>% # Suppression du symbol " m²"
-  mutate(prix = str_remove(prix, "€") %>% str_remove(., " ")) %>% # Suppression du symbole "€" et des espaces
-  # 2) **Conversion des nombres** stockés en `string` en format `numeric`.
-  mutate(across(
-    .cols = c(starts_with("nb_"), starts_with("surf_"), prix),
-    .fns = as.numeric
-  )) %>%
-  # 3) **Ventilation de la variable "com"** en deux colonnes : "com_name" et "com_insee" et Idem pour variable "dep"
-  separate_wider_delim(com, delim = "(", names = c("com_name", "com_insee")) %>% # Division en deux colonnes
-  separate_wider_delim(dep, delim = "(", names = c("dep_name", "reg_name")) %>% # Division en deux colonnes
-  mutate(com_insee = str_remove(com_insee, fixed(")"))) %>% # Suppression des parenthèses fermantes restantes
-  mutate(reg_name = str_remove(reg_name, fixed(")"))) %>% # Suppression des parenthèses fermantes restantes
-  mutate(reg_name = paste0("    ", reg_name)) %>%
-  mutate(across(  # Suppression des espaces en début et fin
-    .cols = c(com_name, com_insee, dep_name, reg_name),
-    .fns = str_trim))
-```
-
-
-**Résultats des traitements réalisés sur les différentes variables :**
-
+**Résultats des traitements réalisés :**
 
 ```{r, echo=FALSE, warning=FALSE, eval=TRUE}
 
@@ -1712,13 +1653,47 @@ datatable(scrapimmob2,
 ```
 
 
+<!-- Avec dplyr et le tidyverse : -->
+
+<!-- ```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=FALSE} -->
+<!-- library(dplyr) -->
+<!-- library(stringr) -->
+<!-- library(tidyr) -->
+<!-- scrapimmob <- scrapimmob %>% -->
+<!--   # 1) **Suppression des unités de mesure** pour les prix et les surfaces collectés. -->
+<!--   mutate(surf_hab = str_remove(surf_hab, " m²") %>% as.numeric()) %>% # Suppression du symbol " m²" -->
+<!--   mutate(surf_jar = str_remove(surf_jar, " m²") %>% as.numeric()) %>% # Suppression du symbol " m²" -->
+<!--   mutate(prix = str_remove(prix, "€") %>% str_remove(., " ")) %>% # Suppression du symbole "€" et des espaces -->
+<!--   # 2) **Conversion des nombres** stockés en `string` en format `numeric`. -->
+<!--   mutate(across( -->
+<!--     .cols = c(starts_with("nb_"), starts_with("surf_"), prix), -->
+<!--     .fns = as.numeric -->
+<!--   )) %>% -->
+<!--   # 3) **Ventilation de la variable "com"** en deux colonnes : "com_name" et "com_insee" et Idem pour variable "dep" -->
+<!--   separate_wider_delim(com, delim = "(", names = c("com_name", "com_insee")) %>% # Division en deux colonnes -->
+<!--   separate_wider_delim(dep, delim = "(", names = c("dep_name", "reg_name")) %>% # Division en deux colonnes -->
+<!--   mutate(com_insee = str_remove(com_insee, fixed(")"))) %>% # Suppression des parenthèses fermantes restantes -->
+<!--   mutate(reg_name = str_remove(reg_name, fixed(")"))) %>% # Suppression des parenthèses fermantes restantes -->
+<!--   mutate(reg_name = paste0("    ", reg_name)) %>% -->
+<!--   mutate(across(  # Suppression des espaces en début et fin -->
+<!--     .cols = c(com_name, com_insee, dep_name, reg_name), -->
+<!--     .fns = str_trim)) -->
+<!-- ``` -->
+
+<!-- **Résultats des traitements réalisés sur les différentes variables :** -->
+
+<!-- ```{r, echo=FALSE, warning=FALSE, eval=TRUE} -->
+<!-- scrapimmob2 <- scrapimmob[, c(9,10,11,12,13,16,17,18,19)] -->
+<!-- datatable(scrapimmob2,  -->
+<!--     rownames = FALSE, filter = 'top',  extensions = 'Buttons',options = list(pageLength = 5,  -->
+<!--     buttons = list(list(extend = 'colvis', columns = c(1:3))))) -->
+<!-- ``` -->
 
 \
 
+## Collecte de coordonnées 
 
-## Collecte de coordonnées {.tabset}
-
-Il est possible de récupérer les coordonnées géographiques de la localisation des biens en vente indiquées sur la carte interactive, qui sont stockées dans une balise `<script>` dans le code source des pages :
+La collecte des coordonnées géographiques de la localisation des biens en vente indiquées sur la carte interactive est un peu plus fastidieuse. Les coordonnées sont stockées dans une balise `<script>` dans le code source des pages :
 
 ![](figures/coords.png)
 
@@ -1761,46 +1736,45 @@ code_page
 code_page
 ```
 
-Les coordonnées sont stockées dans la seconde balise `<script>`, au sein d'une chaîne de caractère qui englobe beaucoup d'information. Il est donc nécessaire de réaliser quelques traitements afin d'extraire uniquement les coordonnées.
+Les coordonnées sont stockées dans la seconde balise `<script>`, au sein d'une chaîne de caractère qui englobe beaucoup d'informations. Il est donc nécessaire de réaliser quelques traitements afin d'extraire uniquement les coordonnées. Nous commençons par ne garder que le code source de la seconde balise `<script>`.
 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
 
-# Sélection du 2e élément qui stocke les coordonées
+# Sélection du 2e élément (balise script) qui contient les coordonées
 code_page_coord <- code_page[2]
 
 ```
 
 
-### Récupération avec R-Base  {-}
-
-Avec la fonction `strcapture()`, nous pouvons ensuite extraire les coordonnées à l'aide d'une **expression régulière** qui permet de ne garder que les caractères situés entre crochets `[]`.
+Puis la fonction `strcapture()` nous permet aussi ensuite extraire les coordonnées à l'aide d'une **expression régulière** qui permet de ne garder que les caractères situés entre crochets `[]`.
 
 <style>
 div.notice { background-color:#ECFFDC; border-radius: 5px; padding: 20px;}
 </style>
 <div class="alert alert-danger">
-**Les expressions régulières** (ou <strong>reg</strong>ular <strong>ex</strong>pressions) sont des formules informatiques standardisées, relativement universelles, qui permettent de décrire un *motif* à rechercher dans une chaîne de caractères.
-Leur syntaxe est assez obscure, mais extrêmement puissante.
+**Les expressions régulières** (ou <strong>reg</strong>ular <strong>ex</strong>pressions, <strong>REGEX</strong>) sont des formules informatiques standardisées, relativement universelles, qui permettent de décrire un *pattern* à rechercher dans une chaîne de caractères.
+Leur syntaxe est difficillement intelligible, mais extrêmement puissante.
 Elles permettent d'extraire des informations structurées dans du texte, mais également de valider des expressions lors de la saisie.
-Par exemple, l'expression régulière `(0|(\\+33)|(0033))[1-9][0-9]{8}` permet de valider un numéro de téléphone français.</div>
+Par exemple, l'expression régulière `(0|(\\+33)|(0033))[1-9][0-9]{8}` permet de valider un numéro de téléphone français (doit commencer par 0, +33 ou 0033 puis doit être suivi de huit chiffres).</div>
 
 Pour isoler les caractères situés entre crochets dans la balise `script`, on utilise l'expression régulière "`\\[(.*?)\\]`", qui peut se décomposer ainsi :  
 
 * `\\[` : recherche d'un crochet ouvrant (avec utilisation de '\\\\' pour indiquer qu'il s'agit bien du caractère, et non du rôle syntaxique "crochet");  
 * `(.*?)` : extraction (parenthèses) de ce qui correspond au motif `.*?`, c'est-à-dire n'importe quel caractère (`.`), dans n'importe quelle quantité positive (`*`) ou nulle (`?`);  
-* `\\]` : suivi par un crochet fermant
+* `\\]` : ...jusqu'au crochet fermant.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
 coords <- strcapture(x = code_page_coord, 
                      pattern = "\\[(.*?)\\]", 
                      proto = data.frame(coordinates = character(0)))
-# Les coordonnées du marqueur affiché sur la carte sont récupérés
+
+# Les coordonnées du marqueur affiché sur la carte sont récupérées
 coords
 ```
 
-La réponse est une unique chaîne de caractères, que l'on peut donc découper avec la fonction `strsplit` là où l'on détecte une virgule suivie d'un espace.
-Cela génère une liste de deux éléments, que l'on peut ensuite dé-lister (fonction `unlist()`) pour obtenir un vecteur textuel contenant les deux coordonnées.
+A l'aide de la fonction `strsplit()`, on découpe cette chaïne de caractères là où l'on détecte une virgule suivie d'un espace.
+Cela génère une liste de deux éléments que l'on peut ensuite dé-lister (fonction `unlist()`) pour obtenir un vecteur textuel contenant les deux coordonnées.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
 # Split de la chaîne de caractère 
@@ -1809,8 +1783,7 @@ unlist(strsplit(coords$coordinates, split = ", " ))
 ```
 
 
-Nous pouvons alors construire une boucle pour collecter toutes les coordonnées d'un seul coup.
-
+Nous pouvons alors construire une boucle pour répéter cette opréation pour toutes les annonces et collecter toutes les coordonnées d'un seul coup.
 
 ```{r map_scrap_cache,  echo=FALSE, message=FALSE, warning=FALSE, eval=params$force_scraping}
 
@@ -1883,13 +1856,13 @@ scrapimmob$Long <- as.numeric(scrapimmob$Long)
 ```
 
 
-**Les colonnes "Lat" et "Long" sont désormais renseignées pour chaque bien en vente.**
+**Les colonnes "Lat" et "Long" sont désormais renseignées pour chaque bien en vente :**
 
 
-```{r, echo=FALSE, warning=FALSE, eval=TRUE}
+```{r, echo=FALSE, warning=FALSE, eval=TRUE, cache=FALSE}
 
 tt <- scrapimmob[,c("URL", "Lat", "Long")]
-
+library(DT)
 datatable(tt, 
           rownames = FALSE,  
           extensions = 'Buttons',
@@ -1898,67 +1871,65 @@ datatable(tt,
 ```
 
 
-\
-
-### Récupération avec le tidyverse {-}
 
 
+<!-- Récupération avec le tidyverse -->
 
-Avec la fonction `str_extract()` du package `stringr`, plus conviviale, nous pouvons ensuite extraire les coordonnées à l'aide d'une expression régulière qui permet de ne garder que les caractères situés entre crochets `[]`.
-
-
-```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=FALSE}
-library(stringr)
-coords <- str_extract(code_page_coord,"\\[(.*?)\\]", group = 1) %>%
-  str_split(", ", simplify = TRUE) %>% # Séparation des 2 coordonnées
-  as.numeric()# Conversion en numérique
-# Les coordonnées du marqueur affiché sur la carte sont récupérés
-coords
-```
-Nous pouvons alors itérer pour récupérer tous les couples de coordonnées
-
-```{r,  echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
-scrapimmob_results <- scrapimmob %>% slice(0)
-for (i in 1:nrow(scrapimmob)){
-
-# Lecture du code source
-scrapimmob_page <- scrapimmob %>% slice(i)
-coords <- read_html(scrapimmob_page %>% pull(URL)) %>%
-  html_elements('script') %>% # Récupération de la balise script
-  html_text2() %>% # Conversion en texte
-  pluck(2) %>% # Seule la deuxième balise script contient les coordonnées
-  str_extract("\\[(.*?)\\]", group = 1) %>% # Extraction des coordonnées entre crochets
-  str_split(", ", simplify = TRUE) %>% # Séparation des 2 coordonnées
-  as.numeric()# Conversion en numérique
-
-scrapimmob_results <- scrapimmob_results %>%
-  bind_rows(
-    scrapimmob_page %>%
-      mutate(Lat = coords[1]) %>%
-      mutate(Long = coords[2])
-  )
-print(paste0(i, " / ", nrow(scrapimmob)))
-}
-
-scrapimmob <- scrapimmob_results
-```
+<!-- Avec la fonction `str_extract()` du package `stringr`, plus conviviale, nous pouvons ensuite extraire les coordonnées à l'aide d'une expression régulière qui permet de ne garder que les caractères situés entre crochets `[]`. -->
 
 
-\
+<!-- ```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=FALSE} -->
+<!-- library(stringr) -->
+<!-- coords <- str_extract(code_page_coord,"\\[(.*?)\\]", group = 1) %>% -->
+<!--   str_split(", ", simplify = TRUE) %>% # Séparation des 2 coordonnées -->
+<!--   as.numeric()# Conversion en numérique -->
+<!-- # Les coordonnées du marqueur affiché sur la carte sont récupérés -->
+<!-- coords -->
+<!-- ``` -->
+<!-- Nous pouvons alors itérer pour récupérer tous les couples de coordonnées -->
 
-**Les colonnes "Lat" et "Long" sont désormais renseignées pour chaque bien en vente.**
+<!-- ```{r,  echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE} -->
+<!-- scrapimmob_results <- scrapimmob %>% slice(0) -->
+<!-- for (i in 1:nrow(scrapimmob)){ -->
+
+<!-- # Lecture du code source -->
+<!-- scrapimmob_page <- scrapimmob %>% slice(i) -->
+<!-- coords <- read_html(scrapimmob_page %>% pull(URL)) %>% -->
+<!--   html_elements('script') %>% # Récupération de la balise script -->
+<!--   html_text2() %>% # Conversion en texte -->
+<!--   pluck(2) %>% # Seule la deuxième balise script contient les coordonnées -->
+<!--   str_extract("\\[(.*?)\\]", group = 1) %>% # Extraction des coordonnées entre crochets -->
+<!--   str_split(", ", simplify = TRUE) %>% # Séparation des 2 coordonnées -->
+<!--   as.numeric()# Conversion en numérique -->
+
+<!-- scrapimmob_results <- scrapimmob_results %>% -->
+<!--   bind_rows( -->
+<!--     scrapimmob_page %>% -->
+<!--       mutate(Lat = coords[1]) %>% -->
+<!--       mutate(Long = coords[2]) -->
+<!--   ) -->
+<!-- print(paste0(i, " / ", nrow(scrapimmob))) -->
+<!-- } -->
+
+<!-- scrapimmob <- scrapimmob_results -->
+<!-- ``` -->
 
 
-```{r, echo=FALSE, warning=FALSE, eval=TRUE}
+<!-- \ -->
 
-tt <- scrapimmob[,c("URL", "Lat", "Long")]
+<!-- **Les colonnes "Lat" et "Long" sont désormais renseignées pour chaque bien en vente.** -->
 
-datatable(tt, 
-          rownames = FALSE,  
-          extensions = 'Buttons',
-          options = list(pageLength = 5))
 
-```
+<!-- ```{r, echo=FALSE, warning=FALSE, eval=TRUE} -->
+
+<!-- tt <- scrapimmob[,c("URL", "Lat", "Long")] -->
+
+<!-- datatable(tt,  -->
+<!--           rownames = FALSE,   -->
+<!--           extensions = 'Buttons', -->
+<!--           options = list(pageLength = 5)) -->
+
+<!-- ``` -->
 
 
 \
