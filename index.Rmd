@@ -832,15 +832,67 @@ Chacun des éléments isolés peut être localisé dans l'inspecteur (clic sur l
 
 \
 
-### Exercice
+### Exercices d'exploration du code source
+
+<div class="alert alert-info">
+Nous proposons ici une courte série d'exercices corrigés (cliquer sur `Réponse`) qui doivent permettre de mener une première exploration du code source du site exemple</div>
 
 1. Combien y-a-t-il de liens (balises `<a>...</a>`) sur [cette page web](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"} ?
 
+
+```{=html}
+<details class='alert alert-light'>
+<summary><b>Réponse ▼</b></summary>
+Pour connaître le nombre de liens de la page citée, on peut mener une recherche des éléments <code>&lt;a&gt;</code> de la page, en tappant la requête suivante dans la console : <br/>
+<code>$$('a')</code>
+<br/>
+Cela renvoit un "array" (c'est-à-dire un tableau mono-dimensionnel) de longueur 40, indiquant qu'il y a 40 éléments <code>&lt;a&gt;</code>, donc 40 liens dans cette page.
+<img src="figures/exercices_console_1.png" />
+</details>
+```
+
 2. Combien y-a-t-il de liens (balises `<a>...</a>`) de la classe `.stretched-link` ? Vous pouvez utiliser la syntaxe suivante : `$$('element.class')`
+
+```{=html}
+<details class='alert alert-light'>
+<summary><b>Réponse ▼</b></summary>
+On peut ici cumuler des sélecteurs, en ajoutant la classe <code>.stretched-link</code> au sélecteur des liens <code>a</code> : <br/>
+<code>$$('a.stretched-link')</code>
+<br/>
+Le tableau retourné contient cette fois-ci 18 éléments.
+<img src="figures/exercices_console_2.png" />
+</details>
+```
 
 3. Combien y-a-t-il d'éléments en gras (balise `<strong>...</strong>`) sur [une page d'annonce](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/annonces/IDF_0049.html){target="_blank"} ? 
 
+```{=html}
+<details class='alert alert-light'>
+<summary><b>Réponse ▼</b></summary>
+Même logique que pour la recherche d'éléments <code>&lt;a&gt;</code>, mais cette fois-ci pour les éléments <code>&lt;strong&gt;</code> <br/>
+<code>$$('strong')</code> : 
+<br/>
+Le tableau retourné contient 7 éléments, et on peut déjà remarquer au survol des éléments que ce sont les caractéristiques techniques des biens (type, nombre de chambres, de salle-de-bains, surface, prix et localisation).
+Ici, avec les fonctions <code>map</code> et <code>innerHTML</code>, nous affichons le texte mis en gras dans ces 7 balises.
+<img src="figures/exercices_console_3.png" />
+</details>
+```
+
 4. Combien y-a-t-il de balises `<script>...</script>` qui permettent d'intégrer ou de faire référence à un script javascript exécutable ? Dans quelle balise `<script>` sont stockées les coordonnées géographiques du marqueur affiché sur la carte interactive des [pages d'annonces](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/annonces/IDF_0049.html){target="_blank"}  ?
+
+```{=html}
+<details class='alert alert-light'>
+<summary><b>Réponse ▼</b></summary>
+Encore la même logique que pour la recherche d'éléments <code>&lt;a&gt;</code>, mais cette fois-ci pour les éléments <code>&lt;script&gt;</code> <br/>
+<code>$$('script')</code> : 
+<br/>
+<img src="figures/exercices_console_41.png" />
+Il y a 4 balises scripts, dont nous pouvons noter que seule la deuxième ne semble pas charger une bibliothèque de fonctions distante.
+<br/>
+En utilisant à nouveau la fonction <code>innerHTML</code> sur la deuxième balise (sélection de l'index 1 – en javascript, l'indexation débute à 0 – via les crochets <code>[index]</code>), on affiche son contenu, et on peut noter qu'elle semble contenir des coordonnées géographiques.
+<img src="figures/exercices_console_42.png" />
+</details>
+```
 
 <!--
 ## Les appels réseaux d'une page 
