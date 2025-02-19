@@ -188,9 +188,10 @@ Pour cette raison, la partie suivante introduit les connaissances techniques ind
 
 ## Le langage HTML
 
-Le langage HTML (***H****yper***T***ext* ***M****arkup* ***L****anguage*) est un dérivé du XML (*e****X****tensible* ***M****arkup* ***L****anguage*).
-Le XML est un langage de balisage flexible qui permet de définir des règles spécifiques pour structurer et stocker des données.
-Il est utilisé dans une variété de domaines, notamment pour l'échange de données entre applications.
+Le langage HTML (***H****yper***T***ext* ***M****arkup* ***L****anguage*) est un langage informatique qui permet de décrire le contenu d'une page web.
+Comme le XML (*e****X****tensible* ***M****arkup* ***L****anguage*), son langage cousin, le HTML est un langage basé sur l'utilisation de balises (définies au sein de chevrons `<>`).
+
+Le XML peut être utilisé dans une variété de domaines, notamment pour l'échange de données entre applications.
 Par exemple, voici un document XML simple représentant des informations sur un livre :
 
 ```
@@ -202,8 +203,9 @@ Par exemple, voici un document XML simple représentant des informations sur un 
 </Book>
 ```
 
-Le langage HTML, sous-langage du XML, partage de nombreuses caractéristiques avec ce langage, mais il est spécifiquement conçu pour structurer et organiser le contenu des pages *web*.
-Le HTML utilise une série de balises (des *tags*) pour définir la structure et le contenu d'une page *web*, ce qui permet aux navigateurs *web* de l'afficher correctement pour les utilisateurs.
+Le langage HTML partage de nombreuses caractéristiques avec le XML^[Via un héritage commun depuis [le langage SGML](https://fr.wikipedia.org/wiki/Standard_Generalized_Markup_Language)], mais il est spécifiquement conçu pour structurer et organiser le contenu des pages *web*.
+
+Les normes HTML (HTML5 par exemple) définissent un [ensemble important mais circonscrit de balises](https://developer.mozilla.org/fr/docs/Web/HTML/Element) (des *tags*) pour définir la structure et le contenu d'une page *web*, ce qui permet aux navigateurs *web* de l'afficher correctement pour les utilisateurs.
 
 \
 
