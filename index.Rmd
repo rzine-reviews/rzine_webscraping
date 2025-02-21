@@ -2084,7 +2084,7 @@ write.csv(x = scrapimmob, file = "data/BD_ScrapImmob.csv", row.names = FALSE)
 Le package `sf` pour la manipulation de données géographiques vectorielles permet, avec sa fonction `st_as_sf`, de convertir le `data.frame` *scrapimmob* en couche géographique ponctuelle (objet `sf`), à partir des latitudes et des longitudes stockées en colonne.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-
+# install.packages("sf")
 library(sf)
 
 # Transformation du tableau en objet sf
@@ -2172,9 +2172,8 @@ Toutes les photos sont récupérées :
 Le package [`ggplot2`](https://cran.r-project.org/web/packages/ggplot2/index.html){target="_blank"} nous permet de réaliser toutes sortes de représentations graphiques.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-
+# install.packages("ggplot2")
 library(ggplot2)
-
 ```
 
 ### Graphique univarié
@@ -2276,7 +2275,6 @@ ggplot(data=table) +
   theme(plot.title = element_text(size = 12L, face = "bold"),
   axis.text=element_text(size=6.5))
 
-
 ```
 
 \
@@ -2286,10 +2284,10 @@ ggplot(data=table) +
 Les packages [`tm`](https://cran.r-project.org/web/packages/tm/index.html){target="_blank"} et [`wordcloud`](https://cran.r-project.org/web/packages/wordcloud/){target="_blank"} permettent de construire rapidement un nuage de mots. 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE, cache = FALSE}
-
+# install.packages("tm")
+# install.packages("wordcloud")
 library(tm)
 library(wordcloud)
-
 ```
 
 Nous commençons par créer un objet `list` de type corpus (fonctions `Corpus()` et `VectorSource()` du package `tm`), à partir de la variable `Description`.
@@ -2348,9 +2346,8 @@ Le package [`leaflet`](https://cran.r-project.org/web/packages/leaflet/){target=
 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
-
+# install.packages("leaflet")
 library(leaflet)
-
 ```
 
 La fonction `leaflet()` nous permet de cartographier les biens mis en vente, colorés selon le type. 
