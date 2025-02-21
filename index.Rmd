@@ -627,7 +627,7 @@ Pour mieux comprendre l'utilisation et le fonctionnement du HTML et du CSS, **vo
 \
 
 <center>
-[<img src="figures/zip.png"  width="30"/> **exo_HTML.zip**](https://gitlab.huma-num.fr/webscraping/rzine_webscraping/-/raw/master/exo_HTML.zip?ref_type=heads&inline=false)
+[<img src="figures/zip.png"  width="30"/> **exo_HTML.zip**](https://github.com/rzine-reviews/rzine_webscraping/raw/refs/heads/master/exo_HTML.zip)
 </center>
 
 <br>
@@ -696,7 +696,7 @@ Enregistrez le fichier et ré-affichez (ou rafraîchissez avec la touche `F5`) l
 ![](figures/correction_exo_html.png)
 
 <center>
-[<img src="figures/zip.png"  width="30"/> **correction_exo_HTML.zip**](https://gitlab.huma-num.fr/webscraping/rzine_webscraping/-/raw/master/correction_exo_HTML.zip?ref_type=heads&inline=false)
+[<img src="figures/zip.png"  width="30"/> **correction_exo_HTML.zip**](https://github.com/rzine-reviews/rzine_webscraping/raw/refs/heads/master/correction_exo_HTML.zip)
 </center>
 
 <br>
