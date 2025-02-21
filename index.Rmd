@@ -1052,13 +1052,13 @@ Sur la page d'accueil du site [**ScrapImmob**](https://analytics.huma-num.fr/Rob
 **L'URL de la page est alors modifiée** de la manière suivante :
 
 **URL principale** :       
-[https://analytics.huma-num.fr/Robin.Cura/**ScrapImmob/index.html**]{style="font-size: 90%;"}    
+[[https://analytics.huma-num.fr/Robin.Cura/**ScrapImmob/index.html**]{style="font-size: 90%;"}](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html)    
 
 **URL du filtre "Essonne (91) - Appartement"** :  
-[https://analytics.huma-num.fr/Robin.Cura/**ScrapImmob/91_appartement/index.html**]{style="font-size: 90%;"}     
+[[https://analytics.huma-num.fr/Robin.Cura/**ScrapImmob/91_appartement/index.html**]{style="font-size: 90%;"}](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/91_appartement/index.html)         
 
 **URL du filtre "Val-d'Oise (95) - Maison"** :          
-[https://analytics.huma-num.fr/Robin.Cura/**ScrapImmob/95_maison/index.html**]{style="font-size: 90%;"}  
+[[https://analytics.huma-num.fr/Robin.Cura/**ScrapImmob/95_maison/index.html**]{style="font-size: 90%;"}](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/95_maison/index.html)      
 
 ::: 
 
@@ -1066,8 +1066,8 @@ Sur la page d'accueil du site [**ScrapImmob**](https://analytics.huma-num.fr/Rob
 
 Notre objectif étant de collecter uniquement des données sur les biens (maisons et appartements) de la Seine-Maritime, nous allons orienter notre collecte sur les deux URLs suivantes :
 
-- https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/**76_maison/index.html**   
-- https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/**76_appartement/index.html**
+- [[https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/**76_maison/index.html**]{style="font-size: 90%;"}](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/index.html)       
+- [[https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/**76_appartement/index.html**]{style="font-size: 90%;"}](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/index.html)    
 
 Nous commençons par récupérer le code source de ces deux pages avec la fonction `read_html()`.
 Cette fonction effectue une requête HTTP, puis en analyse le code HTML récupéré à l'aide du package `xml2`.
