@@ -688,11 +688,18 @@ text-align:center;
 
 :::
 
-3. Ajoutez et/ou modifiez du contenu (balise) dans le code source du fichier page.html.
+3. Modifiez le code source du fichier page.html, en ajoutant un titre de niveau 2 et un paragraphe dans le `body`.
 Enregistrez le fichier et ré-affichez (ou rafraîchissez avec la touche `F5`) la page HTML dans le navigateur pour découvrir le rendu.
 
-4. Ajoutez et/ou modifiez du contenu dans le code source du fichier style.css.
-Enregistrez le fichier et ré-affichez la page HTML (ou rafraîchissez-la avec la touche `F5`) dans le navigateur pour apprécier la nouvelle mise en page.
+4. Modifiez du contenu dans le code source du fichier style.css. Ajoutez une couleur pour les titres de niveau 2 et paramétrez les paragraphes en italic. Enregistrez le fichier et ré-affichez la page HTML (ou rafraîchissez-la avec la touche `F5`) dans le navigateur pour apprécier la nouvelle mise en page.
+
+\
+
+<center>
+[<img src="figures/zip.png"  width="30"/> **correction_exo_HTML.zip**](https://gitlab.huma-num.fr/webscraping/rzine_webscraping/-/raw/master/correction_exo_HTML.zip?ref_type=heads&inline=false)
+</center>
+
+<br>
 
 \
 
