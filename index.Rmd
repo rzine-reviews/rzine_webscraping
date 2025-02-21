@@ -693,7 +693,7 @@ Enregistrez le fichier et ré-affichez (ou rafraîchissez avec la touche `F5`) l
 
 4. Modifiez du contenu dans le code source du fichier style.css. Ajoutez une couleur pour les titres de niveau 2 et paramétrez les paragraphes en italic. Enregistrez le fichier et ré-affichez la page HTML (ou rafraîchissez-la avec la touche `F5`) dans le navigateur pour apprécier la nouvelle mise en page.
 
-\
+![](figures/correction_exo_html.png)
 
 <center>
 [<img src="figures/zip.png"  width="30"/> **correction_exo_HTML.zip**](https://gitlab.huma-num.fr/webscraping/rzine_webscraping/-/raw/master/correction_exo_HTML.zip?ref_type=heads&inline=false)
