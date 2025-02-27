@@ -167,7 +167,8 @@ Pour répondre à cet objectif, nous allons alterner exploration, collecte et tr
 ## Comprendre le code source 
 
 **Le scraping d'un site web démarre toujours par l'exploration du code source du site ciblé**.
-En effet, pour automatiser la collecte d'informations, il est nécessaire d'inspecter le code source afin de déterminer la localisation précise des différentes informations ciblées. 
+Ce dernier prend la forme d'un fichier texte qui contient l'ensemble des instructions codées dans un langage informatique donné et qui permettent notamment d'afficher le site web tel que vous le voyez actuellement. Selon la philosophie de conception du site web (statique ou dynamique), les informations qui apparaissent à l'écran peuvent se retrouver directement dans le texte du code source, à des emplacements définis par le/les concepteur du site.
+Ainsi, pour automatiser la collecte d'informations, il est nécessaire d'inspecter le code source pour comprendre la structure et l'organisation de la page web afin de déterminer la localisation précise des différentes informations ciblées que l'on cherchera a extraire.
 
 **Extrait du code source de la page d'accueil du site web** [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"} :
 
