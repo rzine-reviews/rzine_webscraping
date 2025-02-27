@@ -59,22 +59,24 @@ De nombreux aspects et méthodes de *web scraping* qui ne sont pas abordés dans
 Le *web scraping*, ou extraction de données sur le *web*, est un ensemble de techniques qui consistent à extraire de manière automatisée des informations à partir de sites *web*.
 En d'autres termes, c'est comme si vous utilisiez un robot pour récupérer des données à partir de pages *web*, plutôt que de le faire manuellement.
 
-En sciences humaines et sociales, le *web scraping* peut être utilisé pour collecter des données pertinentes sur des sites *web*, forums, blogs, des réseaux sociaux, ou autres sources en ligne.
+En sciences humaines et sociales, le *web scraping* peut être utilisé pour collecter des données pertinentes sur des sites *web*, forums, blogs, des réseaux sociaux, ou autres sources en ligne. Par exemple, si des centaines de tableaux de données sont disponibles sur un site web et dont l'analyse permettrait d'étayer différentes hypothèses de recherches, il parait préférable d'en automatiser la collecte plutôt que de les copier/coller manuellement.
 Cette méthode peut être particulièrement utile pour analyser des tendances, des opinions, des dynamiques, ou tout simplement pour constituer une base de données à partir de plusieurs sources internet.
 L'utilisation de R pour le *web scraping* permet d'automatiser ce processus et d'analyser les données extraites immédiatement de manière efficace.
 
 Le *web scraping* permet d'extraire des informations spécifiques d'une page *web* en analysant sa structure HTML et en extrayant uniquement les éléments pertinents.
 Cette pratique demande ainsi quelques connaissances techniques en matière de *web*, de langage de balisage HTML et de langage CSS, qui permettent respectivement de structurer une page *web* et de définir l'apparence et la mise en forme des différents éléments du document.
 
+Mais avant de se lancer dans du *web scraping*, il convient d'avoir une vision claire sur les utilisations futures des données que l'on souhaite récupérer. Ce n'est pas parce qu'on peut télécharger toutes les données d'un site web que l'on doit le faire. En plus de générer inutilement du traffic réseau qui peut pertuber le fonctionnement du site, il faut se poser des questions simples : quelles données me semblent nécessaires pour répondre à ma question de recherche ? est-ce que j'ai vraiment besoin de toutes ces données ? Aurais-je les capacités et l'opportunité de tout traiter ? et est-ce qu'il n'y a pas un autre moyen plus simple et moins *gris* de les obtenir ?
+
 Au-delà d'initier au *web scraping* avec R, cet article aborde dans un premier temps les connaissances indispensables à la mise en place d'une collecte de données automatisée.
 
 Le *web scraping* regroupe différentes techniques plus ou moins complexes.
 Cet article, qui est une initiation à la pratique de la collecte automatique de données, présente le cas d'utilisation le plus simple (c'est-à-dire le *scraping* d'une page web statique et peu interactive).
-Pour aller plus loin et se former à des techniques plus avancées, vous pouvez consulter ce support de formation plus détaillé :
+<!-- Pour aller plus loin et se former à des techniques plus avancées, vous pouvez consulter ce support de formation plus détaillé : -->
 
-<center>
-[**https://webscraping.gitpages.huma-num.fr/website/**](https://webscraping.gitpages.huma-num.fr/website/){target="_blank"}
-</center>
+<!-- <center> -->
+<!-- [**https://webscraping.gitpages.huma-num.fr/website/**](https://webscraping.gitpages.huma-num.fr/website/){target="_blank"} -->
+<!-- </center> -->
 
 \
 
@@ -2431,7 +2433,6 @@ Avant de se lancer dans le *web scraping*, il est donc important de réfléchir 
 Si l'exemple développé dans cet article est thématiquement plausible, la plupart des sites actuels reposent sur des bases technologiques bien plus complexes qu'un simple enchaînement de pages HTML (site "statique"), en générant à la volée le contenu affiché par le navigateur (sites "dynamiques").
 
 Chaque technologie sous-jacente à un site implique des choix techniques et des logiques de *web scraping* très différents, et on pourrait presque dire que le *web scraping* de chaque site demande de développer un processus unique.
-
 Pour vous aider à mettre en place des processus de *web scraping* plus complexes, nous vous renvoyons vers un site web bien plus complet associée à cette publication : [https://webscraping.gitpages.huma-num.fr/website/](https://webscraping.gitpages.huma-num.fr/website/).
 
 <!-- # Bibliographie {-} -->
