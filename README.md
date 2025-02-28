@@ -1,4 +1,4 @@
-# Premiers pas en *web scraping [<img src="https://rzine.fr/assets/img/rzine.png"  align="right" width="120"/>](http://rzine.fr/)
+# Premiers pas en *web scraping* [<img src="https://rzine.fr/assets/img/rzine.png"  align="right" width="120"/>](http://rzine.fr/)
 ### Introduction à la collecte automatique de données du *web*
 *Léa Christophe, Université Paris 1 Panthéon-Sorbonne, UMR Géographie-cités*
 *Hugues Pecout, CNRS, UMR Géographie-cités*
