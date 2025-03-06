@@ -2123,7 +2123,7 @@ Pour chaque annonce, nous avons collecté les liens vers les photos des biens mi
 À partir de ces liens stockés dans les colonnes `Photo_1`, `Photo_2`, et `Photo_3`, nous pouvons télécharger l'ensemble de ces images de la manière suivante.
 
 
-1) Création d'un nouveau répertoire pour y stocker l'ensemble des images collectés. 
+1) Création d'un nouveau répertoire pour y stocker l'ensemble des images collectées. 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
 
