@@ -2099,7 +2099,7 @@ scrapimmob_sf <- st_as_sf(scrapimmob,
 
 
 # Affichage graphique de la couche géographique
-plot(scrapimmob_sf["prix"])
+plot(st_geometry(scrapimmob_sf))
 
 ```
 
