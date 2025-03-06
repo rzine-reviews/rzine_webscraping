@@ -53,7 +53,7 @@ knitr::opts_chunk$set(echo=TRUE,
 ```
 
 > Cet article peut être utilisé comme support pour une initiation aux bases de la collecte automatique de données du *web* avec R.
-> De nombreux aspects et méthodes de *web scraping* qui ne sont pas abordés dans cet article sont présentés sur ce [**site web associé**](https://webscraping.gitpages.huma-num.fr/website/), plus complet et approfondi sur le *web scraping* avec R et Python.
+
 
 # Introduction {-}
 
@@ -2437,7 +2437,7 @@ Si l'exemple développé dans cet article est thématiquement plausible, la plup
 
 Chaque technologie sous-jacente à un site implique des choix techniques et des logiques de *web scraping* très différents, et on pourrait presque dire que le *web scraping* de chaque site demande de développer un processus unique.
 
-Pour vous aider à mettre en place des processus de *web scraping* plus complexes, nous vous renvoyons vers un site web bien plus complet associée à cette publication : [https://webscraping.gitpages.huma-num.fr/website/](https://webscraping.gitpages.huma-num.fr/website/).
+Pour vous aider à mettre en place des processus de *web scraping* plus complexes, nous vous renvoyons vers un site web associée à cette publication : [https://webscraping.gitpages.huma-num.fr/website/](https://webscraping.gitpages.huma-num.fr/website/).
 
 <!-- # Bibliographie {-} -->
 
