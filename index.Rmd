@@ -24,8 +24,8 @@ bibliography: biblio.bib
 nocite: |
   @*
 link-citations: true
-# github: "author/repository"
-gitlab: "gitlab.huma-num.fr/webscraping/rzine_webscraping"
+github: "rzine-reviews/rzine_webscraping"
+# gitlab: "gitlab.huma-num.fr/webscraping/rzine_webscraping"
 doi: "xx.xxx/xxxx.xxxxxxx"
 licence: "by-sa"
 params:
