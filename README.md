@@ -10,7 +10,7 @@ Sébastien Rey-Coyrehourcq (UMR IDEES, Université de Rouen Normandie)
 
 **Evaluateur·trices :**   
 Nathalie Abadie (UMR LASTIG, IGN)   
-Thibault Le Corre (Université de Montréal [UdeM], département de géographie)   
+Thibault Le Corre (Université de Montréal (UdeM), département de géographie)   
 
 **Résumé :**  
 
