@@ -1685,7 +1685,7 @@ datatable(
 ## Nettoyage des données {.tabset}
 
 **En *web scraping*, le plus compliqué n'est pas forcément la collecte des données.**
-**Un prétraitement des données collectées est souvent nécessaire pour obtenir une base de données propre et optimisée.**
+**Un prétraitement des données collectées est souvent nécessaire pour obtenir une base de données propre et optimisée.**^[Nous privilégions ici un nettoyage écrit en R, et faisant appel notamment à des fonctions parfois avancées de manipulation de chaînes de caractères, mais il existe aussi des outils graphiques plus conviviaux permettant de mener cette phase importante, comme [OpenRefine](https://openrefine.org/) par exemple.]
 
 Dans notre démonstration, certaines des informations collectées ont besoin d'être nettoyées.
 C'est par exemple le cas de la variable  `prix`, qui affiche l'unité monétaire (€), ou le cas de la variable `com` qui contient le nom de la commune et son code INSEE.
