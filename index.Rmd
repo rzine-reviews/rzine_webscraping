@@ -2422,7 +2422,10 @@ Dans un but de recherche, le *web scraping* est le plus souvent légal, mais cel
 ### Avant de se lancer
 
 Il est indispensable de mener des recherches approfondies pour voir si les données que l'on cherche à collecter ne sont pas déjà disponibles, sous une forme ou une autre, de manière publique ou non.
-Cela peut prendre la forme de fichiers complets disponibles en open-data, de "*dumps*" de données mis à disposition par les plateformes (*challenges* Kaggle, *datasets* HuggingFace, etc.), ou encore d'interfaces dédiées à l'extraction des données mises à disposition par les sites (les ***API***).
+Cela peut prendre la forme de fichiers complets disponibles en open-data, de "*dumps*" de données mis à disposition par les plateformes (*challenges* Kaggle, *datasets* HuggingFace, etc.)^[
+Depuis le début des années 2010, dans un contexte de large démocratisation des méthodes de *machine-learning*, plusieurs plateformes sont apparues pour susciter des compétitions publiques de *machine-learning* adossées à des jeux de données usuellement fermés.
+Les entreprises fournissant leurs données à ces plateformes en tirent des méthodes et algorithmes pour résoudre leurs problèmes de classifications et analyses prédictives, et le public peut en contre-partie accéder à ces jeux de données via les plateformes de compétition, telle [Kaggle](https://www.kaggle.com/datasets).
+Avec l'augmentation de la visibilité des recherches en IA depuis les années 2020, d'autres plateformes comme [HuggingFace](https://huggingface.co/datasets) ont émergé pour partager des modèles libres, mais donnent de plus accès à des jeux de données important utilisés pour l'apprentissage ou l'évaluation de ces modèles.], ou encore d'interfaces dédiées à l'extraction des données mises à disposition par les sites (les ***API***).
 
 Dans le cas où les données ne semblent pas disponibles, n'hésitez pas à contacter et demander directement les données au producteur.
 
