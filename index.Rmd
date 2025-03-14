@@ -61,7 +61,8 @@ Le *web scraping*, ou extraction de données sur le *web*, est un ensemble de te
 Il peut s'agir de texte (faisant parfois référence à des entités géographiques telles que des longitudes ou des latitudes), de tableaux, d'images ou encore de vidéos.
 En d'autres termes, c'est comme si vous utilisiez un robot pour récupérer des données à partir de pages *web*, plutôt que de le faire manuellement.
 
-En sciences humaines et sociales, le *web scraping* peut être utilisé pour collecter efficacement des données pertinentes sur des sites *web*, forums, blogs, des réseaux sociaux, ou autres sources en ligne. Par exemple, si des centaines de tableaux de données sont disponibles sur un site web et dont l'analyse permettrait d'étayer différentes hypothèses de recherches, il parait préférable d'en automatiser la collecte plutôt que de les copier/coller manuellement.
+En sciences humaines et sociales, le *web scraping* peut être utilisé pour collecter et structurer efficacement des données sur des sites *web*, forums, blogs, des réseaux sociaux, ou autres sources en ligne.
+Par exemple, si des centaines de tableaux de données sont disponibles sur un site web et dont l'analyse permettrait d'étayer différentes hypothèses de recherches, il parait préférable d'en automatiser la collecte plutôt que de les copier/coller manuellement.
 Cette méthode peut être particulièrement utile pour analyser des tendances, des opinions, des dynamiques, ou tout simplement pour constituer une base de données à partir de plusieurs sources internet.
 L'utilisation de R pour le *web scraping* permet d'automatiser ce processus et d'analyser directement les données collectées.
 
