@@ -956,7 +956,7 @@ Ce package est simple d'utilisation mais également limité en matière de fonct
 Il ne permet que depuis peu, et de manière réduite, de simuler les actions d'un utilisateur (clic, scroll, etc.).
 On l'utilisera essentiellement pour l'extraction de données de sites *web* statiques.
 
-- [**`Rselenium`**](https://cran.r-project.org/web/packages/RSelenium/index.html){target="_blank"} : ce package est ce que l'on appelle un *binding* de langage ("liaison") qui permet d'utiliser, depuis R, les fonctionnalités de l'outil **`Selenium 2.0 WebDriver`**.
+- [**`RSelenium`**](https://cran.r-project.org/web/packages/RSelenium/index.html){target="_blank"} : ce package est ce que l'on appelle un *binding* de langage ("liaison") qui permet d'utiliser, depuis R, les fonctionnalités de l'outil **`Selenium 2.0 WebDriver`**.
 Ce *framework* *web* permet d'automatiser les tests d'applications *web* en simulant des utilisateurs.
 **`Selenium 2.0 WebDriver`** peut aussi être utilisé pour la collecte automatisée de données sur des sites *web* dynamiques, nécessitant une interaction utilisateur (exécution de code javascript généré par clic, survol, scroll, etc.).
 Il s'agit concrètement d'un outil qui simule la navigation sur un site web plutôt que d'un outil comme `rvest` qui en extrait simplement le contenu.
@@ -1241,7 +1241,7 @@ head(list_url)
 ```
 
 <div class="alert alert-danger"> <b>
-Une autre solution aurait été de simuler le clic d'un utilisateur sur le bouton "page suivante".
+Une autre solution aurait été de simuler le clic d'un utilisateur sur le bouton "page suivante" (par exemple en utilisant le package RSelenium [mentionné précédemment](#les-packages-de-scraping)).
 Cela aurait permis de  collecter des données sans avoir à lister les URLs des pages ciblées, mais cela aurait nécessité un script plus complexe alors que le système d'URLs s'avère extrêmement simple !</b></div>
 
 \
