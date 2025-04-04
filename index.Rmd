@@ -49,7 +49,7 @@ knitr::opts_chunk$set(echo=TRUE,
                       class.source="bg-info",
                       class.output="bg-warning")
 
-
+library
 ```
 
 > Cet article peut être utilisé comme support pour une initiation aux bases de la collecte automatique de données du *web* avec R.
@@ -90,7 +90,7 @@ Cet article, qui est une initiation à la pratique de la collecte automatique de
 ## Le site web [***ScrapImmob***](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}
 
 Pour cette introduction à la collecte automatisée de données du *web* avec R, nous proposons une mise en pratique sur un site internet de démonstration créé pour l'occasion : [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}.
-**Ce site compile 1000 annonces fictives de ventes immobilières de maisons et d'appartements.**  
+**Ce site compile 1000 annonces fictives de ventes immobilières de maisons et d'appartements.** 
 
 Dans le cadre de cet article, nous cherchons à récuperer les propriétés des différentes annonces immobilières disponibles sur ce site, en vue de mener une première exploration du lien entre prix de vente, caractéristiques et localisation.
 
@@ -1715,7 +1715,7 @@ scrapimmob$prix <- gsub(x = scrapimmob$prix, pattern = "€| ", replacement = ""
 # Vecteur des noms de colonnes à convertir
 col <- c("nb_ch", "nb_sdb", "surf_hab", "surf_jar", "prix")
 
-# Conversion en numeric des colonnes ciblées 
+# Conversion en numeric des colonnes ciblées
 # via la fonction as.numeric()
 # appliquée aux colonnes du tableau via lapply()
 scrapimmob[col] <- as.data.frame(lapply(scrapimmob[col], as.numeric))
