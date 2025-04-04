@@ -989,7 +989,7 @@ library(rvest)
 ### Fonctionnement de **`rvest`**
 
 Commençons par explorer les principales fonctions du package [**`rvest`**](https://rvest.tidyverse.org/){target="_blank"} à partir d'un extrait du code source du site *web* [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}.
-Pour cela, nous pouvons utiliser la fonction **`minimal_html()`** qui permet de créer un contenu HTML (XML) requêtable à partir de code HTML fourni dans une chaîne de caractères.
+Pour cela, nous pouvons utiliser la fonction **[`minimal_html()`](https://rvest.tidyverse.org/reference/minimal_html.html)** qui permet de créer un contenu HTML (XML) requêtable à partir de code HTML fourni dans une chaîne de caractères.
 
 ```{r, message=FALSE, warning=FALSE}
 
@@ -1006,8 +1006,10 @@ basic_html <- minimal_html(extrait_html)
 class(basic_html)
 
 ```
+Les différentes fonctions du package `rvest` renvoient le plus souvent des objets `xml_` ou `html_` (`xml_document` et `xml_node` dans cet exemple, `xml_nodeset` dans le suivant), qui sont des pointeurs vers le contenu XML/HTML interpreté, et peuvent donc être eux-mêmes interrogés par d'autres fonctions de `rvest`.
+L'équivalent d'une telle structure en objets R classiques serait une structure emboîtée de listes contenant des listes, contenant elles-mêmes des listes (et ainsi de suite).
 
-- Les fonctions **`html_element()`** ou **`html_elements()`** permettent respectivement la récupération du 1er ou de tous les éléments d'un document HTML, en précisant un sélecteur CSS ou un Xpath.
+- Les fonctions **[`html_element()`](https://rvest.tidyverse.org/reference/html_element.html)** ou `html_elements()` permettent respectivement la récupération du 1er ou de tous les éléments d'un document HTML, en précisant un sélecteur CSS ou un Xpath.
 Par exemple,  `html_elements("p")` appliqué au code source d'une page permet de récupérer tous les paragraphes : 
 
 ```{r, echo = TRUE, message=FALSE, warning=FALSE}
@@ -1017,7 +1019,7 @@ basic_html |> html_elements("p")
 
 ```
 
-- La fonction **`html_attr()`** permet l'extraction des valeurs d'attributs. 
+- La fonction **[`html_attr()`](https://rvest.tidyverse.org/reference/html_attr.html)** permet l'extraction des valeurs d'attributs. 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 
@@ -1026,7 +1028,7 @@ basic_html |> html_elements("a") |> html_attr("href")
 
 ```
 
-- Les fonctions **`html_text()`** ou **`html_text2()`** permettent d'extraire uniquement le texte d'un élément.
+- Les fonctions **[`html_text()`](https://rvest.tidyverse.org/reference/html_text.html)** ou `html_text2()` permettent d'extraire uniquement le texte d'un élément.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 
@@ -1086,7 +1088,7 @@ Notre objectif étant de collecter uniquement des données sur les biens (maison
 - [[https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/**76_maison/index.html**]{style="font-size: 90%;"}](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/index.html)       
 - [[https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/**76_appartement/index.html**]{style="font-size: 90%;"}](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/index.html)    
 
-Nous commençons par récupérer le code source de ces deux pages avec la fonction `read_html()`.
+Nous commençons par récupérer le code source de ces deux pages avec la fonction **[`read_html()`](https://rvest.tidyverse.org/reference/read_html.html)**.
 Cette fonction effectue une requête HTTP, puis en analyse le code HTML récupéré à l'aide du package `xml2`.
 
 ```{r, eval=params$force_scraping, message=FALSE, warning=FALSE, cache=FALSE, echo = FALSE}
@@ -1309,7 +1311,7 @@ head(links)
 
 **Les URLs récupérées sont relatives**, c'est-à-dire qu'elles n'incluent que le chemin relatif des pages par rapport à la page où elles sont indiquées.
 Le chemin courant complet n'est pas indiqué.
-Nous pouvons le rajouter avec la fonction `url_absolute()` de la manière suivante.
+Nous pouvons le rajouter avec la fonction [`url_absolute()`](https://xml2.r-lib.org/reference/url_absolute.html) de la manière suivante.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 
@@ -1689,7 +1691,7 @@ datatable(
 
 Dans notre démonstration, certaines des informations collectées ont besoin d'être nettoyées.
 C'est par exemple le cas de la variable  `prix`, qui affiche l'unité monétaire (€), ou le cas de la variable `com` qui contient le nom de la commune et son code INSEE.
-Nous procédons donc à des traitements pour nettoyer les informations collectées. 
+Nous procédons donc à des traitements pour nettoyer les informations collectées, en mobilisant notamment la fonction [`gsub()`](https://rdrr.io/r/base/grep.html) qui permet de rechercher et remplacer un motif (*pattern*) dans un texte.
 
 1) **Suppression des unités de mesure** pour les prix et les surfaces collectés :
 
@@ -1712,6 +1714,8 @@ scrapimmob$prix <- gsub(x = scrapimmob$prix, pattern = "€| ", replacement = ""
 col <- c("nb_ch", "nb_sdb", "surf_hab", "surf_jar", "prix")
 
 # Conversion en numeric des colonnes ciblées 
+# via la fonction as.numeric()
+# appliquée aux colonnes du tableau via lapply()
 scrapimmob[col] <- as.data.frame(lapply(scrapimmob[col], as.numeric))
 
 ```
@@ -1852,10 +1856,10 @@ code_page_coord <- code_page[2]
 
 ```
 
-Puis la fonction `strcapture()` nous permet aussi ensuite extraire les coordonnées à l'aide d'une **expression régulière**^[**Les expressions régulières** (ou <strong>reg</strong>ular <strong>ex</strong>pressions, <strong>REGEX</strong>) sont des formules informatiques standardisées, relativement universelles, qui permettent de décrire un *pattern* à rechercher dans une chaîne de caractères.
+Puis la fonction [`strcapture()`](https://rdrr.io/r/utils/strcapture.html) nous permet aussi ensuite extraire les coordonnées à l'aide d'une **expression régulière**^[**Les expressions régulières** (ou <strong>reg</strong>ular <strong>ex</strong>pressions, <strong>REGEX</strong>) sont des formules informatiques standardisées, relativement universelles, qui permettent de décrire un *pattern* à rechercher dans une chaîne de caractères.
 Leur syntaxe est difficillement intelligible, mais extrêmement puissante.
 Elles permettent d'extraire des informations structurées dans du texte, mais également de valider des expressions lors de la saisie.
-Par exemple, l'expression régulière `(0|(\\+33)|(0033))[1-9][0-9]{8}` permet de valider un numéro de téléphone français (doit commencer par 0, +33 ou 0033 puis doit être suivi d'un chiffre de 1 à 9, puis de huit chiffres de 0 à 9).] qui permet de ne garder que les caractères situés entre crochets `[]`.
+Par exemple, l'expression régulière `(0|(\\+33)|(0033))[1-9][0-9]{8}` permet de valider un numéro de téléphone français (doit commencer par 0, +33 ou 0033 puis doit être suivi d'un chiffre de 1 à 9, puis de huit chiffres de 0 à 9).] qui ne conserve que les caractères situés entre crochets `[]`.
 
 Pour isoler les caractères situés entre crochets dans la balise `script`, on utilise l'expression régulière "`\\[(.*?)\\]`", qui peut se décomposer ainsi :  
 
@@ -1872,8 +1876,8 @@ coords <- strcapture(x = code_page_coord,
 coords
 ```
 
-À l'aide de la fonction `strsplit()`, on découpe cette chaïne de caractères là où l'on détecte une virgule suivie d'un espace.
-Cela génère une liste de deux éléments que l'on peut ensuite dé-lister (fonction `unlist()`) pour obtenir un vecteur textuel contenant les deux coordonnées.
+À l'aide de la fonction [`strsplit()`](https://rdrr.io/r/base/strsplit.html), on découpe cette chaïne de caractères là où l'on détecte une virgule suivie d'un espace.
+Cela génère une liste de deux éléments que l'on peut ensuite dé-lister (fonction [`unlist()`](https://rdrr.io/r/base/unlist.html)) pour obtenir un vecteur textuel contenant les deux coordonnées.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
 # Découpage de la chaîne de caractère 
@@ -2081,7 +2085,7 @@ datatable(
 
 ## Export de la base en tableau 
 
-La fonction native `write.csv()` permet d'exporter le `data.frame` *scrapimmob* qui contient l'ensemble des données collectées.
+La fonction native [`write.csv()`](https://rdrr.io/r/utils/write.table.html) permet d'exporter le `data.frame` *scrapimmob* qui contient l'ensemble des données collectées.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 
@@ -2091,7 +2095,7 @@ write.csv(x = scrapimmob, file = "data/BD_ScrapImmob.csv", row.names = FALSE)
 
 ## Export de couche géographique
 
-Le package `sf` pour la manipulation de données géographiques vectorielles permet, avec sa fonction `st_as_sf`, de convertir le `data.frame` *scrapimmob* en couche géographique ponctuelle (objet `sf`), à partir des latitudes et des longitudes stockées en colonne.
+Le package `sf` pour la manipulation de données géographiques vectorielles permet, avec sa fonction [`st_as_sf()`](https://r-spatial.github.io/stars/reference/st_as_sf.html), de convertir le `data.frame` *scrapimmob* en couche géographique ponctuelle (objet `sf`), à partir des latitudes et des longitudes stockées en colonne.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 # install.packages("sf")
@@ -2109,7 +2113,7 @@ plot(st_geometry(scrapimmob_sf))
 ```
 
 Notre base de données est désormais une couche géographique vectorielle (objet `sf`).
-Nous pouvons l'exporter dans le format de fichier de notre choix. Par exemple, en format geopackage (.gpkg) :
+Nous pouvons l'exporter dans le format de fichier de notre choix, par exemple en format geopackage :
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 
@@ -2154,7 +2158,7 @@ links_photos <- c(photo_1, photo_2, photo_3)
 
 ```
 
-3) En utilisant la fonction `download.file()`, nous pouvons construire une boucle pour enregistrer toutes les photos dans le nouveau répertoire "*pictures*". 
+3) En utilisant la fonction [`download.file()`](https://rdrr.io/r/utils/download.file.html), nous pouvons construire une boucle pour enregistrer toutes les photos dans le nouveau répertoire "*pictures*". 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
 
@@ -2300,14 +2304,14 @@ library(tm)
 library(wordcloud)
 ```
 
-Nous commençons par créer un objet `list` de type corpus (fonctions `Corpus()` et `VectorSource()` du package `tm`), à partir de la variable `Description`.
+Nous commençons par créer un objet `list` de type corpus (fonctions [`Corpus()`](https://rdrr.io/rforge/tm/man/Corpus.html) et [`VectorSource()`](https://rdrr.io/rforge/tm/man/VectorSource.html) du package `tm`), à partir de la variable `Description`.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE, cache = FALSE}
 # Création du corpus
 corpus <- Corpus(VectorSource(scrapimmob$Description))
 ```
 
-La fonction `tm_map` permet ensuite de nettoyer notre corpus textuel.
+La fonction [`tm_map()`](https://rdrr.io/rforge/tm/man/tm_map.html) permet ensuite de nettoyer notre corpus textuel.
 Après avoir converti tout le texte en minuscule, nous supprimons les *stopwords*, la ponctuation et les chiffres.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE, cache = FALSE}
@@ -2333,7 +2337,7 @@ corpus <- tm_map(corpus, enlever_symbols, "m²")
 
 ``` 
 
-La fonction `wordcloud` permet ensuite de construire un nuage de mots.
+La fonction [`wordcloud()`](https://rdrr.io/cran/wordcloud/man/wordcloud.html) permet ensuite de construire un nuage de mots.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE, cache = FALSE}
 
@@ -2360,7 +2364,7 @@ Le package [`leaflet`](https://cran.r-project.org/web/packages/leaflet/){target=
 library(leaflet)
 ```
 
-La fonction `leaflet()` nous permet de cartographier les biens mis en vente, colorés selon le type. 
+La fonction [`leaflet()`](https://rstudio.github.io/leaflet/reference/leaflet.html) nous permet de cartographier les biens mis en vente, colorés selon le type. 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
 
