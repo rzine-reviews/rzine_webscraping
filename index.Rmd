@@ -92,6 +92,8 @@ Cet article, qui est une initiation à la pratique de la collecte automatique de
 Pour cette introduction à la collecte automatisée de données du *web* avec R, nous proposons une mise en pratique sur un site internet de démonstration créé pour l'occasion : [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}.
 **Ce site compile 1000 annonces fictives de ventes immobilières de maisons et d'appartements.**  
 
+Dans le cadre de cet article, nous cherchons à récuperer les propriétés des différentes annonces immobilières disponibles sur ce site, en vue de mener une première exploration du lien entre prix de vente, caractéristiques et localisation.
+
 <center>
 
 ![Source : [https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}](figures/ScrapImmob_Visuel.png)
