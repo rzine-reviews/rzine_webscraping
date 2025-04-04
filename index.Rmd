@@ -81,7 +81,7 @@ Au-delà d'initier au *web scraping* avec R, cet article aborde dans un premier 
 
 Le *web scraping* regroupe différentes techniques plus ou moins complexes, selon la structure du site cible.
 Ce dernier peut être statique, c'est à dire que le contenu de la page ne varie pas entre les visites, ou *a contrario* dynamique.
-Cet article, qui est une initiation à la pratique de la collecte automatique de données, présente le cas d'utilisation le plus simple (c'est-à-dire le *scraping* d'une page web statique et peu interactive).
+Cet article, qui est une initiation à la pratique de la collecte automatique de données, présente le cas d'utilisation le plus simple, c'est-à-dire le *scraping* d'une page web statique et peu interactive.
 
 \
 
@@ -113,7 +113,7 @@ Une exploration rapide du site nous permet d'observer que chaque annonce contien
 - des **photographies**,    
 - un **titre**,     
 - une **description**,     
-- des **caractéristiques techniques** (surfaces, prix, nombre de pièces, etc.),   
+- des **caractéristiques techniques** (surface, prix, nombre de pièces, etc.),   
 - Une **localisation** (commune et carte interactive). 
 
 <center>
@@ -126,7 +126,7 @@ Une exploration rapide du site nous permet d'observer que chaque annonce contien
 
 ## Les objectifs de collecte
 
-Avant de se lancer dans une collecte automatisée, **il est primordial de bien définir ses objectifs et de déterminer précisément quelles informations on souhaite récupérer.**
+Avant de se lancer dans une collecte automatisée, **il est primordial de bien définir ses objectifs et de déterminer précisément quelles informations nous souhaitons récupérer.**
 **L'exploration du code source du site** (cf. [partie 2.3](#explorer-le-code-source)) **permet ensuite d'estimer le niveau de difficulté et de choisir une méthode de collecte optimale.**
 
 <div class="alert alert-info">
@@ -203,7 +203,7 @@ Le langage HTML (***H****yper***T***ext* ***M****arkup* ***L****anguage*) est un
 Comme le XML (*e****X****tensible* ***M****arkup* ***L****anguage*), son langage cousin, le HTML est un langage basé sur l'utilisation de balises (définies au sein de chevrons `<>`).
 
 Le XML peut être utilisé dans une variété de domaines, notamment pour l'échange de données entre applications.
-Par exemple, voici un document XML simple représentant des informations sur un livre :
+Par exemple, voici un document XML simple contenant des informations sur un livre :
 
 ```
 <Book>
@@ -216,7 +216,7 @@ Par exemple, voici un document XML simple représentant des informations sur un 
 
 Le langage HTML partage de nombreuses caractéristiques avec le XML^[Via un héritage commun depuis [le langage SGML](https://fr.wikipedia.org/wiki/Standard_Generalized_Markup_Language)], mais il est spécifiquement conçu pour structurer et organiser le contenu des pages *web*.
 
-Les normes HTML (HTML5 par exemple) définissent un [ensemble important mais circonscrit de balises](https://developer.mozilla.org/fr/docs/Web/HTML/Element) (des *tags*) pour définir la structure et le contenu d'une page *web*, ce qui permet aux navigateurs *web* de l'afficher correctement pour les utilisateurs.
+Les normes HTML (HTML5 par exemple) définissent un [ensemble important mais circonscrit de balises](https://developer.mozilla.org/fr/docs/Web/HTML/Element){target="_blank"} (des *tags*) pour définir la structure et le contenu d'une page *web*, ce qui permet aux navigateurs *web* de l'afficher correctement pour les utilisateurs.
 
 \
 
@@ -317,9 +317,9 @@ Voici le rendu graphique du code HTML ci-dessus dans un navigateur *web* :
 Ces balises hiérarchisées et potentiellement regroupées peuvent être renseignées d'attributs qui permettent de spécifier des informations supplémentaires et jouer sur leur mise en forme.
 Exemples d'attributs :
 
-- **`id`** : identifiant unique de la balise,    
-- **`class`** : classe de la balise,    
-- **`href`** : lien,    
+- **`id`** : identifiant unique de la balise;    
+- **`class`** : classe de la balise;    
+- **`href`** : lien;    
 - etc.    
 
 **Ces attributs sont à spécifier dans les balises ouvrantes** :
@@ -438,7 +438,7 @@ font-size: 20px;
 :::
 ::::
 
-**Dans les trois cas présentés ci dessus, le rendu graphique dans un navigateur** ***web*** **sera le suivant :**
+**Dans les trois cas présentés ci dessus, le rendu graphique des titres de niveau 1 dans un navigateur** ***web*** **sera :**
 
 ![](figures/h1.png){fig-align="center"}
 
@@ -447,8 +447,7 @@ font-size: 20px;
 ### Les sélecteurs CSS simples
 
 <div class="alert alert-danger">**Bien qu'une connaissance approfondie du CSS ne soit pas nécessaire pour le *web scraping*, il est important de connaître les sélecteurs CSS.**
-**Leur utilisation est précieuse pour cibler des données de manière détaillée et ainsi optimiser la collecte.**
-</div>
+**Leur utilisation est précieuse pour cibler des données de manière détaillée et ainsi optimiser la collecte.**</div>
 
 Comme une page HTML est un ensemble **structuré** de balises, ce qui revient à dire qu'une page HTML est un ensemble organisé de données, il est possible d'interroger la structure de cette page pour en cibler des éléments.
 En HTML, on utilise un langage d'interrogation propre, basé sur des **sélecteurs**, c'est-à-dire des expressions qui permettent de définir précisément un sous-ensemble des balises HTML (et CSS) d'une page web.
@@ -643,15 +642,15 @@ Pour mieux comprendre l'utilisation et le fonctionnement du HTML et du CSS, **vo
 
 <br>
 
-Une fois téléchargé, décompressez le répertoire qui contient deux fichiers : page.html et style.CSS.
+Une fois téléchargé, décompressez le répertoire qui contient deux fichiers : *page.html* et *style.CSS*.
 
 1. Un fichier HTML peut être interprété (mis en page) par n'importe quel navigateur (Mozilla Firefox, Google Chrome, Microsoft Edge, ect.).
-Ouvrez le fichier page.html avec un navigateur.
+Ouvrez le fichier *page.html* avec un navigateur.
 Aucune connexion internet n'est nécessaire. 
 
 ![](figures/exo_html.png)
 
-2. Ouvrez les deux fichiers (page.html et style.CSS) avec un éditeur de fichier texte (ex : bloc-note, RStudio, Notepad++, ect.).
+2. Ouvrez les deux fichiers avec un éditeur de fichier texte (ex : bloc-note, RStudio, Notepad++, ect.).
 
 :::: {style="display: flex;"}
 ::: {.column width="69%"}
@@ -699,10 +698,10 @@ text-align:center;
 
 :::
 
-3. Modifiez le code source du fichier page.html, en ajoutant un titre de niveau 2 et un paragraphe dans le `body`.
+3. Modifiez le code source du fichier *page.html*, en ajoutant un titre de niveau 2 et un paragraphe dans le `body`.
 Enregistrez le fichier et ré-affichez (ou rafraîchissez avec la touche `F5`) la page HTML dans le navigateur pour découvrir le rendu.
 
-4. Modifiez du contenu dans le code source du fichier style.css. Ajoutez une couleur pour les titres de niveau 2 et paramétrez les paragraphes en italic. Enregistrez le fichier et ré-affichez la page HTML (ou rafraîchissez-la avec la touche `F5`) dans le navigateur pour apprécier la nouvelle mise en page.
+4. Modifiez du contenu dans le code source du fichier *style.css*. Ajoutez une couleur pour les titres de niveau 2 et paramétrez les paragraphes en italic. Enregistrez le fichier et ré-affichez la page HTML (ou rafraîchissez-la avec la touche `F5`) dans le navigateur pour apprécier la nouvelle mise en page.
 
 ![](figures/correction_exo_html.png)
 
@@ -840,15 +839,14 @@ Avec *Mozilla Firefox* :
 ![](figures/browser_console_firefox.png){fig-align="center"}
 :::
 
-Dans la console, on peut tester un sélecteur CSS en utilisant la syntaxe spécifique suivante :  
-`$$('sélecteur')`  
+Dans la console, on peut tester un sélecteur CSS en utilisant la syntaxe spécifique suivante : `$$('sélecteur')`        
 Par exemple, pour sélectionner tous les liens (balises `<a>...</a>`) de cette page web, on peut exécuter la requête `$$('a')` dans la console de l'inspecteur. Exemple avec *Firefox* :
 
 ![](figures/browser_console_firefox_selectA.png){fig-align="center"}
 
 Cela renvoie une liste d'objets HTML que l'on peut explorer interactivement (code dépliable), et permet ainsi de tester le bon fonctionnement d'une requête via sélecteurs CSS, avant de l'automatiser dans un script de *scraping*.
 
-Chacun des éléments isolés peut être localisé dans l'inspecteur (clic sur l'icône ![](figures/browser_console_firefox_iconLocate.png) avec *Firefox*, et clic sur le nom de l'élément avec le navigateur *Chrome*).
+Chacun des éléments isolés peut être localisé dans l'inspecteur (clic sur l'icône ![](figures/browser_console_firefox_iconLocate.png) avec *Firefox*, puis clic sur le nom de l'élément avec le navigateur *Chrome*).
 
 \
 
@@ -857,59 +855,98 @@ Chacun des éléments isolés peut être localisé dans l'inspecteur (clic sur l
 <div class="alert alert-info">
 Nous proposons ici une courte série d'exercices corrigés (cliquer sur `Réponse`) qui doivent permettre de mener une première exploration du code source du site exemple</div>
 
-1. Combien y-a-t-il de liens (balises `<a>...</a>`) sur [cette page web](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"} ?
+**1.** Combien y-a-t-il de liens (balises `<a>...</a>`) sur [cette page web](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"} ?
 
 
 ```{=html}
 <details class='alert alert-light'>
 <summary><b>Réponse ▼</b></summary>
-Pour connaître le nombre de liens de la page citée, on peut mener une recherche des éléments <code>&lt;a&gt;</code> de la page, en tappant la requête suivante dans la console : <br/>
-<code>$$('a')</code>
-<br/>
+<br />
+Pour connaître le nombre de liens de la page citée, on peut mener une recherche des éléments <code>&lt;a&gt;</code> de la page, en tappant la requête suivante dans la console : <code>$$('a')</code>
+
+<br /><br />
+
 Cela renvoit un "array" (c'est-à-dire un tableau mono-dimensionnel) de longueur 40, indiquant qu'il y a 40 éléments <code>&lt;a&gt;</code>, donc 40 liens dans cette page.
+
+<br /><br />
+
 <img src="figures/exercices_console_1.png" />
 </details>
 ```
 
-2. Combien y-a-t-il de liens (balises `<a>...</a>`) de la classe `.stretched-link` ? Vous pouvez utiliser la syntaxe suivante : `$$('element.class')`
+<br />
+
+**2.** Combien y-a-t-il de liens (balises `<a>...</a>`) de la classe `.stretched-link` ? Vous pouvez utiliser la syntaxe suivante : `$$('element.class')`
 
 ```{=html}
 <details class='alert alert-light'>
 <summary><b>Réponse ▼</b></summary>
-On peut ici cumuler des sélecteurs, en ajoutant la classe <code>.stretched-link</code> au sélecteur des liens <code>a</code> : <br/>
-<code>$$('a.stretched-link')</code>
-<br/>
+
+<br /><br />
+
+On peut ici cumuler des sélecteurs, en ajoutant la classe <code>.stretched-link</code> au sélecteur des liens <code>a</code> : <code>$$('a.stretched-link')</code>
+
+<br /><br />
+
 Le tableau retourné contient cette fois-ci 18 éléments.
+
+<br /><br />
+
 <img src="figures/exercices_console_2.png" />
 </details>
 ```
 
-3. Combien y-a-t-il d'éléments en gras (balise `<strong>...</strong>`) sur [une page d'annonce](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/annonces/IDF_0049.html){target="_blank"} ? 
+<br />
+
+**3.** Combien y-a-t-il d'éléments en gras (balise `<strong>...</strong>`) sur [une page d'annonce](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/annonces/IDF_0049.html){target="_blank"} ? 
 
 ```{=html}
 <details class='alert alert-light'>
 <summary><b>Réponse ▼</b></summary>
-Même logique que pour la recherche d'éléments <code>&lt;a&gt;</code>, mais cette fois-ci pour les éléments <code>&lt;strong&gt;</code> <br/>
-<code>$$('strong')</code> : 
-<br/>
+
+<br /><br />
+
+Même logique que pour la recherche d'éléments <code>&lt;a&gt;</code>, mais cette fois-ci pour les éléments <code>&lt;strong&gt;</code> : <code>$$('strong')</code> 
+
+<br /><br />
+
 Le tableau retourné contient 7 éléments, et on peut déjà remarquer au survol des éléments que ce sont les caractéristiques techniques des biens (type, nombre de chambres, de salle-de-bains, surface, prix et localisation).
 Ici, avec les fonctions <code>map</code> et <code>innerHTML</code>, nous affichons le texte mis en gras dans ces 7 balises.
+
+
+<br /><br />
+
 <img src="figures/exercices_console_3.png" />
 </details>
 ```
 
-4. Combien y-a-t-il de balises `<script>...</script>` qui permettent d'intégrer ou de faire référence à un script javascript exécutable ? Dans quelle balise `<script>` sont stockées les coordonnées géographiques du marqueur affiché sur la carte interactive des [pages d'annonces](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/annonces/IDF_0049.html){target="_blank"}  ?
+
+<br />
+
+**4.** Combien y-a-t-il de balises `<script>...</script>` qui permettent d'intégrer ou de faire référence à un script javascript exécutable ? Dans quelle balise `<script>` sont stockées les coordonnées géographiques du marqueur affiché sur la carte interactive des [pages d'annonces](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/annonces/IDF_0049.html){target="_blank"} ?
 
 ```{=html}
 <details class='alert alert-light'>
 <summary><b>Réponse ▼</b></summary>
-Encore la même logique que pour la recherche d'éléments <code>&lt;a&gt;</code>, mais cette fois-ci pour les éléments <code>&lt;script&gt;</code> <br/>
-<code>$$('script')</code> : 
-<br/>
+
+<br /><br />
+
+Encore la même logique que pour la recherche d'éléments <code>&lt;a&gt;</code>, mais cette fois-ci pour les éléments <code>&lt;script&gt;</code> : <code>$$('script')</code> 
+
+<br/><br/>
+
 <img src="figures/exercices_console_41.png" />
+
+<br /><br />
+
 Il y a 4 balises scripts, dont nous pouvons noter que seule la deuxième ne semble pas charger une bibliothèque de fonctions distante.
-<br/>
+
+<br /><br />
+
 En utilisant à nouveau la fonction <code>innerHTML</code> sur la deuxième balise (sélection de l'index 1 – en javascript, l'indexation débute à 0 – via les crochets <code>[index]</code>), on affiche son contenu, et on peut noter qu'elle semble contenir des coordonnées géographiques.
+
+<br /><br />
+
 <img src="figures/exercices_console_42.png" />
 </details>
 ```
@@ -991,7 +1028,7 @@ library(rvest)
 ### Fonctionnement de **`rvest`**
 
 Commençons par explorer les principales fonctions du package [**`rvest`**](https://rvest.tidyverse.org/){target="_blank"} à partir d'un extrait du code source du site *web* [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}.
-Pour cela, nous pouvons utiliser la fonction **[`minimal_html()`](https://rvest.tidyverse.org/reference/minimal_html.html)** qui permet de créer un contenu HTML (XML) requêtable à partir de code HTML fourni dans une chaîne de caractères.
+Pour cela, nous pouvons utiliser la fonction **[`minimal_html()`](https://rvest.tidyverse.org/reference/minimal_html.html){target="_blank"}** qui permet de créer un contenu HTML (XML) requêtable à partir de code HTML fourni dans une chaîne de caractères.
 
 ```{r, message=FALSE, warning=FALSE}
 
@@ -1011,7 +1048,7 @@ class(basic_html)
 Les différentes fonctions du package `rvest` renvoient le plus souvent des objets `xml_` ou `html_` (`xml_document` et `xml_node` dans cet exemple, `xml_nodeset` dans le suivant), qui sont des pointeurs vers le contenu XML/HTML interpreté, et peuvent donc être eux-mêmes interrogés par d'autres fonctions de `rvest`.
 L'équivalent d'une telle structure en objets R classiques serait une structure emboîtée de listes contenant des listes, contenant elles-mêmes des listes (et ainsi de suite).
 
-- Les fonctions **[`html_element()`](https://rvest.tidyverse.org/reference/html_element.html)** ou `html_elements()` permettent respectivement la récupération du 1er ou de tous les éléments d'un document HTML, en précisant un sélecteur CSS ou un Xpath.
+- Les fonctions **[`html_element()`](https://rvest.tidyverse.org/reference/html_element.html){target="_blank"}** ou `html_elements()` permettent respectivement la récupération du 1er ou de tous les éléments d'un document HTML, en précisant un sélecteur CSS ou un Xpath.
 Par exemple,  `html_elements("p")` appliqué au code source d'une page permet de récupérer tous les paragraphes : 
 
 ```{r, echo = TRUE, message=FALSE, warning=FALSE}
@@ -1021,7 +1058,7 @@ basic_html |> html_elements("p")
 
 ```
 
-- La fonction **[`html_attr()`](https://rvest.tidyverse.org/reference/html_attr.html)** permet l'extraction des valeurs d'attributs. 
+- La fonction **[`html_attr()`](https://rvest.tidyverse.org/reference/html_attr.html){target="_blank"}** permet l'extraction des valeurs d'attributs. 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 
@@ -1030,7 +1067,7 @@ basic_html |> html_elements("a") |> html_attr("href")
 
 ```
 
-- Les fonctions **[`html_text()`](https://rvest.tidyverse.org/reference/html_text.html)** ou `html_text2()` permettent d'extraire uniquement le texte d'un élément.
+- Les fonctions **[`html_text()`](https://rvest.tidyverse.org/reference/html_text.html){target="_blank"}** ou `html_text2()` permettent d'extraire uniquement le texte d'un élément.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 
@@ -1041,8 +1078,7 @@ basic_html |> html_elements("p") |> html_text2()
 
 <div class="alert alert-danger">
 **Les fonctions du package `rvest` sont conçues pour être utilisées en *pipe*.**
-**Elles fonctionnent aussi bien avec le *pipe* natif du R-base (`|>`), qu'avec celui du package `magrittr` (`%>%`), utilisé par le `tidyverse`**
-</div>
+**Elles fonctionnent aussi bien avec le *pipe* natif du R-base (`|>`), qu'avec celui du package `magrittr` (`%>%`), utilisé par le `tidyverse`**</div>
 
 \
 
@@ -1073,13 +1109,13 @@ Sur la page d'accueil du site [**ScrapImmob**](https://analytics.huma-num.fr/Rob
 **L'URL de la page est alors modifiée** de la manière suivante :
 
 **URL principale** :       
-[[https://analytics.huma-num.fr/Robin.Cura/**ScrapImmob/index.html**]{style="font-size: 90%;"}](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html)    
+[[https://analytics.huma-num.fr/Robin.Cura/**ScrapImmob/index.html**]{style="font-size: 90%;"}](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}    
 
 **URL du filtre "Essonne (91) - Appartement"** :  
-[[https://analytics.huma-num.fr/Robin.Cura/**ScrapImmob/91_appartement/index.html**]{style="font-size: 90%;"}](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/91_appartement/index.html)         
+[[https://analytics.huma-num.fr/Robin.Cura/**ScrapImmob/91_appartement/index.html**]{style="font-size: 90%;"}](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/91_appartement/index.html){target="_blank"}         
 
 **URL du filtre "Val-d'Oise (95) - Maison"** :          
-[[https://analytics.huma-num.fr/Robin.Cura/**ScrapImmob/95_maison/index.html**]{style="font-size: 90%;"}](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/95_maison/index.html)      
+[[https://analytics.huma-num.fr/Robin.Cura/**ScrapImmob/95_maison/index.html**]{style="font-size: 90%;"}](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/95_maison/index.html){target="_blank"}      
 
 ::: 
 
@@ -1087,10 +1123,10 @@ Sur la page d'accueil du site [**ScrapImmob**](https://analytics.huma-num.fr/Rob
 
 Notre objectif étant de collecter uniquement des données sur les biens (maisons et appartements) de la Seine-Maritime, nous allons orienter notre collecte sur les deux URLs suivantes :
 
-- [[https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/**76_maison/index.html**]{style="font-size: 90%;"}](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/index.html)       
-- [[https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/**76_appartement/index.html**]{style="font-size: 90%;"}](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/index.html)    
+- [[https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/**76_maison/index.html**]{style="font-size: 90%;"}](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_maison/index.html){target="_blank"}       
+- [[https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/**76_appartement/index.html**]{style="font-size: 90%;"}](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/76_appartement/index.html){target="_blank"}    
 
-Nous commençons par récupérer le code source de ces deux pages avec la fonction **[`read_html()`](https://rvest.tidyverse.org/reference/read_html.html)**.
+Nous commençons par récupérer le code source de ces deux pages avec la fonction **[`read_html()`](https://rvest.tidyverse.org/reference/read_html.html){target="_blank"}**.
 Cette fonction effectue une requête HTTP, puis en analyse le code HTML récupéré à l'aide du package `xml2`.
 
 ```{r, eval=params$force_scraping, message=FALSE, warning=FALSE, cache=FALSE, echo = FALSE}
@@ -1246,7 +1282,7 @@ head(list_url)
 
 <div class="alert alert-danger"> <b>
 Une autre solution aurait été de simuler le clic d'un utilisateur sur le bouton "page suivante" (par exemple en utilisant le package RSelenium [mentionné précédemment](#les-packages-de-scraping)).
-Cela aurait permis de  collecter des données sans avoir à lister les URLs des pages ciblées, mais cela aurait nécessité un script plus complexe alors que le système d'URLs s'avère extrêmement simple !</b></div>
+Cela aurait permis de  collecter des données sans avoir à lister les URLs des pages ciblées, mais cela aurait nécessité un script plus complexe alors que le système d'URLs s'avère extrêmement simple.</b></div>
 
 \
 
@@ -1352,8 +1388,7 @@ Les autres informations sont stockées dans une balise `<ul>` (ou `<div>`) de cl
 
 <div class="alert alert-info">
 **Les informations que l'on souhaite récupérer dans les balises `<li>` sont affichées en gras (balise `<strong>`).**
-**Cette caractéristique s'avère très précieuse pour optimiser la collecte.**
-</div>
+**Cette caractéristique s'avère très précieuse pour optimiser la collecte.**</div>
 
 \
 
@@ -1416,8 +1451,7 @@ code_annonce_1 |> html_elements("li.list-group-item > strong") |> html_text2()
  
 <div class="alert alert-info">
 **La récupération des coordonnées du marqueur affiché dans la carte interactive est légèrement plus complexe.**
-**Leur collecte automatisée est expliquée dans la [partie 3.5](#collecte-de-coordonnées).**
-</div>
+**Leur collecte automatisée est expliquée dans la [partie 3.5](#collecte-de-coordonnées).**</div>
 
 \
 
@@ -1602,8 +1636,7 @@ Dans la liste à puce (balise `<li>` de la classe `list-group-item`) se trouvent
 Cela permet de collecter plusieurs informations d'un coup.
 Cependant, certaines informations ne sont pas toujours renseignées.
 C'est le cas de "la surface de jardin".
-Pour cette raison, nous utilisons un test `if` qui permet d'adapter la collecte en fonction du nombre d'éléments récupérés.
-</div> 
+Pour cette raison, nous utilisons un test `if` qui permet d'adapter la collecte en fonction du nombre d'éléments récupérés.</div> 
 
 <!--
 En Tidyverse :  
@@ -2103,7 +2136,7 @@ Le package `sf` pour la manipulation de données géographiques vectorielles per
 # install.packages("sf")
 library(sf)
 
-# Transformation du tableau en objet sf
+# Transformation du data.frame en objet sf
 scrapimmob_sf <- st_as_sf(scrapimmob, 
                           coords = c("Long", "Lat"), 
                           crs = 'EPSG:4326')
@@ -2320,16 +2353,21 @@ Après avoir converti tout le texte en minuscule, nous supprimons les *stopwords
 
 # Conversion du texte en minuscule
 corpus <- tm_map(corpus, content_transformer(tolower))
+
 # Gestion de l'encodage du texte
 corpus <- tm_map(corpus, content_transformer(function(x){
-  iconv(enc2utf8(x), sub = "byte")}
-  ))
+                 iconv(enc2utf8(x), sub = "byte")})
+                 )
+
 # Supression de stopwords
 corpus <- tm_map(corpus, removeWords, stopwords("french"))
+
 # Supression de la ponctuation
 corpus <- tm_map(corpus, removePunctuation)
+
 # Supression des chiffres
 corpus <- tm_map(corpus, removeNumbers)
+
 # Fonction de nettoyage personnalisée pour supprimer les motifs spécifiques
 enlever_symbols <- content_transformer(function(x, pattern) gsub(pattern, "", x))
 
