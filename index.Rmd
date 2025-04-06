@@ -70,11 +70,10 @@ Avant de se lancer dans du *web scraping*, il convient d'avoir une vision claire
 Ce n'est pas parce qu'on peut télécharger toutes les données d'un site web que l'on doit le faire.
 En plus de générer inutilement du trafic réseau qui peut perturber le fonctionnement du site, il faut se poser des questions simples :
 quelles données me semblent nécessaires pour répondre à ma question de recherche ?
-est-ce que j'ai vraiment besoin de toutes ces données ?
-Aurais-je les capacités et l'opportunité de tout traiter ?
-et est-ce qu'il n'y a pas un autre moyen plus simple et moins *gris* de les obtenir ?
+Est-ce que j'ai vraiment besoin de toutes ces données ?
+Aurais-je les capacités et l'opportunité de tout traiter ? Et est-ce qu'il n'y a pas un autre moyen plus simple et moins *gris* de les obtenir ?
 
-Le *web scraping* permet de récupérer des informations spécifiques d'une page *web* en analysant sa structure HTML et en extrayant uniquement les éléments pertinents.
+Le *web scraping* permet de récupérer des informations spécifiques d'une page *web*, notamment en analysant sa structure HTML et en extrayant uniquement les éléments pertinents.
 Cette pratique demande ainsi quelques connaissances techniques en matière de *web*, de langage de balisage HTML et de langage CSS, qui permettent respectivement de structurer une page *web* et de définir l'apparence et la mise en forme des différents éléments du document.
 
 Au-delà d'initier au *web scraping* avec R, cet article aborde dans un premier temps les connaissances indispensables à la mise en place d'une collecte de données automatisée.
@@ -92,7 +91,7 @@ Cet article, qui est une initiation à la pratique de la collecte automatique de
 Pour cette introduction à la collecte automatisée de données du *web* avec R, nous proposons une mise en pratique sur un site internet de démonstration créé pour l'occasion : [**ScrapImmob**](https://analytics.huma-num.fr/Robin.Cura/ScrapImmob/index.html){target="_blank"}.
 **Ce site compile 1000 annonces fictives de ventes immobilières de maisons et d'appartements.** 
 
-Dans le cadre de cet article, nous cherchons à récuperer les propriétés des différentes annonces immobilières disponibles sur ce site, en vue de mener une première exploration du lien entre prix de vente, caractéristiques et localisation.
+Dans le cadre de cet article, nous cherchons à récupérer les propriétés des différentes annonces immobilières disponibles sur ce site, en vue de mener une première exploration du lien entre prix de vente, caractéristiques et localisation.
 
 <center>
 
@@ -159,11 +158,11 @@ Pour répondre à cet objectif, nous allons alterner exploration, collecte et tr
 
 3. Exploration du code source du site afin de localiser les informations à récupérer ([Partie 3.3.1](#collecte-principale))
 
-4. Collecte de l'ensemble des caractéristiques de chaque bien à partir de la liste des URsL récupérées ([Partie 3.3.2](#construction-dun-tableau-de-collecte))
+4. Collecte de l'ensemble des caractéristiques de chaque bien à partir de la liste des URLs récupérées ([Partie 3.3.2](#construction-dun-tableau-de-collecte))
 
 5. Nettoyage et traitement des données collectées ([Partie 3.4](#nettoyage-des-données))
 
-6. Exploration du code source pour récupérer les coordonnées géographiques (carte intéractive) ([Partie 3.5](#collecte-de-coordonnées))
+6. Exploration du code source pour récupérer les coordonnées géographiques (carte interactive) ([Partie 3.5](#collecte-de-coordonnées))
 
 7. Collecte et traitement de coordonnées géographiques de chaque bien ([Partie 3.5](#collecte-de-coordonnées))
 
@@ -200,7 +199,7 @@ Pour cette raison, la partie suivante introduit les connaissances techniques ind
 ## Le langage HTML
 
 Le langage HTML (***H****yper***T***ext* ***M****arkup* ***L****anguage*) est un langage informatique qui permet de décrire le contenu d'une page web.
-Comme le XML (*e****X****tensible* ***M****arkup* ***L****anguage*), son langage cousin, le HTML est un langage basé sur l'utilisation de balises (définies au sein de chevrons `<>`).
+Comme le XML (*e****X****tensible* ***M****arkup* ***L****anguage*), son langage cousin, le HTML repose sur l'utilisation de balises (définies au sein de chevrons `<>`).
 
 Le XML peut être utilisé dans une variété de domaines, notamment pour l'échange de données entre applications.
 Par exemple, voici un document XML simple contenant des informations sur un livre :
@@ -348,7 +347,7 @@ L'organisation segmentée du contenu via les balises **`div`** ou **`span`** ain
 **Les attributs des balises peuvent être associés à une mise en forme (couleur, taille, position, etc.) à l'aide du langage CSS** (cf. [partie suivante](#le-langage-css)).
 **Mais il s'agit également d'éléments cruciaux pour la collecte automatisée de données sur le** ***web***, **car ils permettent de cibler précisément des éléments**. 
 
-Dans l'exemple de code source ci-dessus, il est ainsi possible de récupérer toutes les URLs (***U****niform* ***R****esource* ***L****ocator*) des articles, en ciblant le contenu de tous les attributs **`href`** des balises **`<a>`** situés dans la **`<div>`** ayant pour identifiant "*Liste_ref*".
+Dans l'exemple de code source ci-dessus, il est ainsi possible de récupérer toutes les adresses web (ou URLs pour ***U****niform* ***R****esource* ***L****ocator*) des articles, en ciblant le contenu de tous les attributs **`href`** des balises **`<a>`** situés dans la **`<div>`** ayant pour identifiant "*Liste_ref*".
 
 \
 
@@ -449,7 +448,7 @@ font-size: 20px;
 <div class="alert alert-danger">**Bien qu'une connaissance approfondie du CSS ne soit pas nécessaire pour le *web scraping*, il est important de connaître les sélecteurs CSS.**
 **Leur utilisation est précieuse pour cibler des données de manière détaillée et ainsi optimiser la collecte.**</div>
 
-Comme une page HTML est un ensemble **structuré** de balises, ce qui revient à dire qu'une page HTML est un ensemble organisé de données, il est possible d'interroger la structure de cette page pour en cibler des éléments.
+Comme une page HTML est un ensemble **structuré** de balises - ce qui revient à dire qu'une page HTML est un ensemble organisé de données - il est possible d'interroger la structure de cette page pour en cibler des éléments.
 En HTML, on utilise un langage d'interrogation propre, basé sur des **sélecteurs**, c'est-à-dire des expressions qui permettent de définir précisément un sous-ensemble des balises HTML (et CSS) d'une page web.
 
 Si on peut utiliser ces sélecteurs pour extraire de l'information, leur usage le plus courant consiste à mettre en forme des éléments HTML, c'est-à-dire à appliquer un style spécifique à un sous-ensemble de balises.
@@ -701,7 +700,7 @@ text-align:center;
 3. Modifiez le code source du fichier *page.html*, en ajoutant un titre de niveau 2 et un paragraphe dans le `body`.
 Enregistrez le fichier et ré-affichez (ou rafraîchissez avec la touche `F5`) la page HTML dans le navigateur pour découvrir le rendu.
 
-4. Modifiez du contenu dans le code source du fichier *style.css*. Ajoutez une couleur pour les titres de niveau 2 et paramétrez les paragraphes en italic. Enregistrez le fichier et ré-affichez la page HTML (ou rafraîchissez-la avec la touche `F5`) dans le navigateur pour apprécier la nouvelle mise en page.
+4. Modifiez du contenu dans le code source du fichier *style.css*. Ajoutez une couleur pour les titres de niveau 2 et paramétrez les paragraphes en italique. Enregistrez le fichier et ré-affichez la page HTML (ou rafraîchissez-la avec la touche `F5`) dans le navigateur pour apprécier la nouvelle mise en page.
 
 ![](figures/correction_exo_html.png)
 
@@ -749,7 +748,7 @@ Avec *Mozilla Firefox* :
 En s'appuyant sur différentes fonctionnalités (survol, filtrage, recherche, etc.), **l'inspecteur de code facilite l'identification des balises, des classes, des identifiants, des styles associés aux éléments** et permet ainsi de procéder à une extraction ciblée de données.
 En utilisant l'inspecteur de code source, vous accédez à toutes les informations nécessaires pour concevoir un script de collecte automatisée. 
 
-Pour y accéder, cliquez-droit n'importe où sur la page *web* ouverte dans un navigateur, puis cliquez sur “Inspecter” :
+Pour l'utiliser, cliquez-droit n'importe où sur la page *web* ouverte dans un navigateur, puis cliquez sur “Inspecter” :
 
 :::: {style="display: flex;"}
 
@@ -805,7 +804,7 @@ En réalisant un clic-droit sur un élément, vous pouvez accédez à la fonctio
 
 \
 
-Il est ainsi possible de récupérer aisément : 
+Il est ainsi possible d'obtenir : 
 
 - **l'intérieur du HTML** : contenu de la balise sélectionnée. Par exemple, l'intérieur du HTML de `<div id="abc" class="foo"><strong>TEXTE</strong></div>` est  `<strong>TEXTE</strong>`.
 - **l'exterieur du HTML** : ensemble de la balise sélectionnée. Par exemple, l'extérieur du HTML de `<div id="abc" class="foo"><strong>TEXTE</strong></div>` est  `<div id="abc" class="foo"><strong>TEXTE</strong></div>`.
@@ -1502,7 +1501,7 @@ datatable(
 
 ### Scraping de toutes les pages  {.tabset}
 
-Nous pouvons maintenant construire une boucle qui collecte toutes les données ciblées et complète le tableau précédemment créé.
+Nous pouvons maintenant construire une boucle qui collecte toutes les données désirées et remplit le tableau précédemment créé.
 
 ```{r scraping_cached, echo=FALSE, message=FALSE, warning=FALSE, eval = params$force_scraping}
 
@@ -1882,7 +1881,7 @@ code_page
 
 Les coordonnées sont stockées dans la deuxième balise `<script>`, au sein d'une chaîne de caractère qui englobe beaucoup d'informations.
 Il est donc nécessaire de réaliser quelques traitements afin d'extraire uniquement les coordonnées.
-Nous commençons par ne garder que le code source de la deuxième balise `<script>`.
+Nous commençons par ne garder que les informations de la deuxième balise `<script>`.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
 
@@ -1891,8 +1890,8 @@ code_page_coord <- code_page[2]
 
 ```
 
-Puis la fonction [`strcapture()`](https://rdrr.io/r/utils/strcapture.html) nous permet aussi ensuite extraire les coordonnées à l'aide d'une **expression régulière**^[**Les expressions régulières** (ou <strong>reg</strong>ular <strong>ex</strong>pressions, <strong>REGEX</strong>) sont des formules informatiques standardisées, relativement universelles, qui permettent de décrire un *pattern* à rechercher dans une chaîne de caractères.
-Leur syntaxe est difficillement intelligible, mais extrêmement puissante.
+Puis la fonction [`strcapture()`](https://rdrr.io/r/utils/strcapture.html) nous permet ensuite extraire les coordonnées à l'aide d'une **expression régulière**^[**Les expressions régulières** (ou <strong>reg</strong>ular <strong>ex</strong>pressions, <strong>REGEX</strong>) sont des formules informatiques standardisées, relativement universelles, qui permettent de décrire un *pattern* à rechercher dans une chaîne de caractères.
+Leur syntaxe est difficilement intelligible, mais extrêmement puissante.
 Elles permettent d'extraire des informations structurées dans du texte, mais également de valider des expressions lors de la saisie.
 Par exemple, l'expression régulière `(0|(\\+33)|(0033))[1-9][0-9]{8}` permet de valider un numéro de téléphone français (doit commencer par 0, +33 ou 0033 puis doit être suivi d'un chiffre de 1 à 9, puis de huit chiffres de 0 à 9).] qui ne conserve que les caractères situés entre crochets `[]`.
 
@@ -1911,7 +1910,7 @@ coords <- strcapture(x = code_page_coord,
 coords
 ```
 
-À l'aide de la fonction [`strsplit()`](https://rdrr.io/r/base/strsplit.html), on découpe cette chaïne de caractères là où l'on détecte une virgule suivie d'un espace.
+À l'aide de la fonction [`strsplit()`](https://rdrr.io/r/base/strsplit.html), on découpe cette chaîne de caractères là où l'on détecte une virgule suivie d'un espace.
 Cela génère une liste de deux éléments que l'on peut ensuite dé-lister (fonction [`unlist()`](https://rdrr.io/r/base/unlist.html)) pour obtenir un vecteur textuel contenant les deux coordonnées.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, eval=TRUE}
@@ -2147,7 +2146,7 @@ plot(st_geometry(scrapimmob_sf))
 
 ```
 
-Notre base de données est désormais une couche géographique vectorielle (objet `sf`).
+Notre base de données est désormais une couche géographique vectorielle (objet `sf`, schématiquement un tableau de données avec une colonne décrivant la géométrie).
 Nous pouvons l'exporter dans le format de fichier de notre choix, par exemple en format geopackage :
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=TRUE}
@@ -2475,7 +2474,7 @@ Dans le cas où les données ne semblent pas disponibles, n'hésitez pas à cont
 
 ### Scraper avec parcimonie
 
-Si la scraping est le seul moyen d'accés aux données ciblées, vous pouvez vous lancer.
+Si le scraping est le seul moyen d'accéder aux données ciblées, vous pouvez vous lancer.
 Néanmoins, il est important de respecter un principe de parcimonie : chaque requête envoyée à un site web (fonction `read_html()`) simule ainsi la requête d'un utilisateur désireux d'accéder au site, et en les démultipliant, on peut engendrer un trafic important vers le site, ce qui a des répercussions financières voire matérielles pour lui.
 Le code présenté dans cet article émet  **plus de 2 000 requêtes** vers notre site exemple, en téléchargeant **plus de 500 Mo de données** (majoritairement les photos).
 C'est de plusieurs ordres de grandeur supérieur au comportement d'un utilisateur "réel" du site, et cela pourrait tout à fait entraîner des erreurs sur le serveur physique qui héberge ce site, d'autant plus si une vingtaine de personnes exécute ces mêmes requêtes simultanément.
