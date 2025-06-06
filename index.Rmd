@@ -211,7 +211,7 @@ Par exemple, voici un document XML simple contenant des informations sur un livr
 
 Le langage HTML partage de nombreuses caractéristiques avec le XML[^1], mais il est spécifiquement conçu pour structurer et organiser le contenu des pages *web*.
 
-[^1]: Via un héritage commun depuis [le langage SGML](https://fr.wikipedia.org/wiki/Standard_Generalized_Markup_Language)
+[^1]: *Via* un héritage commun depuis [le langage SGML](https://fr.wikipedia.org/wiki/Standard_Generalized_Markup_Language)
 
 Les normes HTML (HTML5 par exemple) définissent un [ensemble important mais circonscrit de balises](https://developer.mozilla.org/fr/docs/Web/HTML/Element){target="_blank"} (des *tags*) pour définir la structure et le contenu d'une page *web*, ce qui permet aux navigateurs *web* de l'afficher correctement pour les utilisateurs.
 
@@ -253,8 +253,7 @@ Si aucune balise n'est obligatoire dans une page HTML, il est de convention d'av
 -   **`<body>`** : Contient tout le contenu visible de la page, tel que le texte, les images, les liens, les tableaux, etc.\
 -   **`<title>`** : Définit le titre de la page qui apparaîtra dans la barre de titre du navigateur.
 
-[^3]: « **HTML5** (*HyperText Markup Language 5*) est la dernière révision majeure du HTML (format de données conçu pour représenter les pages *web*).
-    Cette version a été finalisée le 28 octobre 2014.
+[^3]: « **HTML5** (*HyperText Markup Language 5*) est la dernière révision majeure du HTML (format de données conçu pour représenter les pages *web*), finalisée le 28 octobre 2014.
     HTML5 spécifie deux syntaxes d'un modèle abstrait défini en termes de DOM : HTML5 et XHTML5. 
     », [Wikipedia, 10/09/2024](https://fr.wikipedia.org/wiki/HTML5)
 
@@ -981,7 +980,7 @@ En utilisant à nouveau la fonction <code>innerHTML</code> sur la deuxième bali
 Comme pour toutes les opérations et manipulations de données, plusieurs solutions existent pour le *web scraping* avec R.
 Si plusieurs fonctions R-base[^4] peuvent être utilisées, il existe surtout deux packages de référence en matière de collecte automatisée :
 
-[^4]: L'appellation R-base utilisée tout au long de ce document désigne l'ensemble des fonctions natives de R, c'est-à-dire installées d'office avec le logiciel, sans ajout de *packages* supplémentaires.
+[^4]: L'appellation R-base désigne l'ensemble des fonctions natives de R, c'est-à-dire installées d'office avec le logiciel, sans ajout de *packages* supplémentaires.
     On oppose fréquemment les fonctions R-base et les fonctions du *tidyverse*, qui utilisent une approche syntaxique assez différente.
 
 -   [**`rvest`**](https://rvest.tidyverse.org/){target="_blank"} : développé par Hadley Wickham (Posit), ce package facilite le *scraping* en utilisant les sélecteurs CSS et XPath pour extraire les données formatées en HTML ou en XML.
@@ -1691,7 +1690,7 @@ datatable(
 
 **En *web scraping*, le plus compliqué n'est pas forcément la collecte des données.** **Un prétraitement des données collectées est souvent nécessaire pour obtenir une base de données propre et optimisée.**[^5]
 
-[^5]: Nous privilégions ici un nettoyage écrit en R, et faisant appel notamment à des fonctions parfois avancées de manipulation de chaînes de caractères, mais il existe aussi des outils graphiques plus conviviaux permettant de mener cette phase importante, comme [OpenRefine](https://openrefine.org/) par exemple.
+[^5]: Nous privilégions ici un nettoyage écrit en R, faisant appel notamment à des fonctions parfois avancées de manipulation de chaînes de caractères, mais il existe aussi des outils graphiques plus conviviaux permettant de mener cette phase importante, [OpenRefine](https://openrefine.org/) par exemple.
 
 Dans notre démonstration, certaines des informations collectées ont besoin d'être nettoyées.
 C'est par exemple le cas de la variable `prix`, qui affiche l'unité monétaire (€), ou le cas de la variable `com` qui contient le nom de la commune et son code INSEE.
@@ -2440,8 +2439,8 @@ Il est indispensable de mener des recherches approfondies pour voir si les donn�
 Cela peut prendre la forme de fichiers complets disponibles en *open data*, de "*dumps*" de données mis à disposition par les plateformes (*challenges* Kaggle, *datasets* HuggingFace, etc.)[^7], ou encore d'interfaces dédiées à l'extraction des données mises à disposition par les sites (les *API*).
 
 [^7]:  Depuis le début des années 2010, dans un contexte de large démocratisation des méthodes de *machine-learning*, plusieurs plateformes sont apparues pour susciter des compétitions publiques de *machine-learning* adossées à des jeux de données usuellement fermés.
-    Les entreprises fournissant leurs données à ces plateformes en tirent des méthodes et algorithmes pour résoudre leurs problèmes de classifications et analyses prédictives, et le public peut en contre-partie accéder à ces jeux de données via les plateformes de compétition, telle [Kaggle](https://www.kaggle.com/datasets).
-    Avec l'augmentation de la visibilité des recherches en IA depuis les années 2020, d'autres plateformes comme [HuggingFace](https://huggingface.co/datasets) ont émergé pour partager des modèles libres, mais donnent de plus accès à des jeux de données important utilisés pour l'apprentissage ou l'évaluation de ces modèles.
+    Les entreprises fournissant leurs données à ces plateformes en tirent des méthodes et algorithmes pour résoudre leurs problèmes de classifications et analyses prédictives, et le public peut en contrepartie accéder à ces jeux de données *via* les plateformes de compétition, telle [Kaggle](https://www.kaggle.com/datasets).
+    Avec l'augmentation de la visibilité des recherches en IA depuis les années 2020, d'autres plateformes comme [HuggingFace](https://huggingface.co/datasets) ont émergé pour partager des modèles libres, qui donnent de plus accès à des jeux de données importants utilisés pour l'apprentissage ou l'évaluation de ces modèles.
 
 Dans le cas où les données ne semblent pas disponibles, n'hésitez pas à contacter directement les données au producteur.
 
