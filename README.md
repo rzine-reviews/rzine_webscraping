@@ -20,7 +20,7 @@ Pour le consulter, cliquez [ici](https://rzine-reviews.github.io/rzine_webscrapi
 
 <br/>  
 
-[![DOI:10.48645/xxxx-xxxx](https://zenodo.org/badge/DOI/10.48645/xxxx-xxxx.svg)](https://doi.org/10.48645/xxxx-xxxx)
+[![DOI:10.48645/apqy-q532](https://zenodo.org/badge/DOI/10.48645/apqy-q532.svg)](https://doi.org/10.48645/apqy-q532)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](http://creativecommons.org/licenses/by-sa/4.0/)
 
 
