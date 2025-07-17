@@ -26,7 +26,7 @@ nocite: |
 link-citations: true
 github: "rzine-reviews/rzine_webscraping"
 # gitlab: "gitlab.huma-num.fr/webscraping/rzine_webscraping"
-doi: "xx.xxx/xxxx.xxxxxxx"
+doi: "10.48645/apqy-q532"
 licence: "by-sa"
 params:
   force_scraping: FALSE
@@ -649,7 +649,7 @@ Pour mieux comprendre l'utilisation et le fonctionnement du HTML et du CSS, **vo
 
 \
 
-<center>[<img src="figures/zip.png" width="30"/> **exo_HTML.zip**](https://github.com/rzine-reviews/rzine_webscraping/raw/refs/heads/master/exo_HTML.zip)</center>
+<center>[<img src="figures/zip.png" width="30"/> **exo_HTML.zip**](https://rzine.fr/docs/20250711_webscraping/exo_HTML.zip)</center>
 
 <br>
 
@@ -712,7 +712,7 @@ text-align:center;
 
 ![](figures/correction_exo_html.png)
 
-<center>[<img src="figures/zip.png" width="30"/> **correction_exo_HTML.zip**](https://github.com/rzine-reviews/rzine_webscraping/raw/refs/heads/master/correction_exo_HTML.zip)</center>
+<center>[<img src="figures/zip.png" width="30"/> **correction_exo_HTML.zip**](https://rzine.fr/docs/20250711_webscraping/correction_exo_HTML.zip)</center>
 
 <br>
 
