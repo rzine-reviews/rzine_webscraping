@@ -13,8 +13,7 @@ Nathalie Abadie (UMR LASTIG, IGN)
 Thibault Le Corre (Université de Montréal (UdeM), département de géographie)   
 
 **Résumé :**  
-
-
+Cet article est une introduction à la collecte automatisée de données sur le web. Il présente les principes fondamentaux du web scraping, comme l’envoi de requêtes et l’analyse de pages HTML, tout en proposant des exemples concrets et reproductibles. Destiné aux débutants, il vise à rendre ces techniques compréhensibles et applicables pour explorer et structurer des données du web. Cet article peut être utilisé comme support pour une initiation aux bases de la collecte automatique de données du web avec R.
 
 Pour le consulter, cliquez [ici](https://rzine-reviews.github.io/rzine_webscraping/)
 
